@@ -85,11 +85,22 @@ class params:
 		self.set_default("v_L", np.sqrt( 2 * self.gamma_L / pi))
 		self.set_default("v_R", np.sqrt( 2 * self.gamma_R / pi))
 		
-		tmpU = self.U
-		if self.U == 0:
-			tmpU = 1e-16
-		self.set_default("nref", int( (0.5 - (self.epsimp/tmpU)) + self.n0_L + self.n0_R ))
+		default_nref = 0
+		if self.U != 0:
+			default_nref += (0.5 - (self.epsimp/self.U))
+		
+		if self.Ec_L != 0:
+			default_nref += self.n0_L
+		else:
+			default_nref += self.LL	
 
+		if self.Ec_R != 0:
+			default_nref += self.n0_R
+		else:
+			default_nref += self.LL	
+	
+		self.set_default("nref", int(default_nref))
+		
 		self.set_default("turn_off_SC_finite_size_effects", self.turn_off_all_finite_size_effects)
 		self.set_default("turn_off_hopping_finite_size_effects", self.turn_off_all_finite_size_effects)
 		self.set_default("use_all_states", self.turn_off_all_finite_size_effects)
@@ -103,7 +114,7 @@ class params:
 		if self.N%2 == 0:
 			raise Exception("N has to be odd!")
 		else:
-			return (self.N - 1)//2
+			return int((self.N - 1)//2)
 
 	def unspecified_default(self, paramName):
 		"""

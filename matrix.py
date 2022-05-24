@@ -4,7 +4,7 @@ from helper import *
 from parse_matrices import parse_matrix
 import numpy as np
 import cmath
-
+import os
 ###################################################################################################
 #GENERAL BASIS GENERATION
 
@@ -122,7 +122,9 @@ def generate_hopping_matrix(subspace, n, p):
 	else:
 		matName = subspace + "_mat.dat"	
 
-	general_hopping_matrix, strMat = parse_matrix("matrices/" + matName)
+	file_path =  os.path.abspath(os.path.dirname(__file__))	#this is the absolute path of the script! (eg. /home/pavesic/git_repos/flat_band_two_channel on spinon) 
+
+	general_hopping_matrix, strMat = parse_matrix(file_path + "/matrices/" + matName)
 	full_basis, indexList = generate_full_basis(subspace, n, p)
 
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
@@ -221,7 +223,7 @@ def reorder_matrix(mat, rule):
 	return mat
 
 
-def unzip(zipped_object):
+def unzip(zipped_object):	
 	unzipped = list(zip(*zipped_object))
 	return unzipped[0], unzipped[1]
 

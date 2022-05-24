@@ -26,7 +26,7 @@ def print_and_save_energies(n, n_dict, h5file, p):
 	for i, E in enumerate(n_dict["energies"]):
 		h5dump(h5file, f"{n}/{i}/E/", E)
 
-		Estr += f"{E}, "
+		Estr += f"{round(E, 5)}, "
 	Estr = Estr[:-2]	
 	print(Estr)
 
@@ -75,7 +75,7 @@ def print_and_save_all_occupancies(n, h5file, states, basis):
 		h5dump(h5file, f"{n}/{i}/nL/", nL)
 		h5dump(h5file, f"{n}/{i}/nR/", nR)
 
-		ns += f"({nimp}, {nL}, {nR}) "
+		ns += f"({round(nimp, 4)}, {round(nL, 4)}, {round(nR, 4)}) "
 	print(f"occupation: {ns}")	
 
 ###################################################################################################
@@ -110,8 +110,8 @@ def print_and_save_dMs(n, h5file, states, basis):
 		h5dump(h5file, f"{n}/{i}/dM/", dM)
 		h5dump(h5file, f"{n}/{i}/dM2/", dM2)
 
-		dMs += f"{dM} "
-		dM2s += f"{dM2} "
+		dMs += f"{round(dM, 4)} "
+		dM2s += f"{round(dM2, 4)} "
 	print(f"dM: {dMs}")	
 	print(f"dM2: {dM2s}")	
 
@@ -139,8 +139,8 @@ def print_and_save_all_phases(n, h5file, states, basis):
 		h5dump(h5file, f"{n}/{i}/phi/", phi)
 		h5dump(h5file, f"{n}/{i}/phi_size/", size)
 
-		phis += f"{phi} "
-		sizes += f"{size} "
+		phis += f"{round(phi, 4)} "
+		sizes += f"{round(size, 4)} "
 	print(f"phi: {phis}")	
 	print(f"phi size: {sizes}")
 
