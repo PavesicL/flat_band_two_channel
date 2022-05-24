@@ -44,17 +44,22 @@ class params:
 	refisn0: bool = False
 	verbose: bool = False
 
+	
+	#set calculations to perform and things to print
 	print_energies: int = 10
 	print_states: int = 0
 	print_states_precision: float = 0.01
 
-	calc_occupancies: bool = False
-	calc_phase: bool = False
+	calc_occupancies: bool = True
+	calc_dMs: bool = True
+	calc_phase: bool = True
 
-	save_matrix: bool = False
-	reorder_matrix_dM: bool = True
+	num_states_to_save: int = 10
+	parallel: bool = False
 
 	#transformations
+	save_matrix: bool = False
+	reorder_matrix_dM: bool = True
 	phase_fourier_transform: bool = False
 
 	#approximations

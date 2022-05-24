@@ -2,8 +2,8 @@
 #alphas have to be positive for superconductivity!!!
 
 N = 51
-nref = 51
-nrange = 0
+nref = 50
+nrange = 1
 
 alpha_L = 1
 alpha_R = 1
@@ -34,4 +34,6 @@ reorder_matrix_dM = true
 verbose = true
 
 phase_fourier_transform = true
-calc_phase = false
+calc_phase = true
+
+num_states_to_save = 15

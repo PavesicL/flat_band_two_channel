@@ -7,24 +7,20 @@ from matrix import generate_total_matrix, reorder_matrix_dM, reorder_matrix_phi,
 import sys
 from math import pi
 import time
-from numpy.linalg import eigh, eig
-###################################################################################################
-
-if len(sys.argv) != 2:
-	print(f"Usage: {sys.argv[0]} inputFile")
-	exit()
-inputFile = sys.argv[1]
-
-p = parse_params(inputFile)
-print(p)
-
-subspace_list = p.subspace_list
-print(f"Computing in subspaces: {subspace_list}")
+from numpy.linalg import eigh
+import h5py
+from joblib import Parallel, delayed
 
 ###################################################################################################
-resDict = {}
-for n in subspace_list:
+
+def diagonalize_subspace(n, p):
+	"""
+	Solves the problem in one subspace.
+	Returns a dictionary with energies, eigenvalues and the basis.
+	"""
+
 	print(f"In the subspace with {n} particles.\n")
+	results_dict = {}
 
 	if  n%2==0:
 		subspaceName = "singlet"
@@ -39,9 +35,7 @@ for n in subspace_list:
 
 	if p.phase_fourier_transform:
 		mat, basis_transformation_matrix, phi_list = fourier_transform_matrix(mat, bas, p)
-		if 1:
-			mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list)
-
+		mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list)
 	else:
 		basis_transformation_matrix = np.identity(len(bas))	
 
@@ -52,79 +46,52 @@ for n in subspace_list:
 	if p.verbose:
 		HH = np.transpose(np.conjugate(mat))
 		print(f"Is H hermitian? {np.allclose(mat, HH)}")
-		print("Diagonalizing ...\n")
+		
+		invP = np.transpose(np.conjugate(basis_transformation_matrix))
+		prod = np.matmul(invP, basis_transformation_matrix)
+		print(f"Is the transform unitary? {np.allclose(prod, np.identity(len(basis_transformation_matrix)))}")
+	
 
-	def print_ith_vec(i):
-		print(f"In current basis, the {i}-th vector is:")
-		one = np.zeros(len(bas))
-		one[i] += 1
-		res = np.matmul(basis_transformation_matrix, one)
-		for j, r in enumerate(res):
-			if r != 0:
-				print(bas[j], abs(r), r)
-		print("\n")
-
-	#print_ith_vec(0)	
-	#print_ith_vec(8)
-	#print_ith_vec(1)
-	#print_ith_vec(9)
-
-	#print(f"ALSO: {mat[0][8]}")		
-	#print(f"ALSO: {mat[1][9]}")		
-
+	print("Diagonalizing ...\n")
 	start = time.time()
 	val, vec = eigh(mat)
 	vec = vec.T #eigh() returns eigenvectors as columns of a matrix, but we want vec[i] to be i-th eigenvector.
 	end = time.time()
-	
-	if p.verbose:
-		print(f"Finished, t = {round(end-start, 2)} s")
+	print(f"Sector {n} finished, t = {round(end-start, 2)} s")
+
+	#cut off the number of states to save
+	vec = vec[:p.num_states_to_save]
+	val = val[:p.num_states_to_save]
+
+	#transform eigenvectors back into the original basis
+	vec = [ np.matmul(basis_transformation_matrix, v) for v in vec]
 
 	#save the results into a dictionary of dictionaries	
-	resDict[n] = { "basis" : bas, "energies" : val + p.U/2, "eigenstates" : vec}
+	results_dict[n] = { "basis" : bas, "energies" : val + p.U/2, "eigenstates" : vec}
 
-	import cmath
-	def print_eigenstate(j):
-		Pvec = np.matmul(P, vec[j])
+	return results_dict
 
-		print(f"vec {j}")
+###################################################################################################
 
-		E = 0
-		for i in range(len(bas)):
-			E += abs(Pvec[i])**2 * bas[i].energy()
+if len(sys.argv) != 2:
+	print(f"Usage: {sys.argv[0]} inputFile")
+	exit()
+inputFile = sys.argv[1]
+h5file = h5py.File("solution.h5", "w")
 
-			if  abs(Pvec[i]) > 0.01:
-				pass
-				#print("AAA", bas[i], bas[i].energy())
+p = parse_params(inputFile)
+print(p)
 
-		print(f"E = {E}")
-		for i in range(len(bas)):
-			if abs(Pvec[i]) > 0.01:
-				print(bas[i], abs(Pvec[i]), "\t", round(cmath.phase(Pvec[i])/np.pi, 3)) 
-		print()		
-
-	P = basis_transformation_matrix
-	invP = np.transpose(np.conjugate(basis_transformation_matrix))
-	iid = np.matmul(P, invP)	
-	print("CHECK: ", np.allclose(iid, np.identity(len(P)), atol=1e-14) )
-	print("EIGENSTATES:")
-
-	print_eigenstate(0)
-	print_eigenstate(1)
-	print_eigenstate(2)
-	print_eigenstate(3)
-	#print_eigenstate(4)
-	#print_eigenstate(5)
+print(f"Computing in subspaces: {p.subspace_list}")
 
 
+#compute for each subspace
+num_processes = len(p.subspace_list) if p.parallel else 1
+results = Parallel(n_jobs = num_processes)(delayed(diagonalize_subspace)(n, p) for n in p.subspace_list)
 
+#now merge all dictionaries into a big one
+results_dict = {}
+for r in results:
+	results_dict = {**results_dict, **r}
 
-d = process_and_print_results(resDict, p)
-	
-
-
-
-
-#TO DO
-#save_results(resDict)
-
+process_save_and_print_results(results_dict, h5file, p)

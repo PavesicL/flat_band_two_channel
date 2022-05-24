@@ -1,35 +1,56 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import h5py
 from helper import *
+import cmath
 
 ###################################################################################################
-# PRINT AN EIGENSTATE
+# h5py functions
 
+def h5dump(file, saveString, values):
+	"""
+	saveString has to end with / !!!
+	"""
+	file.create_dataset( saveString, data=values)
 
-def print_energies(n_dict, p):
+###################################################################################################
+# PRINT ENERGIES
+
+def print_and_save_energies(n, n_dict, h5file, p):
 	print("\nEnergies: ")
 	
 	maxE = min(len(n_dict["energies"]), p.print_energies)
 
 	Estr = ""
-	for i in range(maxE):
-		E = n_dict["energies"][i]
+	for i, E in enumerate(n_dict["energies"]):
+		h5dump(h5file, f"{n}/{i}/E/", E)
+
 		Estr += f"{E}, "
 	Estr = Estr[:-2]	
 	print(Estr)
 
 
-def print_state(eigenvector, basis, prec):
+###################################################################################################
+# PRINT AN EIGENSTATE
 
+def print_states(eigenstates, basis, p):
+	if p.print_states > 0:
+		print("\nEigenvectors:")
+		for i in range(p.print_states):
+			
+			print(f"i = {i}")
+			print_state(eigenstates[i], basis, p.print_states_precision)
+			print()
+
+def print_state(eigenvector, basis, prec):
 	printList = []
 	for i, amplitude in enumerate(eigenvector):
 		if abs(amplitude) > prec:
-			printList.append([amplitude, basis[i]])
+			printList.append([abs(amplitude), basis[i]])
 	printList = sorted(printList, key = lambda x : -abs(x[0]))
 	for amp, bas in printList:
 		print(f"{amp}	{bas}")		
-
 
 ###################################################################################################
 # OCCUPANCY CALCULATION
@@ -41,102 +62,106 @@ def calculate_occupancy(eigenvector, basis):
 	nimp, nL, nR = 0, 0, 0
 	for i, amplitude in enumerate(eigenvector):
 		if amplitude != 0:
-			nimp += amplitude**2 * basis[i].nimp
-			nL += amplitude**2 * basis[i].nL
-			nR += amplitude**2 * basis[i].nR
-	return nimp, nL, nR		
+			nimp += abs(amplitude)**2 * basis[i].nimp
+			nL += abs(amplitude)**2 * basis[i].nL
+			nR += abs(amplitude)**2 * basis[i].nR
+	return nimp, nL, nR	
 
-def print_all_occupancies(states, basis):
+def print_and_save_all_occupancies(n, h5file, states, basis):
 	ns = ""
-	listNs = []
-	for state in states:
+	for i, state in enumerate(states):
 		nimp, nL, nR = calculate_occupancy(state, basis)			
+		h5dump(h5file, f"{n}/{i}/nimp/", nimp)
+		h5dump(h5file, f"{n}/{i}/nL/", nL)
+		h5dump(h5file, f"{n}/{i}/nR/", nR)
+
 		ns += f"({nimp}, {nL}, {nR}) "
-		listNs.append([nimp, nL, nR])
 	print(f"occupation: {ns}")	
-	return listNs
+
+###################################################################################################
+# deltaM CALCULATION
+
+def calculate_delta_M(eigenvector, basis):
+	"""
+	<delta M> 
+	"""
+	dM = 0
+	for i, amplitude in enumerate(eigenvector):
+		if amplitude != 0:
+			dM += abs(amplitude)**2 * basis[i].dM
+	return dM	
+
+def calculate_delta_M2(eigenvector, basis):
+	"""
+	<delta M^2> 
+	"""
+	dM2 = 0
+	for i, amplitude in enumerate(eigenvector):
+		if amplitude != 0:
+			dM2 += abs(amplitude)**2 * (basis[i].dM**2)
+	return dM2	
+
+def print_and_save_dMs(n, h5file, states, basis):
+	dMs, dM2s = "", ""
+	for i, state in enumerate(states):
+		dM = calculate_delta_M(state, basis)			
+		dM2 = calculate_delta_M2(state, basis)			
+		
+		h5dump(h5file, f"{n}/{i}/dM/", dM)
+		h5dump(h5file, f"{n}/{i}/dM2/", dM2)
+
+		dMs += f"{dM} "
+		dM2s += f"{dM2} "
+	print(f"dM: {dMs}")	
+	print(f"dM2: {dM2s}")	
 
 ###################################################################################################
 # PHASE CALCULATION
 
-def calculate_psi_N_overlap(N, eigenvector, basis, p):
+def calculate_phase(eigenvector, basis):
 	"""
-	Computes <psi|N>, where |N> is a state with N Cooper pairs in the left channel.
+	This is equivalent to Eq. (3) form https://arxiv.org/pdf/cond-mat/0305361.pdf
 	"""
-	psiN = 0
-	for i, state in enumerate(basis):
-		amplitude = eigenvector[i]
-		for amp_bs in state.amplitudes_and_basis_states:
-			amp_b, bstate = amp_bs
-			psiN += amplitude * amp_b * delta(N, bstate.L.M)
+	e_to_iphi = 0
+	for i, a_i in enumerate(eigenvector):
+		for j, a_j in enumerate(eigenvector):
+			e_to_iphi += a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL + 1 ) * delta( basis[i].mR, basis[j].mR - 1)
 	
-	return psiN		
+	size, phi = cmath.polar(e_to_iphi)
+	return size, phi
 
-def calculate_phase(eigenvector, basis, p):
-	"""
-	Calculation of phase and phase^2. 
-	<phase> = 2 * sum_N( <psi|N> <N+1|psi> ) 
-	<phase^2> = sum_N( <psi|N><N+2|psi> + <psi|N><N|psi> + <psi|N+1><N+1|psi> + <psi|N+1><N-1|psi> )
-	"""
-	phi = 0
-	phi2 = 0
-	for N in range(p.LL+1):
-		psiN = calculate_psi_N_overlap( N%p.LL, eigenvector, basis, p)
-		psiNp1 = calculate_psi_N_overlap( (N+1)%p.LL, eigenvector, basis, p)
-		psiNp2 = calculate_psi_N_overlap( (N+2)%p.LL, eigenvector, basis, p)
-		psiNm1 = calculate_psi_N_overlap( (N-1)%p.LL, eigenvector, basis, p)
 
-		phi  += 2 * psiN * psiNp1
-		phi2 += psiN*psiNp2 + psiN*psiN + psiNp1*psiNp1 + psiNp1*psiNm1
+def print_and_save_all_phases(n, h5file, states, basis):
+	sizes, phis = "", ""
+	for i, state in enumerate(states):
+		size, phi = calculate_phase(state, basis)
 
-	return phi, phi2, phi**2 - phi2
+		h5dump(h5file, f"{n}/{i}/phi/", phi)
+		h5dump(h5file, f"{n}/{i}/phi_size/", size)
 
-def print_all_phases(states, basis, p):
-	"""
-	Prints phase and phase fluctuations for all eigenstates. 
-	"""
-	listPhi, listPhiFluct = [], []
-	phiString, phiFluctString = "Phi: ", "deltaPhi: "
-	for state in states:
-		phi, phi2, phi_fluct = calculate_phase(state, basis, p)
-		phiString += f"{phi}, "
-		phiFluctString += f"{phi_fluct}, "
-		listPhi.append(phi)
-		listPhiFluct.append(phi_fluct)
-	print(phiString)
-	print(phiFluctString)
-	return listPhi, listPhiFluct	
+		phis += f"{phi} "
+		sizes += f"{size} "
+	print(f"phi: {phis}")	
+	print(f"phi size: {sizes}")
 
 ###################################################################################################
 # PRINTING RESULTS
 
-def process_and_print_results(d, p):
+def process_save_and_print_results(d, h5file, p):
 	"""
-	Prints results and saves them to the dictionary d. 
+	Prints results and saves them to the hdf5 file. 
 	"""
 	for n in d:
 		n_dict = d[n]
 		energies, eigenstates, basis = n_dict["energies"], n_dict["eigenstates"], n_dict["basis"]
 	
 		print(f"RESULTS FOR n = {n}:")
-
-		print_energies(n_dict, p)
-
-		if p.print_states > 0:
-			print("\nEigenvectors:")
-
-			for i in range(p.print_states):
-				print(f"i = {i}")
-				print_state(eigenstates[i], basis, p.print_states_precision)
-				print()
+		print_and_save_energies(n, n_dict, h5file, p)
+		print_states(eigenstates, basis, p)
 
 		if p.calc_occupancies:
-			occs = print_all_occupancies(eigenstates, basis)
-			d[n]["occupancies"] = occs
-
+			print_and_save_all_occupancies(n, h5file, eigenstates, basis)
+		if p.calc_dMs:
+			print_and_save_dMs(n, h5file, eigenstates, basis)
 		if p.calc_phase:
-			phase, phase_fluct = print_all_phases(eigenstates, basis, p)
-			d[n]["phase"] = phase
-			d[n]["phase_fluctuations"] = phase_fluct
-
-	return d	
+			print_and_save_all_phases(n, h5file, eigenstates, basis)
