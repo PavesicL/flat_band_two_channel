@@ -24,8 +24,10 @@ def diagonalize_subspace(n, p):
 
 	if  n%2==0:
 		subspaceName = "singlet"
+		Sz = 0
 	else:
 		subspaceName = "doublet"
+		Sz = 1/2
 
 	mat, bas = generate_total_matrix(subspaceName, n, p)
 	print(f"\nGenerated matrix, size: {len(bas)}\n")
@@ -67,7 +69,7 @@ def diagonalize_subspace(n, p):
 	vec = [ np.matmul(basis_transformation_matrix, v) for v in vec]
 
 	#save the results into a dictionary of dictionaries	
-	results_dict[n] = { "basis" : bas, "energies" : val + p.U/2, "eigenstates" : vec}
+	results_dict[(n, Sz)] = { "basis" : bas, "energies" : val + p.U/2, "eigenstates" : vec}
 
 	return results_dict
 

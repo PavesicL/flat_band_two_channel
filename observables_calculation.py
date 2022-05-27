@@ -17,14 +17,15 @@ def h5dump(file, saveString, values):
 ###################################################################################################
 # PRINT ENERGIES
 
-def print_and_save_energies(n, n_dict, h5file, p):
+def print_and_save_energies(sector, n_dict, h5file, p):
 	print("\nEnergies: ")
+	n, Sz = sector
 	
 	maxE = min(len(n_dict["energies"]), p.print_energies)
 
 	Estr = ""
 	for i, E in enumerate(n_dict["energies"]):
-		h5dump(h5file, f"{n}/{i}/E/", E)
+		h5dump(h5file, f"{n}/{Sz}/{i}/E/", E)
 
 		Estr += f"{round(E, 5)}, "
 	Estr = Estr[:-2]	
@@ -67,13 +68,15 @@ def calculate_occupancy(eigenvector, basis):
 			nR += abs(amplitude)**2 * basis[i].nR
 	return nimp, nL, nR	
 
-def print_and_save_all_occupancies(n, h5file, states, basis):
+def print_and_save_all_occupancies(sector, h5file, states, basis):
+	n, Sz = sector
+
 	ns = ""
 	for i, state in enumerate(states):
 		nimp, nL, nR = calculate_occupancy(state, basis)			
-		h5dump(h5file, f"{n}/{i}/nimp/", nimp)
-		h5dump(h5file, f"{n}/{i}/nL/", nL)
-		h5dump(h5file, f"{n}/{i}/nR/", nR)
+		h5dump(h5file, f"{n}/{Sz}/{i}/nimp/", nimp)
+		h5dump(h5file, f"{n}/{Sz}/{i}/nL/", nL)
+		h5dump(h5file, f"{n}/{Sz}/{i}/nR/", nR)
 
 		ns += f"({round(nimp, 4)}, {round(nL, 4)}, {round(nR, 4)}) "
 	print(f"occupation: {ns}")	
@@ -101,14 +104,16 @@ def calculate_delta_M2(eigenvector, basis):
 			dM2 += abs(amplitude)**2 * (basis[i].dM**2)
 	return dM2	
 
-def print_and_save_dMs(n, h5file, states, basis):
+def print_and_save_dMs(sector, h5file, states, basis):
+	n, Sz = sector
+
 	dMs, dM2s = "", ""
 	for i, state in enumerate(states):
 		dM = calculate_delta_M(state, basis)			
 		dM2 = calculate_delta_M2(state, basis)			
 		
-		h5dump(h5file, f"{n}/{i}/dM/", dM)
-		h5dump(h5file, f"{n}/{i}/dM2/", dM2)
+		h5dump(h5file, f"{n}/{Sz}/{i}/dM/", dM)
+		h5dump(h5file, f"{n}/{Sz}/{i}/dM2/", dM2)
 
 		dMs += f"{round(dM, 4)} "
 		dM2s += f"{round(dM2, 4)} "
@@ -131,13 +136,15 @@ def calculate_phase(eigenvector, basis):
 	return size, phi
 
 
-def print_and_save_all_phases(n, h5file, states, basis):
+def print_and_save_all_phases(sector, h5file, states, basis):
+	n, Sz = sector
+
 	sizes, phis = "", ""
 	for i, state in enumerate(states):
 		size, phi = calculate_phase(state, basis)
 
-		h5dump(h5file, f"{n}/{i}/phi/", phi)
-		h5dump(h5file, f"{n}/{i}/phi_size/", size)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi/", phi)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi_size/", size)
 
 		phis += f"{round(phi, 4)} "
 		sizes += f"{round(size, 4)} "
@@ -151,17 +158,19 @@ def process_save_and_print_results(d, h5file, p):
 	"""
 	Prints results and saves them to the hdf5 file. 
 	"""
-	for n in d:
-		n_dict = d[n]
+	for sector in d:
+		n, Sz = sector
+
+		n_dict = d[sector]
 		energies, eigenstates, basis = n_dict["energies"], n_dict["eigenstates"], n_dict["basis"]
-	
-		print(f"RESULTS FOR n = {n}:")
-		print_and_save_energies(n, n_dict, h5file, p)
+
+		print(f"RESULTS FOR n = {n}, Sz = {Sz}:")
+		print_and_save_energies(sector, n_dict, h5file, p)
 		print_states(eigenstates, basis, p)
 
 		if p.calc_occupancies:
-			print_and_save_all_occupancies(n, h5file, eigenstates, basis)
+			print_and_save_all_occupancies(sector, h5file, eigenstates, basis)
 		if p.calc_dMs:
-			print_and_save_dMs(n, h5file, eigenstates, basis)
+			print_and_save_dMs(sector, h5file, eigenstates, basis)
 		if p.calc_phase:
-			print_and_save_all_phases(n, h5file, eigenstates, basis)
+			print_and_save_all_phases(sector, h5file, eigenstates, basis)
