@@ -53,7 +53,8 @@ class params:
 	calc_occupancies: bool = True
 	calc_dMs: bool = True
 	calc_phase: bool = True
-
+	calc_nqp: bool = True
+	
 	num_states_to_save: int = 10
 	parallel: bool = False
 
@@ -338,12 +339,12 @@ class STATE:
 	def nqp(self):
 		return self.n - 2 * (self.mL + self.mR)	
 
+	@property
 	def nqp_no_imp(self):
 		tot = 0
 		for i in range(len(self.amplitudes)):
 			tot += abs(self.amplitudes[i])**2  * ( self.basis_states[i].L.qp.n + self.basis_states[i].R.qp.n)
-		return E
-	
+		return E	
 
 	@property
 	def QP_state(self):
