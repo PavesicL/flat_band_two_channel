@@ -31,7 +31,6 @@ def print_and_save_energies(sector, n_dict, h5file, p):
 	Estr = Estr[:-2]	
 	print(Estr)
 
-
 ###################################################################################################
 # PRINT AN EIGENSTATE
 
@@ -151,6 +150,28 @@ def print_and_save_all_phases(sector, h5file, states, basis):
 	print(f"phi: {phis}")	
 	print(f"phi size: {sizes}")
 
+###################################################################################################
+# NUMBER OF QUASIPARTICLES
+
+def calculate_nqp(eigenvector, basis):
+
+	nQP = 0
+	for i, amplitude in enumerate(eigenvector):
+		if amplitude != 0:
+			nQP += abs(amplitude)**2 * (basis[i].nqp_no_imp**2)
+	return nQP
+
+def print_and_save_nqp(sector, h5file, states, basis):
+	n, Sz = sector
+
+	nqps = ""
+	for i, state in enumerate(states):
+		nqp = calculate_delta_M(state, basis)			
+		
+		h5dump(h5file, f"{n}/{Sz}/{i}/nqp/", nqp)
+
+		nqps += f"{round(dM, 4)} "
+	print(f"nqp: {nqps}")	
 ###################################################################################################
 # PRINTING RESULTS
 

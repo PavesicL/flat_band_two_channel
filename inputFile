@@ -1,27 +1,27 @@
 #input file for flat band exact diagonalisation
 #alphas have to be positive for superconductivity!!!
 
-N = 51
-nref = 50
+N = 101
+nref = 101
 nrange = 1
 
 alpha_L = 1
 alpha_R = 1
 
-U = 100
-epsimp = -50
+U = 10
+epsimp = -5
 
-#gamma_L = 0.1
-#gamma_R = 0.1
+gamma_L = 0.1
+gamma_R = 0.1
 
-v_L = 1
-v_R = 1
+#v_L = 1
+#v_R = 1
 
-Ec_L = 0
-Ec_R = 0
+Ec_L = 10
+Ec_R = 10
 
-n0_L = 3.1
-n0_R = 4.4
+n0_L = 50
+n0_R = 50
 
 print_states = 0
 
