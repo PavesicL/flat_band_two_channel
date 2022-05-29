@@ -195,3 +195,5 @@ def process_save_and_print_results(d, h5file, p):
 			print_and_save_dMs(sector, h5file, eigenstates, basis)
 		if p.calc_phase:
 			print_and_save_all_phases(sector, h5file, eigenstates, basis)
+		if p.calc_nqp:
+			print_and_save_nqp(sector, h5file, eigenstates, basis)
