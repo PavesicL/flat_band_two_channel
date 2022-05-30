@@ -103,6 +103,21 @@ def calculate_delta_M2(eigenvector, basis):
 			dM2 += abs(amplitude)**2 * (basis[i].dM**2)
 	return dM2	
 
+def calculate_delta_M_amplitudes(n, eigenvector, basis):
+	"""
+	Returns the list of abs(amplitude) for each dM.
+	"""
+	dMmax = n//2
+
+	res = np.zeros(1 + 2*dMmax)
+	for i, amplitude in enumerate(eigenvector):
+		state = basis[i]
+		for dM in range(-dMmax,	dMmax+1):
+			if state.dM == dM:
+				res[dM + dMmax] += abs(amplitude)**2 # for dM == -dMmax, this will go to res[0]
+	return res			
+
+
 def print_and_save_dMs(sector, h5file, states, basis):
 	n, Sz = sector
 
@@ -110,9 +125,11 @@ def print_and_save_dMs(sector, h5file, states, basis):
 	for i, state in enumerate(states):
 		dM = calculate_delta_M(state, basis)			
 		dM2 = calculate_delta_M2(state, basis)			
-		
+		amplitudes = calculate_delta_M_amplitudes(n, state, basis)	
+
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM/", dM)
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM2/", dM2)
+		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/", amplitudes)
 
 		dMs += f"{round(dM, 4)} "
 		dM2s += f"{round(dM2, 4)} "
@@ -133,7 +150,6 @@ def calculate_phase(eigenvector, basis):
 	
 	size, phi = cmath.polar(e_to_iphi)
 	return size, phi
-
 
 def print_and_save_all_phases(sector, h5file, states, basis):
 	n, Sz = sector
@@ -166,12 +182,13 @@ def print_and_save_nqp(sector, h5file, states, basis):
 
 	nqps = ""
 	for i, state in enumerate(states):
-		nqp = calculate_delta_M(state, basis)			
+		nqp = calculate_nqp(state, basis)			
 		
 		h5dump(h5file, f"{n}/{Sz}/{i}/nqp/", nqp)
 
-		nqps += f"{round(dM, 4)} "
+		nqps += f"{round(nqp, 4)} "
 	print(f"nqp: {nqps}")	
+
 ###################################################################################################
 # PRINTING RESULTS
 

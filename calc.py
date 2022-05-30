@@ -18,6 +18,7 @@ def diagonalize_subspace(n, p):
 	Solves the problem in one subspace.
 	Returns a dictionary with energies, eigenvalues and the basis.
 	"""
+	start = time.time()
 
 	print(f"In the subspace with {n} particles.\n")
 	results_dict = {}
@@ -55,12 +56,9 @@ def diagonalize_subspace(n, p):
 	
 
 	print("Diagonalizing ...\n")
-	start = time.time()
 	val, vec = eigh(mat)
 	vec = vec.T #eigh() returns eigenvectors as columns of a matrix, but we want vec[i] to be i-th eigenvector.
-	end = time.time()
-	print(f"Sector {n} finished, t = {round(end-start, 2)} s")
-
+	
 	#cut off the number of states to save
 	vec = vec[:p.num_states_to_save]
 	val = val[:p.num_states_to_save]
@@ -70,6 +68,9 @@ def diagonalize_subspace(n, p):
 
 	#save the results into a dictionary of dictionaries	
 	results_dict[(n, Sz)] = { "basis" : bas, "energies" : val + p.U/2, "eigenstates" : vec}
+
+	end = time.time()
+	print(f"Sector {n} finished, t = {round(end-start, 2)} s")
 
 	return results_dict
 

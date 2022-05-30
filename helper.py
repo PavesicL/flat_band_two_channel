@@ -344,7 +344,7 @@ class STATE:
 		tot = 0
 		for i in range(len(self.amplitudes)):
 			tot += abs(self.amplitudes[i])**2  * ( self.basis_states[i].L.qp.n + self.basis_states[i].R.qp.n)
-		return E	
+		return tot	
 
 	@property
 	def QP_state(self):
