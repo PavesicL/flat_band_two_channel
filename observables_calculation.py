@@ -117,7 +117,6 @@ def calculate_delta_M_amplitudes(n, eigenvector, basis):
 				res[dM + dMmax] += abs(amplitude)**2 # for dM == -dMmax, this will go to res[0]
 	return res			
 
-
 def print_and_save_dMs(sector, h5file, states, basis):
 	n, Sz = sector
 
@@ -146,7 +145,8 @@ def calculate_phase(eigenvector, basis):
 	e_to_iphi = 0
 	for i, a_i in enumerate(eigenvector):
 		for j, a_j in enumerate(eigenvector):
-			e_to_iphi += a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL + 1 ) * delta( basis[i].mR, basis[j].mR - 1)
+			if basis[i].QP_state() == basis.[j].QP_state():
+				e_to_iphi += a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL + 1 ) * delta( basis[i].mR, basis[j].mR - 1)
 	
 	size, phi = cmath.polar(e_to_iphi)
 	return size, phi
