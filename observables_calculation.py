@@ -207,7 +207,7 @@ def process_save_and_print_results(d, h5file, p):
 		energies, eigenstates, basis = n_dict["energies"], n_dict["eigenstates"], n_dict["basis"]
 
 		print()
-		print()
+		print("###################################################################################################")
 		print(f"RESULTS FOR n = {n}, Sz = {Sz}:")
 		print_and_save_energies(sector, n_dict, h5file, p)
 		print_states(eigenstates, basis, p)

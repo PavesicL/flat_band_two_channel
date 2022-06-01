@@ -3,7 +3,7 @@
 
 N = 15
 nref = 15
-nrange = 0
+nrange = 1
 
 alpha_L = 1
 alpha_R = 1
@@ -11,8 +11,8 @@ alpha_R = 1
 U = 0
 epsimp = 0
 
-gamma_L = 0
-gamma_R = 0
+gamma_L = 0.1
+gamma_R = 0.1
 
 #v_L = 1
 #v_R = 1

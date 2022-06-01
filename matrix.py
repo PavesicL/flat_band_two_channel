@@ -253,24 +253,14 @@ def fourier_transform_basis(basis, p):
 		m_MAX = max(deltaMs)
 
 		phis = [ 2 * np.pi * i / (m_MAX +1) for i in range(len(deltaMs))]
-		print("PHIS")
-		print([ph/np.pi for ph in phis])
-		print("dMS")
-		print(deltaMs)
 		# now for each phi construct the vector |phi, QP>, by adding contributions e^(i phi dM) to the position of the eigenvector in the basis
 		for phi in phis:
 			for i, state in enumerate(basis):
 				if state.QP_state == QP:					
 					basis_transformation_matrix[i, total_count] += (1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) )
 					
-					aa = cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) )
-					if state.nqp_no_imp == 0:
-						print("A", m_MAX, state, 0.5 * (state.dM + m_MAX), phi/np.pi, cmath.phase(aa)/np.pi)
-
 			all_phi_list.append(phi)
 			total_count += 1 #This counts which transformed vector |phi, QP> we are creating.
-	print("all phis:")
-	print(np.divide(all_phi_list, np.pi))		
 	if p.verbose:
 		P = basis_transformation_matrix
 		invP = np.transpose(np.conjugate(basis_transformation_matrix))
@@ -303,7 +293,7 @@ def check_state(state, n, p):
 		number of cooper pairs is not negative
 	"""
 	if p.use_all_states:
-		return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0, state.nqp == 1)
+		return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0)
 	else:
 		return check_conditions( [[bstate.n() == n, bstate.L.occupiedLevels() <= p.LL, bstate.R.occupiedLevels() <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
 
