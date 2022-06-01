@@ -286,8 +286,6 @@ class BASIS_STATE:
 	def __repr__(self):
 		return f"|{self.imp.state}, {self.L.M}, {self.L.qp}, {self.R.M}, {self.R.qp}>"
 
-
-
 class PHI_BASIS_STATE:
 	"""
 	A basis state with a well defined phase difference between the channels. 
@@ -298,7 +296,6 @@ class PHI_BASIS_STATE:
 		self.imp = IMP(qp_imp, p.U, p.epsimp)
 		self.qp_L = qp_L
 		self.qp_R = qp_R
-
 
 class STATE:
 	"""
@@ -348,7 +345,7 @@ class STATE:
 
 	@property
 	def QP_state(self):
-		"""
+		"""	
 		Saves only the state of the QPs, without the number of pairs.
 		"""
 		qps = []
@@ -410,4 +407,4 @@ class STATE:
 # UTILITY
 
 def delta(x, y):
-	return 1 if x == y else 0
+	return 1.0 if x == y else 0.0

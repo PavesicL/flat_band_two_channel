@@ -38,7 +38,7 @@ def diagonalize_subspace(n, p):
 
 	if p.phase_fourier_transform:
 		mat, basis_transformation_matrix, phi_list = fourier_transform_matrix(mat, bas, p)
-		mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list)
+		#mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list) #THIS HAS A BUG! ALSO, IS NOT THAT IMPORTANT. REMOVE IT?
 	else:
 		basis_transformation_matrix = np.identity(len(bas))	
 

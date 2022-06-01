@@ -18,7 +18,7 @@ def h5dump(file, saveString, values):
 # PRINT ENERGIES
 
 def print_and_save_energies(sector, n_dict, h5file, p):
-	print("\nEnergies: ")
+	print("Energies: ")
 	n, Sz = sector
 	
 	maxE = min(len(n_dict["energies"]), p.print_energies)
@@ -47,10 +47,12 @@ def print_state(eigenvector, basis, prec):
 	printList = []
 	for i, amplitude in enumerate(eigenvector):
 		if abs(amplitude) > prec:
-			printList.append([abs(amplitude), basis[i]])
-	printList = sorted(printList, key = lambda x : -abs(x[0]))
-	for amp, bas in printList:
-		print(f"{amp}	{bas}")		
+			size, phi = cmath.polar(amplitude)
+			printList.append([size, phi/np.pi, basis[i]])
+	#printList = sorted(printList, key = lambda x : -abs(x[0]))
+	printList = sorted(printList, key = lambda x : x[2].dM)
+	for amp, phi, bas in printList:
+		print(f"{amp}	{round(phi, 3)}	{bas}")		
 
 ###################################################################################################
 # OCCUPANCY CALCULATION
@@ -142,12 +144,14 @@ def calculate_phase(eigenvector, basis):
 	"""
 	This is equivalent to Eq. (3) form https://arxiv.org/pdf/cond-mat/0305361.pdf
 	"""
-	e_to_iphi = 0
+	e_to_iphi = 0 + 0 * 1j
 	for i, a_i in enumerate(eigenvector):
 		for j, a_j in enumerate(eigenvector):
 			if basis[i].QP_state == basis[j].QP_state:
-				e_to_iphi += a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL + 1 ) * delta( basis[i].mR, basis[j].mR - 1)
-	
+
+				e_to_iphi +=  a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL + 1 ) * delta( basis[i].mR, basis[j].mR - 1)
+				#e_to_iphi += 0.5 * a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL - 1 ) * delta( basis[i].mR, basis[j].mR + 1)
+
 	size, phi = cmath.polar(e_to_iphi)
 	return size, phi
 
@@ -161,9 +165,9 @@ def print_and_save_all_phases(sector, h5file, states, basis):
 		h5dump(h5file, f"{n}/{Sz}/{i}/phi/", phi)
 		h5dump(h5file, f"{n}/{Sz}/{i}/phi_size/", size)
 
-		phis += f"{round(phi, 4)} "
+		phis += f"{round(phi/np.pi, 4)} "
 		sizes += f"{round(size, 4)} "
-	print(f"phi: {phis}")	
+	print(f"phi/pi: {phis}")	
 	print(f"phi size: {sizes}")
 
 ###################################################################################################
@@ -202,6 +206,8 @@ def process_save_and_print_results(d, h5file, p):
 		n_dict = d[sector]
 		energies, eigenstates, basis = n_dict["energies"], n_dict["eigenstates"], n_dict["basis"]
 
+		print()
+		print()
 		print(f"RESULTS FOR n = {n}, Sz = {Sz}:")
 		print_and_save_energies(sector, n_dict, h5file, p)
 		print_states(eigenstates, basis, p)
