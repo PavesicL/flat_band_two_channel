@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from helper import *
-from parse_matrices import parse_matrix
+from parse_matrices import parse_hopping_matrix
 import numpy as np
 import cmath
 import os
@@ -16,28 +16,28 @@ def doublet_basis_states(mL, mR, p):
 	"""
 
 	# 1 qp
-	psi_100 = STATE( (1.0, BASIS_STATE(UP, mL, ZERO, mR, ZERO, p)) )
-	psi_010 = STATE( (1.0, BASIS_STATE(ZERO, mL, UP, mR, ZERO, p)) )
-	psi_001 = STATE( (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, UP, p)) )
+	psi_100 = STATE(0, (1.0, BASIS_STATE(UP, mL, ZERO, mR, ZERO, p)) )
+	psi_010 = STATE(1, (1.0, BASIS_STATE(ZERO, mL, UP, mR, ZERO, p)) )
+	psi_001 = STATE(2, (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, UP, p)) )
 
 	# 3 qp
-	psi_210 = STATE( (1.0, BASIS_STATE(UPDN, mL, UP, mR, ZERO, p)) )
-	psi_201 = STATE( (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, UP, p)) )
-	psi_120 = STATE( (1.0, BASIS_STATE(UP, mL, UPDN, mR, ZERO, p)) )
-	psi_021 = STATE( (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UP, p)) )
-	psi_012 = STATE( (1.0, BASIS_STATE(ZERO, mL, UP, mR, UPDN, p)) )
-	psi_102 = STATE( (1.0, BASIS_STATE(UP, mL, ZERO, mR, UPDN, p)) )
+	psi_210 = STATE(3, (1.0, BASIS_STATE(UPDN, mL, UP, mR, ZERO, p)) )
+	psi_201 = STATE(4, (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, UP, p)) )
+	psi_120 = STATE(5, (1.0, BASIS_STATE(UP, mL, UPDN, mR, ZERO, p)) )
+	psi_021 = STATE(6, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UP, p)) )
+	psi_012 = STATE(7, (1.0, BASIS_STATE(ZERO, mL, UP, mR, UPDN, p)) )
+	psi_102 = STATE(8, (1.0, BASIS_STATE(UP, mL, ZERO, mR, UPDN, p)) )
 	
-	psi_S12 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)), 
+	psi_S12 = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)), 
 						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, UP, p)) )
-	psi_3qp = STATE(  	(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
+	psi_3qp = STATE(10,	(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
 						(1/np.sqrt(6),  BASIS_STATE(UP, mL, DOWN, mR, UP, p) ),
 						(-2/np.sqrt(6), BASIS_STATE(UP, mL, UP, mR, DOWN, p) ),
 						)
 	# 5 qp
-	psi_221 = STATE( (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, UP, p)) )
-	psi_212 = STATE( (1.0, BASIS_STATE(UPDN, mL, UP, mR, UPDN, p)) )
-	psi_122 = STATE( (1.0, BASIS_STATE(UP, mL, UPDN, mR, UPDN, p)) )
+	psi_221 = STATE(11, (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, UP, p)) )
+	psi_212 = STATE(12, (1.0, BASIS_STATE(UPDN, mL, UP, mR, UPDN, p)) )
+	psi_122 = STATE(13, (1.0, BASIS_STATE(UP, mL, UPDN, mR, UPDN, p)) )
 
 	allStates = [psi_100, psi_010, psi_001, psi_210, psi_201, psi_120, psi_021, psi_012, psi_102, psi_S12, psi_3qp, psi_221, psi_212, psi_122]
 	return allStates
@@ -50,39 +50,39 @@ def singlet_basis_states(mL, mR, p):
 	"""
 
 	# 0 qp
-	phi_0 = STATE( (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, ZERO, p)) )
+	phi_0 = STATE(0, (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, ZERO, p)) )
 
 	# 2 qp
-	phi_002 = STATE( (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, UPDN, p)) )
-	phi_020 = STATE( (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, ZERO, p)) )
-	phi_200 = STATE( (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, ZERO, p)) )
+	phi_002 = STATE(1, (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, UPDN, p)) )
+	phi_020 = STATE(2, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, ZERO, p)) )
+	phi_200 = STATE(3, (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, ZERO, p)) )
 
-	phi_s12 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(UP, mL, DOWN, mR, ZERO, p)),
+	phi_s12 = STATE(4, 	(1/np.sqrt(2),  BASIS_STATE(UP, mL, DOWN, mR, ZERO, p)),
 						(-1/np.sqrt(2), BASIS_STATE(DOWN, mL, UP, mR, ZERO, p))
 						)
-	phi_s13 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(UP, mL, ZERO, mR, DOWN, p)),
+	phi_s13 = STATE(5, 	(1/np.sqrt(2),  BASIS_STATE(UP, mL, ZERO, mR, DOWN, p)),
 						(-1/np.sqrt(2), BASIS_STATE(DOWN, mL, ZERO, mR, UP, p))
 						)
-	phi_s23 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(ZERO, mL, UP, mR, DOWN, p)),
+	phi_s23 = STATE(6,	(1/np.sqrt(2),  BASIS_STATE(ZERO, mL, UP, mR, DOWN, p)),
 						(-1/np.sqrt(2), BASIS_STATE(ZERO, mL, DOWN, mR, UP, p))
 						)
 	# 4 qp
-	phi_022 = STATE( (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UPDN, p)) )
-	phi_202 = STATE( (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, UPDN, p)) )
-	phi_220 = STATE( (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p)) )
+	phi_022 = STATE(7, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UPDN, p)) )
+	phi_202 = STATE(8, (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, UPDN, p)) )
+	phi_220 = STATE(9, (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p)) )
 
-	phi_s4_12 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UPDN, p)),
-						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, UPDN, p))
-						)
-	phi_s4_13 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UPDN, mR, UP, p)),
-						(-1/np.sqrt(2), BASIS_STATE(UP, mL, UPDN, mR, DOWN, p))
-						)
-	phi_s4_23 = STATE( 	(1/np.sqrt(2),  BASIS_STATE(UPDN, mL, UP, mR, DOWN, p)),
-						(-1/np.sqrt(2), BASIS_STATE(UPDN, mL, DOWN, mR, UP, p))
-						)
+	phi_s4_12 = STATE(10, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UPDN, p)),
+							(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, UPDN, p))
+							)
+	phi_s4_13 = STATE(11, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UPDN, mR, UP, p)),
+							(-1/np.sqrt(2), BASIS_STATE(UP, mL, UPDN, mR, DOWN, p))
+							)
+	phi_s4_23 = STATE(12, 	(1/np.sqrt(2),  BASIS_STATE(UPDN, mL, UP, mR, DOWN, p)),
+							(-1/np.sqrt(2), BASIS_STATE(UPDN, mL, DOWN, mR, UP, p))
+							)
 
 	# 6 qp
-	phi_6 = STATE( (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, UPDN, p)) )
+	phi_6 = STATE(13, (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, UPDN, p)) )
 
 	allStates = [phi_0, phi_002, phi_020, phi_200, phi_s12, phi_s13, phi_s23, phi_022, phi_202, phi_220, phi_s4_12, phi_s4_13, phi_s4_23, phi_6]
 	return allStates
@@ -124,7 +124,7 @@ def generate_hopping_matrix(subspace, n, p):
 
 	file_path =  os.path.abspath(os.path.dirname(__file__))	#this is the absolute path of the script! (eg. /home/pavesic/git_repos/flat_band_two_channel on spinon) 
 
-	general_hopping_matrix, strMat = parse_matrix(file_path + "/matrices/" + matName)
+	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
 	full_basis, indexList = generate_full_basis(subspace, n, p)
 
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
@@ -161,8 +161,6 @@ def generate_hopping_matrix(subspace, n, p):
 				elif si.dM == -Mmaxi and sj.dM == Mmaxj:
 					p_val = general_hopping_matrix[i_ind][j_ind](mL=1, mR=Mmaxi-1, nL=0, nR=Mmaxj, vL=p.v_L, vR=p.v_R, l=p.LL)
 				"""
-
-
 	return H, full_basis
 
 def add_diagonal_elements(H, basis):

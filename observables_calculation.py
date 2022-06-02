@@ -4,7 +4,8 @@ import numpy as np
 import h5py
 from helper import *
 import cmath
-
+import os
+from parse_matrices import parse_phi_matrix 
 ###################################################################################################
 # h5py functions
 
@@ -48,11 +49,11 @@ def print_state(eigenvector, basis, prec):
 	for i, amplitude in enumerate(eigenvector):
 		if abs(amplitude) > prec:
 			size, phi = cmath.polar(amplitude)
-			printList.append([size, phi/np.pi, basis[i]])
+			printList.append([size, phi/np.pi, basis[i], basis[i].energy()])
 	#printList = sorted(printList, key = lambda x : -abs(x[0]))
 	printList = sorted(printList, key = lambda x : x[2].dM)
-	for amp, phi, bas in printList:
-		print(f"{amp}	{round(phi, 3)}	{bas}")		
+	for amp, phi, bas, E in printList:
+		print(f"{amp}	{round(phi, 3)}	{bas}	{E}")		
 
 ###################################################################################################
 # OCCUPANCY CALCULATION
@@ -171,6 +172,50 @@ def print_and_save_all_phases(sector, h5file, states, basis):
 	print(f"phi size: {sizes}")
 
 ###################################################################################################
+# QP PHASE CALCULATION
+
+def calculate_QP_phase(Sz, eigenvector, basis):
+	"""
+	Reads out the matrix element of the operator f^dag_L,down f^dag_L,up f_R,up f_R,down and computes its expected value. 
+	"""
+	if Sz == 0:
+		subspace = "singlet"
+	elif Sz ==1/2:
+		subspace = "doublet"
+
+	matName = subspace + "_phi_mat_no_finite_size.dat"
+	file_path =  os.path.abspath(os.path.dirname(__file__))	#this is the absolute path of the script! (eg. /home/pavesic/git_repos/flat_band_two_channel on spinon)
+
+	operator_matrix = parse_phi_matrix(file_path + "/matrices/" + matName)
+
+	e_to_iphi = 0 + 0 * 1j
+	for i, a_i in enumerate(eigenvector):
+		for j, a_j in enumerate(eigenvector):
+			type_index_i, type_index_j = basis[i].type_index, basis[j].type_index
+
+			matElement = operator_matrix[type_index_i][type_index_j]
+
+			e_to_iphi += a_i.conjugate() * a_j * matElement( basis[i].mL, basis[i].mR, basis[j].mL, basis[j].mR)
+	
+	size, phi = cmath.polar(e_to_iphi)
+	return size, phi
+
+def print_and_save_all_QP_phases(sector, h5file, states, basis):
+	n, Sz = sector
+
+	sizes, phis = "", ""
+	for i, state in enumerate(states):
+		size, phi = calculate_QP_phase(Sz, state, basis)
+
+		h5dump(h5file, f"{n}/{Sz}/{i}/QP_phi/", phi)
+		h5dump(h5file, f"{n}/{Sz}/{i}/QP_phi_size/", size)
+
+		phis += f"{round(phi/np.pi, 4)} "
+		sizes += f"{round(size, 4)} "
+	print(f"QP phi/pi: {phis}")	
+	print(f"QP phi size: {sizes}")
+
+###################################################################################################
 # NUMBER OF QUASIPARTICLES
 
 def calculate_nqp(eigenvector, basis):
@@ -218,5 +263,7 @@ def process_save_and_print_results(d, h5file, p):
 			print_and_save_dMs(sector, h5file, eigenstates, basis)
 		if p.calc_phase:
 			print_and_save_all_phases(sector, h5file, eigenstates, basis)
+		if p.calc_QP_phase:
+			print_and_save_all_QP_phases(sector, h5file, eigenstates, basis)
 		if p.calc_nqp:
 			print_and_save_nqp(sector, h5file, eigenstates, basis)

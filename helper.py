@@ -53,6 +53,7 @@ class params:
 	calc_occupancies: bool = True
 	calc_dMs: bool = True
 	calc_phase: bool = True
+	calc_QP_phase: bool = True
 	calc_nqp: bool = True
 	
 	num_states_to_save: int = 10
@@ -227,7 +228,7 @@ class IMP:
 
 	def energy(self):
 		Upart = self.U if self.state == UPDN else 0
-		return self.epsimp * self.state.n + Upart
+		return (self.epsimp * self.state.n) + Upart
 
 @dataclass
 class SC_BATH:
@@ -286,26 +287,19 @@ class BASIS_STATE:
 	def __repr__(self):
 		return f"|{self.imp.state}, {self.L.M}, {self.L.qp}, {self.R.M}, {self.R.qp}>"
 
-class PHI_BASIS_STATE:
-	"""
-	A basis state with a well defined phase difference between the channels. 
-	Quantum numbers:
-	qp_imp, phi, qp_L, qp_R
-	"""
-	def __init__(self, qp_imp, qp_L, qp_R, p):
-		self.imp = IMP(qp_imp, p.U, p.epsimp)
-		self.qp_L = qp_L
-		self.qp_R = qp_R
 
 class STATE:
 	"""
 	A state is a superposition of basis states with given amplitudes.
 	"""
 
-	def __init__(self, *amplitudes_and_basis_states):
+	def __init__(self, type_index, *amplitudes_and_basis_states):
 		"""
 		The input should be any number of tuples (amplitude, BASIS_STATE).
+		type_index indentifies QP configuration this state has. It corresponds to the order in
+		which the states are given in the mathematica notebook and is relevant for matrix parsing.
 		"""
+		self.type_index = type_index
 		self.amplitudes = [amp for amp, st in amplitudes_and_basis_states]
 		self.basis_states = [st for amp, st in amplitudes_and_basis_states]
 		self.amplitudes_and_basis_states = amplitudes_and_basis_states
