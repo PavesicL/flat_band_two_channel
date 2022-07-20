@@ -13,6 +13,7 @@ def h5dump(file, saveString, values):
 	"""
 	saveString has to end with / !!!
 	"""
+	saveString = saveString[:-1] # I AM SURE THIS USED TO WORK, BUT NOT THIS LINE IS NECCESSARY?? (JUNE 2022)
 	file.create_dataset( saveString, data=values)
 
 ###################################################################################################
@@ -28,32 +29,32 @@ def print_and_save_energies(sector, n_dict, h5file, p):
 	for i, E in enumerate(n_dict["energies"]):
 		h5dump(h5file, f"{n}/{Sz}/{i}/E/", E)
 
-		Estr += f"{round(E, 5)}, "
+		Estr += f"{round(E, p.print_precision)}, "
 	Estr = Estr[:-2]	
 	print(Estr)
 
 ###################################################################################################
 # PRINT AN EIGENSTATE
 
-def print_states(eigenstates, basis, p):
+def print_states(eigenstates, basis, label, p):
 	if p.print_states > 0:
-		print("\nEigenvectors:")
+		print(f"\nEigenvectors, {label}:")
 		for i in range(p.print_states):
 			
 			print(f"i = {i}")
-			print_state(eigenstates[i], basis, p.print_states_precision)
+			print_state(eigenstates[i], basis, p)
 			print()
 
-def print_state(eigenvector, basis, prec):
+def print_state(eigenvector, basis, p):
 	printList = []
 	for i, amplitude in enumerate(eigenvector):
-		if abs(amplitude) > prec:
+		if abs(amplitude) > p.print_states_precision:
 			size, phi = cmath.polar(amplitude)
-			printList.append([size, phi/np.pi, basis[i], basis[i].energy()])
-	#printList = sorted(printList, key = lambda x : -abs(x[0]))
-	printList = sorted(printList, key = lambda x : x[2].dM)
-	for amp, phi, bas, E in printList:
-		print(f"{amp}	{round(phi, 3)}	{bas}	{E}")		
+			printList.append([size, phi/np.pi, basis[i]])
+	printList = sorted(printList, key = lambda x : -abs(x[0]))
+	#printList = sorted(printList, key = lambda x : x[2].dM)
+	for amp, phi, bas in printList:
+		print(f"{amp}	{round(phi, p.print_precision)}	{bas}")		
 
 ###################################################################################################
 # OCCUPANCY CALCULATION
@@ -70,7 +71,7 @@ def calculate_occupancy(eigenvector, basis):
 			nR += abs(amplitude)**2 * basis[i].nR
 	return nimp, nL, nR	
 
-def print_and_save_all_occupancies(sector, h5file, states, basis):
+def print_and_save_all_occupancies(sector, h5file, states, basis, p):
 	n, Sz = sector
 
 	ns = ""
@@ -80,7 +81,7 @@ def print_and_save_all_occupancies(sector, h5file, states, basis):
 		h5dump(h5file, f"{n}/{Sz}/{i}/nL/", nL)
 		h5dump(h5file, f"{n}/{Sz}/{i}/nR/", nR)
 
-		ns += f"({round(nimp, 4)}, {round(nL, 4)}, {round(nR, 4)}) "
+		ns += f"({round(nimp, p.print_precision)}, {round(nL, p.print_precision)}, {round(nR, p.print_precision)}) "
 	print(f"occupation: {ns}")	
 
 ###################################################################################################
@@ -108,7 +109,8 @@ def calculate_delta_M2(eigenvector, basis):
 
 def calculate_delta_M_amplitudes(n, eigenvector, basis):
 	"""
-	Returns the list of abs(amplitude) for each dM.
+	Returns the list of abs(amplitude) for each dM. 
+	So summing over QP states, what is the amplitude of each dM in the eigenvector.
 	"""
 	dMmax = n//2
 
@@ -120,7 +122,7 @@ def calculate_delta_M_amplitudes(n, eigenvector, basis):
 				res[dM + dMmax] += abs(amplitude)**2 # for dM == -dMmax, this will go to res[0]
 	return res			
 
-def print_and_save_dMs(sector, h5file, states, basis):
+def print_and_save_dMs(sector, h5file, states, basis, p):
 	n, Sz = sector
 
 	dMs, dM2s = "", ""
@@ -133,8 +135,8 @@ def print_and_save_dMs(sector, h5file, states, basis):
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM2/", dM2)
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/", amplitudes)
 
-		dMs += f"{round(dM, 4)} "
-		dM2s += f"{round(dM2, 4)} "
+		dMs += f"{round(dM, p.print_precision)} "
+		dM2s += f"{round(dM2, p.print_precision)} "
 	print(f"dM: {dMs}")	
 	print(f"dM2: {dM2s}")	
 
@@ -156,7 +158,7 @@ def calculate_phase(eigenvector, basis):
 	size, phi = cmath.polar(e_to_iphi)
 	return size, phi
 
-def print_and_save_all_phases(sector, h5file, states, basis):
+def print_and_save_all_phases(sector, h5file, states, basis, p):
 	n, Sz = sector
 
 	sizes, phis = "", ""
@@ -166,8 +168,8 @@ def print_and_save_all_phases(sector, h5file, states, basis):
 		h5dump(h5file, f"{n}/{Sz}/{i}/phi/", phi)
 		h5dump(h5file, f"{n}/{Sz}/{i}/phi_size/", size)
 
-		phis += f"{round(phi/np.pi, 4)} "
-		sizes += f"{round(size, 4)} "
+		phis += f"{round(phi/np.pi, p.print_precision)} "
+		sizes += f"{round(size, p.print_precision)} "
 	print(f"phi/pi: {phis}")	
 	print(f"phi size: {sizes}")
 
@@ -200,7 +202,7 @@ def calculate_QP_phase(Sz, eigenvector, basis):
 	size, phi = cmath.polar(e_to_iphi)
 	return size, phi
 
-def print_and_save_all_QP_phases(sector, h5file, states, basis):
+def print_and_save_all_QP_phases(sector, h5file, states, basis, p):
 	n, Sz = sector
 
 	sizes, phis = "", ""
@@ -210,10 +212,47 @@ def print_and_save_all_QP_phases(sector, h5file, states, basis):
 		h5dump(h5file, f"{n}/{Sz}/{i}/QP_phi/", phi)
 		h5dump(h5file, f"{n}/{Sz}/{i}/QP_phi_size/", size)
 
-		phis += f"{round(phi/np.pi, 4)} "
-		sizes += f"{round(size, 4)} "
+		phis += f"{round(phi/np.pi, p.print_precision)} "
+		sizes += f"{round(size, p.print_precision)} "
 	print(f"QP phi/pi: {phis}")	
 	print(f"QP phi size: {sizes}")
+
+###################################################################################################
+# ABSOLUTE PHI DIRECTLY FROM BASIS VECTORS
+
+def calculate_abs_phi(eigenvector, phi_basis):
+	"""
+	The eigenstates are typically (always?) a superposition of |phi> + |-phi>. The average phase as computed
+	using various operators is then 0, or ill defined. Here, |phi| is computed by reflecting all phi > pi
+	values across the real line (into the first two quadrants), and then taking the average, weighted by amplitudes. 
+	"""
+	avg, std = 0, 0
+	for i, amp in enumerate(eigenvector):
+		phi = phi_basis[i].phi
+
+		if phi > np.pi:
+			#reflect into the first two quadrants
+			phi = 2*np.pi - phi
+
+		avg += abs(amp)**2 * phi
+		std += abs(amp)**2 * (phi**2)
+
+	return avg, std	
+
+def print_and_save_abs_phis(sector, h5file, states, phi_basis, p):
+	n, Sz = sector
+
+	abs_phis, abs_phi2s = "", ""
+	for i, state in enumerate(states):
+		phi, phi2 = calculate_abs_phi(state, phi_basis)			
+
+		h5dump(h5file, f"{n}/{Sz}/{i}/abs_phi/", phi)
+		h5dump(h5file, f"{n}/{Sz}/{i}/abs_phi2/", phi2)
+
+		abs_phis += f"{round(phi/np.pi, p.print_precision)} "
+		abs_phi2s += f"{round(phi2, p.print_precision)} "
+	print(f"abs phi/pi: {abs_phis}")	
+	print(f"abs phi^2: {abs_phi2s}")	
 
 ###################################################################################################
 # NUMBER OF QUASIPARTICLES
@@ -226,7 +265,7 @@ def calculate_nqp(eigenvector, basis):
 			nQP += abs(amplitude)**2 * (basis[i].nqp_no_imp**2)
 	return nQP
 
-def print_and_save_nqp(sector, h5file, states, basis):
+def print_and_save_nqp(sector, h5file, states, basis, p):
 	n, Sz = sector
 
 	nqps = ""
@@ -235,7 +274,7 @@ def print_and_save_nqp(sector, h5file, states, basis):
 		
 		h5dump(h5file, f"{n}/{Sz}/{i}/nqp/", nqp)
 
-		nqps += f"{round(nqp, 4)} "
+		nqps += f"{round(nqp, p.print_precision)} "
 	print(f"nqp: {nqps}")	
 
 ###################################################################################################
@@ -249,21 +288,30 @@ def process_save_and_print_results(d, h5file, p):
 		n, Sz = sector
 
 		n_dict = d[sector]
-		energies, eigenstates, basis = n_dict["energies"], n_dict["eigenstates"], n_dict["basis"]
+		energies = n_dict["energies"]
+		dM_eigenstates, dM_basis = n_dict["dM_eigenstates"], n_dict["dM_basis"]
+		
+		if p.phase_fourier_transform:
+			phi_eigenstates, phi_basis = n_dict["phi_eigenstates"], n_dict["phi_basis"]
 
 		print()
 		print("###################################################################################################")
 		print(f"RESULTS FOR n = {n}, Sz = {Sz}:")
 		print_and_save_energies(sector, n_dict, h5file, p)
-		print_states(eigenstates, basis, p)
+		print_states(dM_eigenstates, dM_basis, "dM basis", p)
+		
+		if p.phase_fourier_transform:
+			print_states(phi_eigenstates, phi_basis, "phi basis", p)
 
 		if p.calc_occupancies:
-			print_and_save_all_occupancies(sector, h5file, eigenstates, basis)
+			print_and_save_all_occupancies(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_dMs:
-			print_and_save_dMs(sector, h5file, eigenstates, basis)
+			print_and_save_dMs(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_phase:
-			print_and_save_all_phases(sector, h5file, eigenstates, basis)
+			print_and_save_all_phases(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_QP_phase:
-			print_and_save_all_QP_phases(sector, h5file, eigenstates, basis)
+			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p)
+		if p.calc_abs_phase:
+			print_and_save_abs_phis(sector, h5file, phi_eigenstates, phi_basis, p)
 		if p.calc_nqp:
-			print_and_save_nqp(sector, h5file, eigenstates, basis)
+			print_and_save_nqp(sector, h5file, dM_eigenstates, dM_basis, p)

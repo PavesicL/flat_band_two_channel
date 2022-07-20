@@ -37,8 +37,9 @@ def diagonalize_subspace(n, p):
 		mat, bas = reorder_matrix_dM(mat, bas)
 
 	if p.phase_fourier_transform:
-		mat, basis_transformation_matrix, phi_list = fourier_transform_matrix(mat, bas, p)
+		mat, basis_transformation_matrix, phi_basis = fourier_transform_matrix(mat, bas, p)
 		#mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list) #THIS HAS A BUG! ALSO, IS NOT THAT IMPORTANT. REMOVE IT?
+
 	else:
 		basis_transformation_matrix = np.identity(len(bas))	
 
@@ -54,20 +55,36 @@ def diagonalize_subspace(n, p):
 		prod = np.matmul(invP, basis_transformation_matrix)
 		print(f"Is the transform unitary? {np.allclose(prod, np.identity(len(basis_transformation_matrix)))}")
 	
-
+	###############################################################################################
+	
 	print("Diagonalizing ...\n")
 	val, vec = eigh(mat)
 	vec = vec.T #eigh() returns eigenvectors as columns of a matrix, but we want vec[i] to be i-th eigenvector.
-	
+
 	#cut off the number of states to save
-	vec = vec[:p.num_states_to_save]
-	val = val[:p.num_states_to_save]
+	if not p.save_all_states:
+		vec = vec[:p.num_states_to_save]
+		val = val[:p.num_states_to_save]
 
-	#transform eigenvectors back into the original basis
-	vec = [ np.matmul(basis_transformation_matrix, v) for v in vec]
-
+	###############################################################################################
 	#save the results into a dictionary of dictionaries	
-	results_dict[(n, Sz)] = { "basis" : bas, "energies" : val + p.U/2, "eigenstates" : vec}
+	results_dict[(n, Sz)] = { "energies" : val + p.U/2, "dM_basis" : bas }
+
+	if p.phase_fourier_transform:
+		#The results are in the FT basis, to get the dM basis back transform all vectors back.
+
+		#transform eigenvectors back into the original basis
+		dMvec = [ np.matmul(basis_transformation_matrix, v) for v in vec]
+
+		results_dict[(n, Sz)]["dM_eigenstates"] = dMvec
+		results_dict[(n, Sz)]["phi_eigenstates"] = vec
+		results_dict[(n, Sz)]["phi_basis"] = phi_basis
+
+	else:
+		#if FT was not performed, just save the eigenvalues as they are
+		results_dict[(n, Sz)]["dM_eigenstates"] = vec
+
+	###############################################################################################
 
 	end = time.time()
 	print(f"Sector {n} finished, t = {round(end-start, 2)} s")

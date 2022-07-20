@@ -49,13 +49,16 @@ class params:
 	print_energies: int = 10
 	print_states: int = 0
 	print_states_precision: float = 0.01
+	print_precision: int = 5
 
 	calc_occupancies: bool = True
 	calc_dMs: bool = True
 	calc_phase: bool = True
 	calc_QP_phase: bool = True
+	calc_abs_phase: bool = True
 	calc_nqp: bool = True
 	
+	save_all_states: bool = False
 	num_states_to_save: int = 10
 	parallel: bool = False
 
@@ -227,8 +230,14 @@ class IMP:
 		return self.state.n
 
 	def energy(self):
-		Upart = self.U if self.state == UPDN else 0
-		return (self.epsimp * self.state.n) + Upart
+		#Upart = self.U if self.state == UPDN else 0
+		#return (self.epsimp * self.state.n) + Upart
+
+		if self.U != 0:
+			nu = 0.5 - ( self.epsimp / self.U )
+			return 0.5* self.U * ( self.state.n - nu )**2
+		else:
+			return self.epsimp * self.state.n	
 
 @dataclass
 class SC_BATH:
@@ -287,7 +296,6 @@ class BASIS_STATE:
 	def __repr__(self):
 		return f"|{self.imp.state}, {self.L.M}, {self.L.qp}, {self.R.M}, {self.R.qp}>"
 
-
 class STATE:
 	"""
 	A state is a superposition of basis states with given amplitudes.
@@ -305,30 +313,16 @@ class STATE:
 		self.amplitudes_and_basis_states = amplitudes_and_basis_states
 		self.check_if_normalized()
 
-	@property
-	def mL(self):
-		"""
-		All basis states have the same mL so this is OK.
-		"""
-		return self.basis_states[0].L.M
+		self.n = self.basis_states[0].n()
+		self.mL = self.basis_states[0].L.M #All basis states have the same mL so this is OK.
+		self.mR = self.basis_states[0].R.M #All basis states have the same mR so this is OK.
+		self.dM = self.mL - self.mR
+		self.nqp = self.n - 2 * (self.mL + self.mR)	
 
-	@property
-	def mR(self):
-		"""
-		All basis states have the same mR so this is OK.
-		"""
-		return self.basis_states[0].R.M
-
-	@property
-	def dM(self):
-		"""
-		This is also a good quantum number!
-		"""
-		return self.mL - self.mR
-
-	@property
-	def nqp(self):
-		return self.n - 2 * (self.mL + self.mR)	
+	def check_if_normalized(self):
+		tot = sum(a**2 for a in self.amplitudes)
+		if abs(tot - 1) > 1e-10:
+			raise Exception(f"State not normalized! <psi|psi> = {tot}")	
 
 	@property
 	def nqp_no_imp(self):
@@ -346,19 +340,6 @@ class STATE:
 		for amp, bstate in self.amplitudes_and_basis_states:
 			qps.append( (amp, (bstate.QP_state)) )
 		return qps	
-		
-	def check_if_normalized(self):
-		tot = sum(a**2 for a in self.amplitudes)
-		if abs(tot - 1) > 1e-10:
-			raise Exception(f"State not normalized! <psi|psi> = {tot}")
-
-	@property
-	def n(self):
-		nn = self.basis_states[0].n()
-		for bs in self.basis_states:
-			if bs.n() != nn:
-				raise Exception("State does not have well defined charge!")
-		return nn		
 
 	def energy(self):
 		E = 0
@@ -396,6 +377,33 @@ class STATE:
 				s += "+"
 		s += f"{self.amplitudes[-1]} * {self.basis_states[-1]}"
 		return s	
+
+class PHI_STATE:
+	"""
+	A FT of STATE. Quantum numbers are phi and QP_state. QP_state is the same as the one from class STATE.
+	"""
+
+	def __init__(self, phi, QP_state):
+		self.phi = phi
+		self.QP_state = QP_state
+
+	def __repr__(self):
+		s=f"phi/pi = {round(self.phi/np.pi, 3)}; "
+
+		for i in range(len(self.QP_state)-1):
+			amp, basisQPstate = self.QP_state[i]
+			(imp, L, R) = basisQPstate
+
+			s += f"{round(amp, 4)} * ({str(imp)}, {str(L)}, {str(R)}) "
+
+			if self.QP_state[i+1][0] >= 0:
+				s += "+"
+
+		lastAmp, lastQPs = self.QP_state[-1]
+		(imp, L, R) = lastQPs
+		s += f"{round(lastAmp, 4)} * ({str(imp)}, {str(L)}, {str(R)})"
+	
+		return s
 
 ###################################################################################################
 # UTILITY

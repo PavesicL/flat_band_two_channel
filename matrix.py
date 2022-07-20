@@ -231,8 +231,8 @@ def unzip(zipped_object):
 def fourier_transform_basis(basis, p):
 	"""
 	Fourier transform the deltaM quantum number into phi, by
-	|phi, QP> = sum_dM e^i dM phi |dM, QP>
-	where QP denotes the state of all quasiparticles.
+	|phi, QP> = sum_dM e^{i dM.phi} |dM, QP>
+	where QP is a label for the state of all quasiparticles.
 	"""
 
 	#the COLUMNS of this matrix are the new vectors written in the old basis.
@@ -242,7 +242,7 @@ def fourier_transform_basis(basis, p):
 	QPstates = [ state.QP_state for state in basis]
 	QPstates = my_unique(QPstates)
 
-	all_phi_list = [] # contains phi for each consecutive state. Used to reorder the matrix into blocks with equal phi. 
+	phi_basis = [] # contains phi for each consecutive state. Used to reorder the matrix into blocks with equal phi. 
 	total_count = 0
 	for QP in QPstates:
 		#find all dMs for this QP configuration!
@@ -257,7 +257,8 @@ def fourier_transform_basis(basis, p):
 				if state.QP_state == QP:					
 					basis_transformation_matrix[i, total_count] += (1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) )
 					
-			all_phi_list.append(phi)
+			phi_basis.append( PHI_STATE(phi, QP) )
+
 			total_count += 1 #This counts which transformed vector |phi, QP> we are creating.
 	if p.verbose:
 		P = basis_transformation_matrix
@@ -268,18 +269,18 @@ def fourier_transform_basis(basis, p):
 		print("FT determinant (has to be 1) = ", det)		
 		print("Is it unitary? ", np.allclose(np.identity(len(basis_transformation_matrix)), prod ))
 
-	return basis_transformation_matrix, all_phi_list
+	return basis_transformation_matrix, phi_basis
 
 def fourier_transform_matrix(matrix, basis, p):
 	"""
 	Fourier transforms the Hamiltonian into blocks with well defined |phi>.
 	"""
-	P, phi_list = fourier_transform_basis(basis, p)
+	P, phi_basis = fourier_transform_basis(basis, p)
 	#invP = np.linalg.inv(P)
 	invP = np.transpose(np.conjugate(P))
 	mat = np.matmul(np.matmul(invP, matrix), P)
 	
-	return mat, P, phi_list
+	return mat, P, phi_basis
 
 ###################################################################################################
 
@@ -290,8 +291,10 @@ def check_state(state, n, p):
 		number of occupied levels is not larger than the number of all levels
 		number of cooper pairs is not negative
 	"""
+
 	if p.use_all_states:
 		return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0)
+		#return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0, state.nqp == 1)
 	else:
 		return check_conditions( [[bstate.n() == n, bstate.L.occupiedLevels() <= p.LL, bstate.R.occupiedLevels() <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
 
