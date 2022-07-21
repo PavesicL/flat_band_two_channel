@@ -40,3 +40,4 @@ num_states_to_save = 15
 
 
 calc_QP_phase = false
+save_phi_amplitudes = true

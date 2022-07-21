@@ -44,7 +44,6 @@ class params:
 	refisn0: bool = False
 	verbose: bool = False
 
-	
 	#set calculations to perform and things to print
 	print_energies: int = 10
 	print_states: int = 0
@@ -56,6 +55,7 @@ class params:
 	calc_phase: bool = True
 	calc_QP_phase: bool = True
 	calc_abs_phase: bool = True
+	save_phi_amplitudes: bool = False
 	calc_nqp: bool = True
 	
 	save_all_states: bool = False

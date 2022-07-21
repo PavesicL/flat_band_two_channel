@@ -13,7 +13,7 @@ def h5dump(file, saveString, values):
 	"""
 	saveString has to end with / !!!
 	"""
-	saveString = saveString[:-1] # I AM SURE THIS USED TO WORK, BUT NOT THIS LINE IS NECCESSARY?? (JUNE 2022)
+	saveString = saveString[:-1] # I AM SURE THIS USED TO WORK, BUT NOW THIS LINE IS NECCESSARY?? (JUNE 2022)
 	file.create_dataset( saveString, data=values)
 
 ###################################################################################################
@@ -255,6 +255,31 @@ def print_and_save_abs_phis(sector, h5file, states, phi_basis, p):
 	print(f"abs phi^2: {abs_phi2s}")	
 
 ###################################################################################################
+# SAVE THE AMPLITUDES OF ALL EIGENVECTORS IN THE phi BASIS
+
+def get_phis_and_amps(state, phi_basis):
+	"""
+	The state is written in the phi basis. Accumulate a vector of 
+	all phis in the basis and corresponding amplitudes in the given vector.
+	"""
+
+	phis, amps = [], []
+	for i, phi_state in enumerate(phi_basis):
+		phis.append( phi_state.phi )
+		amps.append( abs( state[i] )**2 )
+	
+	return phis, amps
+
+def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
+	n, Sz = sector
+
+	for i, state in enumerate(states):
+		phis, amps = get_phis_and_amps(state, phi_basis)	
+
+		h5dump(h5file, f"{n}/{Sz}/{i}/all_phis/", phis)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amps/", amps)
+
+###################################################################################################
 # NUMBER OF QUASIPARTICLES
 
 def calculate_nqp(eigenvector, basis):
@@ -313,5 +338,7 @@ def process_save_and_print_results(d, h5file, p):
 			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_abs_phase:
 			print_and_save_abs_phis(sector, h5file, phi_eigenstates, phi_basis, p)
+		if p.save_phi_amplitudes:
+			print_and_save_phi_amplitudes(sector, h5file, phi_eigenstates, phi_basis, p)
 		if p.calc_nqp:
 			print_and_save_nqp(sector, h5file, dM_eigenstates, dM_basis, p)
