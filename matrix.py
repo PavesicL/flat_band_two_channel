@@ -246,17 +246,20 @@ def fourier_transform_basis(basis, p):
 	total_count = 0
 	for QP in QPstates:
 		#find all dMs for this QP configuration!
+
 		deltaMs = [ state.dM for state in basis if state.QP_state == QP]
 		deltaMs = np.unique(deltaMs)
 		m_MAX = max(deltaMs)
-
+		
 		phis = [ 2 * np.pi * i / (m_MAX +1) for i in range(len(deltaMs))]
 		# now for each phi construct the vector |phi, QP>, by adding contributions e^(i phi dM) to the position of the eigenvector in the basis
 		for phi in phis:
 			for i, state in enumerate(basis):
-				if state.QP_state == QP:					
+				if state.QP_state == QP:
+					#print((1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) ), m_MAX, state.dM)
+
 					basis_transformation_matrix[i, total_count] += (1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) )
-					
+				
 			phi_basis.append( PHI_STATE(phi, QP) )
 
 			total_count += 1 #This counts which transformed vector |phi, QP> we are creating.
@@ -266,7 +269,7 @@ def fourier_transform_basis(basis, p):
 		prod = np.matmul(P, invP)
 		det = abs(np.linalg.det(P))
 	
-		print("FT determinant (has to be 1) = ", det)		
+		print("FT determinant (has to be 1) = ", det)	
 		print("Is it unitary? ", np.allclose(np.identity(len(basis_transformation_matrix)), prod ))
 
 	return basis_transformation_matrix, phi_basis

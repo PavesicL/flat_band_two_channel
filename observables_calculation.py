@@ -267,8 +267,8 @@ def get_phis_and_amps(state, phi_basis):
 	amps = []
 	for i, phi_state in enumerate(phi_basis):
 		phis.append( phi_state.phi )
-		nqps.append( phi_state.QP_state.nqp )
-		nqpSCs.append( phi_state.QP_state.nqpSC )
+		nqps.append( phi_state.nqp )
+		nqpSCs.append( phi_state.nqp_SC )
 		amps.append( abs( state[i] )**2 )
 		
 	return phis, nqps, nqpSCs, amps
@@ -277,7 +277,7 @@ def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
 	n, Sz = sector
 
 	for i, state in enumerate(states):
-		phis, amps = get_phis_and_amps(state, phi_basis)	
+		phis, nqps, nqpSCs, amps = get_phis_and_amps(state, phi_basis)	
 
 		h5dump(h5file, f"{n}/{Sz}/{i}/all_phis/", phis)
 		h5dump(h5file, f"{n}/{Sz}/{i}/all_nqps/", nqps)

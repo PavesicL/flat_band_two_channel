@@ -1,8 +1,8 @@
 #input file for flat band exact diagonalisation
 #alphas have to be positive for superconductivity!!!
 
-N = 21
-nref = 21
+N = 7
+nref = 7
 nrange = 0
 
 alpha_L = 1
@@ -11,8 +11,8 @@ alpha_R = 1
 U = 100
 epsimp = -50
 
-gamma_L = 0
-gamma_R = 0
+gamma_L = 0.1
+gamma_R = 0.1
 
 #v_L = 0.01
 #v_R = 0.01

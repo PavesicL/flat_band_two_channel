@@ -227,7 +227,10 @@ class QP_STATE:
 		self.Sz = qp_imp.Sz + qp_L.Sz + qp_R.Sz
 
 	def __repr__(self):
-		return f"{str(self.qp_imp)}, {str(self.qp_L)}, {str(self.qp_R)}"
+		return f"({str(self.qp_imp)}, {str(self.qp_L)}, {str(self.qp_R)})"
+
+	def __eq__(self, other):
+		return self.qp_imp == other.qp_imp and self.qp_L == other.qp_L and self.qp_R == other.qp_R
 
 ###################################################################################################
 # STATES DEFINING CLASSES
@@ -396,12 +399,28 @@ class STATE:
 
 class PHI_STATE:
 	"""
-	A FT of STATE. Quantum numbers are phi and QP_state. QP_state is the same as the one from class STATE.
+	A FT of STATE. Quantum numbers are phi and QP_state. QP_state_list is the same as the one from class STATE.
 	"""
 
-	def __init__(self, phi, QP_state):
+	def __init__(self, phi, QP_state_list):
 		self.phi = phi
-		self.QP_state = QP_state
+		self.QP_state_list = QP_state_list #this is a list of [ (amp, QP_STATE), ... ]
+
+	@property
+	def nqp_SC(self):
+		tot = 0
+		for amp, QP_state in self.QP_state_list:
+			nL, nR = QP_state.qp_L.n, QP_state.qp_R.n
+			tot += abs(amp)**2 * (nL + nR)
+		return tot	
+
+	@property
+	def nqp(self):
+		tot = 0
+		for amp, QP_state in self.QP_state_list:
+			nimp, nL, nR = QP_state.qp_imp.n, QP_state.qp_L.n, QP_state.qp_R.n
+			tot += abs(amp)**2 * (nimp + nL + nR)
+		return tot	
 
 	def __repr__(self):
 		s=f"phi/pi = {round(self.phi/np.pi, 3)}; "
