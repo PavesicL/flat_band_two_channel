@@ -148,7 +148,7 @@ class params:
 			subspace_list.append(self.nref+n)			
 		return sorted(subspace_list)
 
-	def __repr__(self):
+	def __str__(self):
 		representation = ""
 		for field in fields(self):
 			value = getattr(self, field.name)
@@ -212,6 +212,22 @@ class QP(Enum):
 
 QP.export_to(globals()) #this exports all enums into global namespace, so they can be called by eg. ZERO instead of QP.ZERO
 
+class QP_STATE:
+	"""
+	A state of QPs at the impurity and both channels.
+	"""
+
+	def __init__(self, qp_imp, qp_L, qp_R):
+		self.qp_imp = qp_imp
+		self.qp_L = qp_L
+		self.qp_R = qp_R
+	
+		self.nqp = qp_imp.n + qp_L.n + qp_R.n
+		self.nqpSC = qp_L.n + qp_R.n
+		self.Sz = qp_imp.Sz + qp_L.Sz + qp_R.Sz
+
+	def __repr__(self):
+		return f"{str(self.qp_imp)}, {str(self.qp_L)}, {str(self.qp_R)}"
 
 ###################################################################################################
 # STATES DEFINING CLASSES
@@ -285,7 +301,7 @@ class BASIS_STATE:
 		self.imp = IMP(qp_imp, p.U, p.epsimp)
 		self.L = SC_BATH(Ml, qp_L, p.LL, p.alpha_L, p.Ec_L, p.n0_L, p.turn_off_SC_finite_size_effects)
 		self.R = SC_BATH(Mr, qp_R, p.LL, p.alpha_R, p.Ec_R, p.n0_R, p.turn_off_SC_finite_size_effects)
-		self.QP_state = (qp_imp, qp_L, qp_R)
+		self.QP_state = QP_STATE(qp_imp, qp_L, qp_R)
 
 	def energy(self):
 		return self.imp.energy() + self.L.energy() + self.R.energy()
@@ -293,7 +309,7 @@ class BASIS_STATE:
 	def n(self):
 		return self.imp.n() + self.L.n() + self.R.n()
 
-	def __repr__(self):
+	def __str__(self):
 		return f"|{self.imp.state}, {self.L.M}, {self.L.qp}, {self.R.M}, {self.R.qp}>"
 
 class STATE:
@@ -369,7 +385,7 @@ class STATE:
 			n += self.amplitudes[i]**2 * bs.R.n()
 		return n
 
-	def __repr__(self):
+	def __str__(self):
 		s = ""
 		for i in range(len(self.amplitudes)-1):
 			s += f"{self.amplitudes[i]} * {self.basis_states[i]}  "
@@ -392,16 +408,14 @@ class PHI_STATE:
 
 		for i in range(len(self.QP_state)-1):
 			amp, basisQPstate = self.QP_state[i]
-			(imp, L, R) = basisQPstate
 
-			s += f"{round(amp, 4)} * ({str(imp)}, {str(L)}, {str(R)}) "
+			s += f"{round(amp, 4)} * ({str(basisQPstate.qp_imp)}, {str(basisQPstate.qp_L)}, {str(basisQPstate.qp_R)}) "
 
 			if self.QP_state[i+1][0] >= 0:
-				s += "+"
+				s += "+ "
 
 		lastAmp, lastQPs = self.QP_state[-1]
-		(imp, L, R) = lastQPs
-		s += f"{round(lastAmp, 4)} * ({str(imp)}, {str(L)}, {str(R)})"
+		s += f"{round(lastAmp, 4)} * ({str(lastQPs.qp_imp)}, {str(lastQPs.qp_L)}, {str(lastQPs.qp_R)})"
 	
 		return s
 

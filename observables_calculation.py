@@ -263,12 +263,15 @@ def get_phis_and_amps(state, phi_basis):
 	all phis in the basis and corresponding amplitudes in the given vector.
 	"""
 
-	phis, amps = [], []
+	phis, nqps, nqpSCs = [], [], []
+	amps = []
 	for i, phi_state in enumerate(phi_basis):
 		phis.append( phi_state.phi )
+		nqps.append( phi_state.QP_state.nqp )
+		nqpSCs.append( phi_state.QP_state.nqpSC )
 		amps.append( abs( state[i] )**2 )
-	
-	return phis, amps
+		
+	return phis, nqps, nqpSCs, amps
 
 def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
 	n, Sz = sector
@@ -277,6 +280,8 @@ def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
 		phis, amps = get_phis_and_amps(state, phi_basis)	
 
 		h5dump(h5file, f"{n}/{Sz}/{i}/all_phis/", phis)
+		h5dump(h5file, f"{n}/{Sz}/{i}/all_nqps/", nqps)
+		h5dump(h5file, f"{n}/{Sz}/{i}/all_nqpSCs/", nqpSCs)
 		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amps/", amps)
 
 ###################################################################################################
