@@ -277,6 +277,10 @@ def even_computation_basis(mL, mR, p):
 
 	basis.append( BASIS_STATE(ZERO, mL, UP, mR, DOWN, p) )
 	basis.append( BASIS_STATE(ZERO, mL, DOWN, mR, UP, p) )
+
+	basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, ZERO, p) )
+	basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, ZERO, p) )
+	basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UPDN, p) )
 	
 	# 4 qp
 	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p) )
