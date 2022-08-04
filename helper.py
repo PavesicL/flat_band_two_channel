@@ -210,7 +210,7 @@ class QP(Enum):
 		"""
 		return self.name 
 
-QP.export_to(globals()) #this exports all enums into global namespace, so they can be called by eg. ZERO instead of QP.ZERO
+QP.export_to(globals()) #this exports the class enums into global namespace, so they can be called by eg. ZERO instead of QP.ZERO
 
 class QP_STATE:
 	"""
@@ -245,6 +245,7 @@ class IMP:
 	U: float
 	epsimp: float
 
+	@property
 	def n(self):
 		return self.state.n
 
@@ -257,6 +258,9 @@ class IMP:
 			return 0.5* self.U * ( self.state.n - nu )**2
 		else:
 			return self.epsimp * self.state.n	
+
+	def __eq__(self, other):
+		return self.state == other.state
 
 @dataclass
 class SC_BATH:
@@ -274,20 +278,23 @@ class SC_BATH:
 
 	turn_off_finite_size_effects: bool
 
+	@property
 	def n(self):
 		return self.qp.n + ( 2 * self.M ) 
 
+	@property
 	def unblocked(self):
 		return self.L - self.qp.n
 
+	@property
 	def occupiedLevels(self):
 		return self.M + self.qp.n
 
 	def energy(self):
-		U = self.unblocked()
+		U = self.unblocked
 		sc_energy = (-2 * self.alpha * ( U - self.M ) * self.M / self.L)
 		qp_energy = self.alpha * (self.L - U) / self.L
-		charging_energy = self.Ec * (self.n() - self.n0)**2
+		charging_energy = self.Ec * (self.n - self.n0)**2
 		if self.turn_off_finite_size_effects:
 			"""
 			Only add alpha for each quasiparticle. No dependence on L!
@@ -295,6 +302,10 @@ class SC_BATH:
 			return (self.alpha * self.qp.n) + charging_energy
 		else:
 			return sc_energy + qp_energy + charging_energy
+
+	def __eq__(self, other):
+		condition = self.M == other.M and self.qp== other.qp
+		return condition		
 
 class BASIS_STATE:
 	"""
@@ -306,14 +317,24 @@ class BASIS_STATE:
 		self.R = SC_BATH(Mr, qp_R, p.LL, p.alpha_R, p.Ec_R, p.n0_R, p.turn_off_SC_finite_size_effects)
 		self.QP_state = QP_STATE(qp_imp, qp_L, qp_R)
 
+		self.nimp = self.imp.n
+		self.nL = self.L.n
+		self.nR = self.R.n
+		self.dM = self.L.M - self.R.M
+
 	def energy(self):
 		return self.imp.energy() + self.L.energy() + self.R.energy()
 
+	@property
 	def n(self):
-		return self.imp.n() + self.L.n() + self.R.n()
+		return self.imp.n + self.L.n + self.R.n
 
 	def __str__(self):
 		return f"|{self.imp.state}, {self.L.M}, {self.L.qp}, {self.R.M}, {self.R.qp}>"
+
+	def __eq__(self, other):
+		condition = self.L == other.L and self.R == other.R and self.imp == other.imp
+		return condition
 
 class STATE:
 	"""
@@ -332,7 +353,7 @@ class STATE:
 		self.amplitudes_and_basis_states = amplitudes_and_basis_states
 		self.check_if_normalized()
 
-		self.n = self.basis_states[0].n()
+		self.n = self.basis_states[0].n
 		self.mL = self.basis_states[0].L.M #All basis states have the same mL so this is OK.
 		self.mR = self.basis_states[0].R.M #All basis states have the same mR so this is OK.
 		self.dM = self.mL - self.mR
@@ -425,15 +446,15 @@ class PHI_STATE:
 	def __repr__(self):
 		s=f"phi/pi = {round(self.phi/np.pi, 3)}; "
 
-		for i in range(len(self.QP_state)-1):
-			amp, basisQPstate = self.QP_state[i]
+		for i in range(len(self.QP_state_list)-1):
+			amp, basisQPstate = self.QP_state_list[i]
 
 			s += f"{round(amp, 4)} * ({str(basisQPstate.qp_imp)}, {str(basisQPstate.qp_L)}, {str(basisQPstate.qp_R)}) "
 
-			if self.QP_state[i+1][0] >= 0:
+			if self.QP_state_list[i+1][0] >= 0:
 				s += "+ "
 
-		lastAmp, lastQPs = self.QP_state[-1]
+		lastAmp, lastQPs = self.QP_state_list[-1]
 		s += f"{round(lastAmp, 4)} * ({str(lastQPs.qp_imp)}, {str(lastQPs.qp_L)}, {str(lastQPs.qp_R)})"
 	
 		return s

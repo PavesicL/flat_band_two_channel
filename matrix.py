@@ -227,6 +227,116 @@ def unzip(zipped_object):
 	return unzipped[0], unzipped[1]
 
 ###################################################################################################
+#COMPUTATION BASIS - basis with unique basis states with (n, Sz). Used for calculations of properties.
+
+def odd_computation_basis(mL, mR, p):
+	"""
+	A list of all unique BASIS_STATE with Sz=1/2.
+	"""
+	basis = []
+
+	#1 qp
+	basis.append( BASIS_STATE(UP, mL, ZERO, mR, ZERO, p) )
+	basis.append( BASIS_STATE(ZERO, mL, UP, mR, ZERO, p) )
+	basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UP, p) )
+	
+	#3 qp
+	basis.append( BASIS_STATE(UP, mL, UP, mR, DOWN, p) )
+	basis.append( BASIS_STATE(UP, mL, DOWN, mR, UP, p) )
+	basis.append( BASIS_STATE(DOWN, mL, UP, mR, UP, p) )
+
+	basis.append( BASIS_STATE(UPDN, mL, UP, mR, ZERO, p) )
+	basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UP, p) )
+	basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, UP, p) )
+	basis.append( BASIS_STATE(UP, mL, UPDN, mR, ZERO, p) )
+	basis.append( BASIS_STATE(UP, mL, ZERO, mR, UPDN, p) )
+	basis.append( BASIS_STATE(ZERO, mL, UP, mR, UPDN, p) )
+
+	# 5 qp
+	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, UP, p) )
+	basis.append( BASIS_STATE(UPDN, mL, UP, mR, UPDN, p) )
+	basis.append( BASIS_STATE(UP, mL, UPDN, mR, UPDN, p) )
+
+	return basis
+
+def even_computation_basis(mL, mR, p):
+	"""
+	A list of all unique BASIS_STATE with Sz=0.
+	"""
+	basis = []
+	
+	# 0 qp
+	basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, ZERO, p) )
+	
+	# 2 qp
+	basis.append( BASIS_STATE(UP, mL, DOWN, mR, ZERO, p) )
+	basis.append( BASIS_STATE(UP, mL, ZERO, mR, DOWN, p) )
+
+	basis.append( BASIS_STATE(DOWN, mL, UP, mR, ZERO, p) )
+	basis.append( BASIS_STATE(DOWN, mL, ZERO, mR, UP, p) )
+
+	basis.append( BASIS_STATE(ZERO, mL, UP, mR, DOWN, p) )
+	basis.append( BASIS_STATE(ZERO, mL, DOWN, mR, UP, p) )
+	
+	# 4 qp
+	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p) )
+	basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UPDN, p) )
+	basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, UPDN, p) )
+
+	basis.append( BASIS_STATE(UPDN, mL, UP, mR, DOWN, p) )
+	basis.append( BASIS_STATE(UPDN, mL, DOWN, mR, UP, p) )
+
+	basis.append( BASIS_STATE(UP, mL, UPDN, mR, DOWN, p) )
+	basis.append( BASIS_STATE(DOWN, mL, UPDN, mR, UP, p) )
+
+	basis.append( BASIS_STATE(UP, mL, DOWN, mR, UPDN, p) )
+	basis.append( BASIS_STATE(DOWN, mL, UP, mR, UPDN, p) )
+
+	# 6 qp
+	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, UPDN, p) )
+
+	return basis
+
+def generate_computation_basis(n, p):
+	"""
+	Generates a list of all basis states with a given n.
+	"""
+	if n % 2 == 0:
+		computation_basis = even_computation_basis
+	elif n % 2 == 1:
+		computation_basis = odd_computation_basis
+
+	basis = []
+	for mL in range(0, n): #this loop is overkill but whatever
+		for mR in range(0, n):
+			states = computation_basis(mL, mR, p)
+			for state in states:
+				if state.n == n:
+					basis.append(state)
+	basis = np.array( basis, dtype=BASIS_STATE)
+	return basis
+
+def write_vector_in_computation_basis(eigenstate, dM_basis, computation_basis):
+	"""
+	Rewrites a vector from the spin basis to the computation basis. 
+	
+	Iterates over all STATEs in the vector and for each BASIS_STATE adds up the amplitude to the corresponding point in the computation basis vector.
+	"""
+
+	calc_state = np.zeros(len(computation_basis), dtype=complex)
+
+	for i, state in enumerate(dM_basis):
+		state_amp = eigenstate[i]
+		for amp, basis_state in state.amplitudes_and_basis_states:	
+			ndx = my_find_ndx(basis_state, computation_basis ) #finds the index of the basis state in the computation basis list
+			if ndx == None:
+				raise Exception(f"THIS BASIS STATE WAS NOT FOUND IN THE COMPUTATION BASIS! {basis_state}")
+			
+			calc_state[ndx] += amp * state_amp
+	return calc_state
+
+###################################################################################################
+#FUNCTIONS FOR FOURIER TRANSFORM
 
 def fourier_transform_basis(basis, p):
 	"""
@@ -299,7 +409,7 @@ def check_state(state, n, p):
 		return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0)
 		#return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0, state.nqp == 1)
 	else:
-		return check_conditions( [[bstate.n() == n, bstate.L.occupiedLevels() <= p.LL, bstate.R.occupiedLevels() <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
+		return check_conditions( [[bstate.n() == n, bstate.L.occupiedLevels <= p.LL, bstate.R.occupiedLevels <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
 
 def check_conditions(*conditions):
 	"""
@@ -318,6 +428,17 @@ def my_unique(ll):
 		else:
 			tmpL.append(elem)
 	return tmpL
+
+def my_find_ndx(element, compareList):
+	"""
+	Intended to work like np.where but also for the BASIS_STATE class. 
+	Finds the index of the element in the compareList.
+	"""
+
+	for i, el in enumerate(compareList):
+		if element == el:
+			return i
+	return None
 
 
 

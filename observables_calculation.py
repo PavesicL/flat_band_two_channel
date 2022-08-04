@@ -6,6 +6,7 @@ from helper import *
 import cmath
 import os
 from parse_matrices import parse_phi_matrix 
+from matrix import generate_computation_basis, write_vector_in_computation_basis
 ###################################################################################################
 # h5py functions
 
@@ -54,7 +55,7 @@ def print_state(eigenvector, basis, p):
 	printList = sorted(printList, key = lambda x : -abs(x[0]))
 	#printList = sorted(printList, key = lambda x : x[2].dM)
 	for amp, phi, bas in printList:
-		print(f"{amp}	{round(phi, p.print_precision)}	{bas}")		
+		print(f"{amp}	exp({round(phi, 3)}/pi)	{bas}")		
 
 ###################################################################################################
 # OCCUPANCY CALCULATION
@@ -152,7 +153,7 @@ def calculate_phase(eigenvector, basis):
 		for j, a_j in enumerate(eigenvector):
 			if basis[i].QP_state == basis[j].QP_state:
 
-				e_to_iphi +=  a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL + 1 ) * delta( basis[i].mR, basis[j].mR - 1)
+				e_to_iphi +=  a_i.conjugate() * a_j * delta(basis[i].L.M, basis[j].L.M + 1 ) * delta( basis[i].R.M, basis[j].R.M - 1)
 				#e_to_iphi += 0.5 * a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL - 1 ) * delta( basis[i].mR, basis[j].mR + 1)
 
 	size, phi = cmath.polar(e_to_iphi)
@@ -292,7 +293,9 @@ def calculate_nqp(eigenvector, basis):
 	nQP = 0
 	for i, amplitude in enumerate(eigenvector):
 		if amplitude != 0:
-			nQP += abs(amplitude)**2 * (basis[i].nqp_no_imp**2)
+			bState = basis[i]
+			nqp_no_imp = bState.L.qp.n + bState.R.qp.n
+			nQP += abs(amplitude)**2 * nqp_no_imp
 	return nQP
 
 def print_and_save_nqp(sector, h5file, states, basis, p):
@@ -321,6 +324,9 @@ def process_save_and_print_results(d, h5file, p):
 		energies = n_dict["energies"]
 		dM_eigenstates, dM_basis = n_dict["dM_eigenstates"], n_dict["dM_basis"]
 		
+		computational_basis = generate_computation_basis(n, p)
+		computational_eigenstates = [ write_vector_in_computation_basis(eigenstate, dM_basis, computational_basis) for eigenstate in dM_eigenstates ]
+
 		if p.phase_fourier_transform:
 			phi_eigenstates, phi_basis = n_dict["phi_eigenstates"], n_dict["phi_basis"]
 
@@ -334,16 +340,16 @@ def process_save_and_print_results(d, h5file, p):
 			print_states(phi_eigenstates, phi_basis, "phi basis", p)
 
 		if p.calc_occupancies:
-			print_and_save_all_occupancies(sector, h5file, dM_eigenstates, dM_basis, p)
+			print_and_save_all_occupancies(sector, h5file, computational_eigenstates, computational_basis, p)
 		if p.calc_dMs:
-			print_and_save_dMs(sector, h5file, dM_eigenstates, dM_basis, p)
+			print_and_save_dMs(sector, h5file, computational_eigenstates, computational_basis, p)
 		if p.calc_phase:
-			print_and_save_all_phases(sector, h5file, dM_eigenstates, dM_basis, p)
+			print_and_save_all_phases(sector, h5file, computational_eigenstates, computational_basis, p)
 		if p.calc_QP_phase:
-			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p)
+			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p) #this depends on matrix elements written in the dM_basis
 		if p.calc_abs_phase:
 			print_and_save_abs_phis(sector, h5file, phi_eigenstates, phi_basis, p)
 		if p.save_phi_amplitudes:
 			print_and_save_phi_amplitudes(sector, h5file, phi_eigenstates, phi_basis, p)
 		if p.calc_nqp:
-			print_and_save_nqp(sector, h5file, dM_eigenstates, dM_basis, p)
+			print_and_save_nqp(sector, h5file, computational_eigenstates, computational_basis, p)
