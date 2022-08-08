@@ -19,7 +19,7 @@ def diagonalize_subspace(n, p):
 	Returns a dictionary with energies, eigenvalues and the basis.
 	"""
 	start = time.time()
-
+	
 	print(f"In the subspace with {n} particles.\n")
 	results_dict = {}
 

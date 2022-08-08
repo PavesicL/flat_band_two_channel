@@ -3,7 +3,7 @@
 
 N = 5
 nref = 5
-nrange = 0
+nrange = 1
 
 alpha_L = 1
 alpha_R = 1
@@ -17,10 +17,10 @@ gamma_R = 0.1
 #v_L = 0.01
 #v_R = 0.01
 
-Ec_L = 0.
+Ec_L = 0
 Ec_R = 0.
 
-n0_L = 2 
+n0_L = 2
 n0_R = 2
 
 print_states = 1
@@ -40,9 +40,8 @@ num_states_to_save = 15
 
 
 calc_occupancies = true
-calc_dMs = false
+calc_dMs = true
 calc_phase = false
 calc_QP_phase = false
 calc_abs_phase = false
 save_phi_amplitudes = false
-calc_nqp = true

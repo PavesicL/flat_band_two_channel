@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 
-from helper import *
+from helper import STATE, BASIS_STATE, PHI_STATE, UP, DOWN, ZERO, UPDN
 from parse_matrices import parse_hopping_matrix
 import numpy as np
 import cmath
 import os
+
+import sys
+path_to_my_second_quantization = os.environ["MY_SECOND_QUANTIZATION_PATH"]
+sys.path.insert(1, path_to_my_second_quantization)
+import operators as op
+from operators import BASIS_STATE as COMP_B_STATE
+from operators import STATE as COMP_STATE
+from bitwise_ops import generate_Sz_basis
 ###################################################################################################
 #GENERAL BASIS GENERATION
 
@@ -229,7 +237,7 @@ def unzip(zipped_object):
 ###################################################################################################
 #COMPUTATION BASIS - basis with unique basis states with (n, Sz). Used for calculations of properties.
 
-def odd_computation_basis(mL, mR, p):
+def odd_computation_basis_OLD(mL, mR, p):
 	"""
 	A list of all unique BASIS_STATE with Sz=1/2.
 	"""
@@ -259,7 +267,7 @@ def odd_computation_basis(mL, mR, p):
 
 	return basis
 
-def even_computation_basis(mL, mR, p):
+def even_computation_basis_OLD(mL, mR, p):
 	"""
 	A list of all unique BASIS_STATE with Sz=0.
 	"""
@@ -301,24 +309,42 @@ def even_computation_basis(mL, mR, p):
 
 	return basis
 
+def computation_basis(Sz, mL, mR):
+	"""
+	Generates op.BASIS_STATES with a given Sz on three sites (imp, L, R) 
+	and mL and mR as additional quantum numbers. 
+	"""
+	basis_states = generate_Sz_basis(Sz=Sz, N=3)
+	basis = []
+	for m in basis_states:
+		basis.append( COMP_B_STATE( bitstring = m, mL = mL, mR = mR ) )
+	basis = sorted(basis)
+	basis = np.array(basis, dtype=object)	
+	return basis
+
 def generate_computation_basis(n, p):
 	"""
 	Generates a list of all basis states with a given n.
 	"""
-	if n % 2 == 0:
-		computation_basis = even_computation_basis
-	elif n % 2 == 1:
-		computation_basis = odd_computation_basis
-
+	Sz = (n%2)/2
 	basis = []
 	for mL in range(0, n): #this loop is overkill but whatever
 		for mR in range(0, n):
-			states = computation_basis(mL, mR, p)
-			for state in states:
-				if state.n == n:
+			this_basis = computation_basis(Sz, mL, mR)
+			for state in this_basis:
+				if state.n + 2 * (mL + mR) == n:
 					basis.append(state)
-	basis = np.array( basis, dtype=BASIS_STATE)
+
+	basis = np.array( sorted(basis), dtype=op.BASIS_STATE)
 	return basis
+
+def dM_basis_to_calc_basis(dM_basis_state):
+	"""
+	Writes a basis state in the dM basis into BASIS_STATE type from my_second_quantization, 
+	where mL and mR are quantum numbers and the QP_STATE is a bitstring.
+	"""
+	bitstring = dM_basis_state.QP_state.bitstring()
+	return COMP_B_STATE( bitstring = bitstring, mL = dM_basis_state.L.M, mR = dM_basis_state.R.M)
 
 def write_vector_in_computation_basis(eigenstate, dM_basis, computation_basis):
 	"""
@@ -326,18 +352,19 @@ def write_vector_in_computation_basis(eigenstate, dM_basis, computation_basis):
 	
 	Iterates over all STATEs in the vector and for each BASIS_STATE adds up the amplitude to the corresponding point in the computation basis vector.
 	"""
+	comp_vector = np.zeros(len(computation_basis), dtype=complex)
 
-	calc_state = np.zeros(len(computation_basis), dtype=complex)
-
-	for i, state in enumerate(dM_basis):
+	for i, dM_state in enumerate(dM_basis):
 		state_amp = eigenstate[i]
-		for amp, basis_state in state.amplitudes_and_basis_states:	
-			ndx = my_find_ndx(basis_state, computation_basis ) #finds the index of the basis state in the computation basis list
+		for amp, dM_basis_state in dM_state.amplitudes_and_basis_states:
+			corresponding_calc_basis_state = dM_basis_to_calc_basis(dM_basis_state)
+			ndx = my_find_ndx(corresponding_calc_basis_state, computation_basis) #finds the index of the basis state in the computation basis list
 			if ndx == None:
-				raise Exception(f"THIS BASIS STATE WAS NOT FOUND IN THE COMPUTATION BASIS! {basis_state}")
+				raise Exception(f"THIS BASIS STATE WAS NOT FOUND IN THE COMPUTATION BASIS! {dM_basis_state}")
 			
-			calc_state[ndx] += amp * state_amp
-	return calc_state
+			comp_vector[ndx] += amp * state_amp
+	comp_state = COMP_STATE(vector = comp_vector, basis = computation_basis, N = 3)
+	return comp_state
 
 ###################################################################################################
 #FUNCTIONS FOR FOURIER TRANSFORM
@@ -438,7 +465,6 @@ def my_find_ndx(element, compareList):
 	Intended to work like np.where but also for the BASIS_STATE class. 
 	Finds the index of the element in the compareList.
 	"""
-
 	for i, el in enumerate(compareList):
 		if element == el:
 			return i

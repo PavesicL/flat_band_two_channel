@@ -57,6 +57,7 @@ class params:
 	calc_abs_phase: bool = True
 	save_phi_amplitudes: bool = False
 	calc_nqp: bool = True
+	calc_imp_spin_correlations: bool = True
 	
 	save_all_states: bool = False
 	num_states_to_save: int = 10
@@ -200,9 +201,24 @@ class QP(Enum):
 		self.Sz = Sz
 		self.n = n
 
+	@property
+	def bit_integer(self):
+		"""
+		The returned value in bitstring form corresponds to the occupation
+		basis vector for the QP state.
+		"""
+		if self == ZERO:
+			return 0
+		elif self == DOWN:
+			return 1
+		elif self == UP:
+			return 2
+		elif self == UPDN:
+			return 3
+
 	@classmethod
 	def export_to(cls, namespace):
-	    namespace.update(cls.__members__)
+	    namespace.update(cls.__members__) 
 
 	def __str__(self):
 		"""
@@ -225,6 +241,10 @@ class QP_STATE:
 		self.nqp = qp_imp.n + qp_L.n + qp_R.n
 		self.nqpSC = qp_L.n + qp_R.n
 		self.Sz = qp_imp.Sz + qp_L.Sz + qp_R.Sz
+
+	def bitstring(self):
+		return self.qp_R.bit_integer + ( 4 * self.qp_L.bit_integer ) + ( 16 * self.qp_imp.bit_integer ) 
+
 
 	def __repr__(self):
 		return f"({str(self.qp_imp)}, {str(self.qp_L)}, {str(self.qp_R)})"
@@ -329,6 +349,17 @@ class BASIS_STATE:
 	def n(self):
 		return self.imp.n + self.L.n + self.R.n
 
+	@property
+	def qp_bit_integer(self):
+		"""
+		Returns the bitstring corresponding to the qp state. 
+		"""
+		tot = 0
+		tot += self.imp.state.bit_integer 	* 2**4
+		tot += self.L.qp.bit_integer 	* 2**2
+		tot += self.R.qp.bit_integer 	* 2**0
+		return tot
+
 	def __str__(self):
 		return f"|{self.imp.state}, {self.L.M}, {self.L.qp}, {self.R.M}, {self.R.qp}>"
 
@@ -392,21 +423,21 @@ class STATE:
 	def nimp(self):
 		n = 0
 		for i, bs in enumerate(self.basis_states):
-			n += self.amplitudes[i]**2 * bs.imp.n()
+			n += self.amplitudes[i]**2 * bs.imp.n
 		return n
 
 	@property
 	def nL(self):
 		n = 0
 		for i, bs in enumerate(self.basis_states):
-			n += self.amplitudes[i]**2 * bs.L.n()
+			n += self.amplitudes[i]**2 * bs.L.n
 		return n
 
 	@property
 	def nR(self):
 		n = 0
 		for i, bs in enumerate(self.basis_states):
-			n += self.amplitudes[i]**2 * bs.R.n()
+			n += self.amplitudes[i]**2 * bs.R.n
 		return n
 
 	def __str__(self):

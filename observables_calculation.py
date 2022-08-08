@@ -7,6 +7,11 @@ import cmath
 import os
 from parse_matrices import parse_phi_matrix 
 from matrix import generate_computation_basis, write_vector_in_computation_basis
+
+import sys, os
+path_to_my_second_quantization = os.environ["MY_SECOND_QUANTIZATION_PATH"]
+sys.path.insert(1, path_to_my_second_quantization)
+import operators as op
 ###################################################################################################
 # h5py functions
 
@@ -60,17 +65,18 @@ def print_state(eigenvector, basis, p):
 ###################################################################################################
 # OCCUPANCY CALCULATION
 
-def calculate_occupancy(eigenvector, basis):
+def calculate_occupancy(dM_eigenvector, dM_basis):
 	"""
 	Calculates the occupancy in all parts of the system for a given eigenvector.
 	"""
 	nimp, nL, nR = 0, 0, 0
-	for i, amplitude in enumerate(eigenvector):
+	nqp = 0
+	for i, amplitude in enumerate(dM_eigenvector):
 		if amplitude != 0:
-			nimp += abs(amplitude)**2 * basis[i].nimp
-			nL += abs(amplitude)**2 * basis[i].nL
-			nR += abs(amplitude)**2 * basis[i].nR
-	return nimp, nL, nR	
+			nimp += abs(amplitude)**2 * dM_basis[i].nimp
+			nL += abs(amplitude)**2 * dM_basis[i].nL
+			nR += abs(amplitude)**2 * dM_basis[i].nR
+	return nimp, nL, nR
 
 def print_and_save_all_occupancies(sector, h5file, states, basis, p):
 	n, Sz = sector
@@ -81,8 +87,9 @@ def print_and_save_all_occupancies(sector, h5file, states, basis, p):
 		h5dump(h5file, f"{n}/{Sz}/{i}/nimp/", nimp)
 		h5dump(h5file, f"{n}/{Sz}/{i}/nL/", nL)
 		h5dump(h5file, f"{n}/{Sz}/{i}/nR/", nR)
-
+	
 		ns += f"({round(nimp, p.print_precision)}, {round(nL, p.print_precision)}, {round(nR, p.print_precision)}) "
+	
 	print(f"occupation: {ns}")	
 
 ###################################################################################################
@@ -140,39 +147,6 @@ def print_and_save_dMs(sector, h5file, states, basis, p):
 		dM2s += f"{round(dM2, p.print_precision)} "
 	print(f"dM: {dMs}")	
 	print(f"dM2: {dM2s}")	
-
-###################################################################################################
-# PHASE CALCULATION
-
-def calculate_phase(eigenvector, basis):
-	"""
-	This is equivalent to Eq. (3) form https://arxiv.org/pdf/cond-mat/0305361.pdf
-	"""
-	e_to_iphi = 0 + 0 * 1j
-	for i, a_i in enumerate(eigenvector):
-		for j, a_j in enumerate(eigenvector):
-			if basis[i].QP_state == basis[j].QP_state:
-
-				e_to_iphi +=  a_i.conjugate() * a_j * delta(basis[i].L.M, basis[j].L.M + 1 ) * delta( basis[i].R.M, basis[j].R.M - 1)
-				#e_to_iphi += 0.5 * a_i.conjugate() * a_j * delta(basis[i].mL, basis[j].mL - 1 ) * delta( basis[i].mR, basis[j].mR + 1)
-
-	size, phi = cmath.polar(e_to_iphi)
-	return size, phi
-
-def print_and_save_all_phases(sector, h5file, states, basis, p):
-	n, Sz = sector
-
-	sizes, phis = "", ""
-	for i, state in enumerate(states):
-		size, phi = calculate_phase(state, basis)
-
-		h5dump(h5file, f"{n}/{Sz}/{i}/phi/", phi)
-		h5dump(h5file, f"{n}/{Sz}/{i}/phi_size/", size)
-
-		phis += f"{round(phi/np.pi, p.print_precision)} "
-		sizes += f"{round(size, p.print_precision)} "
-	print(f"phi/pi: {phis}")	
-	print(f"phi size: {sizes}")
 
 ###################################################################################################
 # QP PHASE CALCULATION
@@ -288,27 +262,77 @@ def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
 ###################################################################################################
 # NUMBER OF QUASIPARTICLES
 
-def calculate_nqp(eigenvector, basis):
+def calculate_nqp(comp_eigenstate):
+	"""
+	Calculates the number of quasiparticles in the SC channels.
+	"""
+	
+	nOp = lambda i, s : op.OPERATOR_STRING( op.OPERATOR( "n", i, s ) )	
 
-	nQP = 0
-	for i, amplitude in enumerate(eigenvector):
-		if amplitude != 0:
-			bState = basis[i]
-			nqp_no_imp = bState.L.qp.n + bState.R.qp.n
-			nQP += abs(amplitude)**2 * nqp_no_imp
-	return nQP
+	nL = op.expectedValue( nOp(1, "UP"), comp_eigenstate ) + op.expectedValue( nOp(1, "DOWN"), comp_eigenstate )
+	nR = op.expectedValue( nOp(2, "UP"), comp_eigenstate ) + op.expectedValue( nOp(2, "DOWN"), comp_eigenstate )
+	return np.real( nL + nR )
 
-def print_and_save_nqp(sector, h5file, states, basis, p):
+def print_and_save_nqp(sector, h5file, states, p):
 	n, Sz = sector
 
 	nqps = ""
 	for i, state in enumerate(states):
-		nqp = calculate_nqp(state, basis)			
+		nqp = calculate_nqp(state)			
 		
 		h5dump(h5file, f"{n}/{Sz}/{i}/nqp/", nqp)
 
 		nqps += f"{round(nqp, p.print_precision)} "
 	print(f"nqp: {nqps}")	
+
+###################################################################################################
+# SPIN CORRELATIONS
+
+def calc_SS(comp_eigenstate, i, j):
+	"""
+	Spin correlations are S_i . S_j = Sz.Sz + 0.5 ( S+.S- + S-.S+ ).
+	"""
+
+	SzSzOp = op.OPERATOR_STRING( ("Sz", i), ("Sz", j) )
+	#SpSmOp = op.OPERATOR_STRING( op.OPERATOR("cdag", i, "UP"), op.OPERATOR("c", i, "DOWN"), op.OPERATOR("c", i, "DOWN"), op.OPERATOR("c", i, "DOWN") )
+	SpSmOp = op.OPERATOR_STRING( ("cdag", i, "UP"), ("c", i, "DOWN"), ("cdag", j, "DOWN"), ("c", j, "UP") )
+	SpSmOp = op.OPERATOR_STRING( ("cdag", i, "DOWN"), ("c", i, "UP"), ("cdag", j, "UP"), ("c", j, "DOWN") )
+
+	ss = op.expectedValue( SzSzOp, comp_eigenstate )
+	spsm = op.expectedValue( SpSmOp, comp_eigenstate )
+	smsp = op.expectedValue( SpSmOp, comp_eigenstate )
+
+	return np.real(ss + 0.5 * ( spsm + smsp ))
+
+def print_and_save_imp_spin_correlations(sector, h5file, computational_eigenstates, p):
+	n, Sz = sector
+
+	impimps, impLs, impRs = "", "", ""
+	for i, state in enumerate(computational_eigenstates):
+		impimp = calc_SS(state, 0, 0)
+		LL = calc_SS(state, 1, 1)
+		RR = calc_SS(state, 2, 2)
+
+		impL = calc_SS(state, 0, 1)
+		impR = calc_SS(state, 0, 2)
+		LR = calc_SS(state, 1, 2)
+		
+		h5dump(h5file, f"{n}/{Sz}/{i}/SS/impimp/", impimp)
+		h5dump(h5file, f"{n}/{Sz}/{i}/SS/LL/", LL)
+		h5dump(h5file, f"{n}/{Sz}/{i}/SS/RR/", RR)
+		h5dump(h5file, f"{n}/{Sz}/{i}/SS/impL/", impL)
+		h5dump(h5file, f"{n}/{Sz}/{i}/SS/impR/", impR)
+		h5dump(h5file, f"{n}/{Sz}/{i}/SS/LR/", LR)
+
+		impimps += f"{round(impimp, p.print_precision)} "
+		impLs += f"{round(impL, p.print_precision)} "
+		impRs += f"{round(impR, p.print_precision)} "
+	print(f"Simp.Simp: {impimps}")
+	print(f"Simp.Sl: {impLs}")
+	print(f"Simp.Sr: {impRs}")
+	
+
+
 
 ###################################################################################################
 # PRINTING RESULTS
@@ -323,7 +347,8 @@ def process_save_and_print_results(d, h5file, p):
 		n_dict = d[sector]
 		energies = n_dict["energies"]
 		dM_eigenstates, dM_basis = n_dict["dM_eigenstates"], n_dict["dM_basis"]
-		
+
+		# THE COMPUTATIONAL BASIS IS USEFUL FOR EXTRACTING QUANTITIES WHICH ARE NOT GOOD QUANTUM NUMBERS		
 		computational_basis = generate_computation_basis(n, p)
 		computational_eigenstates = [ write_vector_in_computation_basis(eigenstate, dM_basis, computational_basis) for eigenstate in dM_eigenstates ]
 
@@ -338,13 +363,10 @@ def process_save_and_print_results(d, h5file, p):
 		
 		if p.phase_fourier_transform:
 			print_states(phi_eigenstates, phi_basis, "phi basis", p)
-
 		if p.calc_occupancies:
-			print_and_save_all_occupancies(sector, h5file, computational_eigenstates, computational_basis, p)
+			print_and_save_all_occupancies(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_dMs:
-			print_and_save_dMs(sector, h5file, computational_eigenstates, computational_basis, p)
-		if p.calc_phase:
-			print_and_save_all_phases(sector, h5file, computational_eigenstates, computational_basis, p)
+			print_and_save_dMs(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_QP_phase:
 			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p) #this depends on matrix elements written in the dM_basis
 		if p.calc_abs_phase:
@@ -352,4 +374,6 @@ def process_save_and_print_results(d, h5file, p):
 		if p.save_phi_amplitudes:
 			print_and_save_phi_amplitudes(sector, h5file, phi_eigenstates, phi_basis, p)
 		if p.calc_nqp:
-			print_and_save_nqp(sector, h5file, computational_eigenstates, computational_basis, p)
+			print_and_save_nqp(sector, h5file, computational_eigenstates, p)
+		if p.calc_imp_spin_correlations:
+			print_and_save_imp_spin_correlations(sector, h5file, computational_eigenstates, p)
