@@ -296,11 +296,11 @@ def calc_SS(comp_eigenstate, i, j):
 	SzSzOp = op.OPERATOR_STRING( ("Sz", i), ("Sz", j) )
 	#SpSmOp = op.OPERATOR_STRING( op.OPERATOR("cdag", i, "UP"), op.OPERATOR("c", i, "DOWN"), op.OPERATOR("c", i, "DOWN"), op.OPERATOR("c", i, "DOWN") )
 	SpSmOp = op.OPERATOR_STRING( ("cdag", i, "UP"), ("c", i, "DOWN"), ("cdag", j, "DOWN"), ("c", j, "UP") )
-	SpSmOp = op.OPERATOR_STRING( ("cdag", i, "DOWN"), ("c", i, "UP"), ("cdag", j, "UP"), ("c", j, "DOWN") )
+	SmSpOp = op.OPERATOR_STRING( ("cdag", i, "DOWN"), ("c", i, "UP"), ("cdag", j, "UP"), ("c", j, "DOWN") )
 
 	ss = op.expectedValue( SzSzOp, comp_eigenstate )
 	spsm = op.expectedValue( SpSmOp, comp_eigenstate )
-	smsp = op.expectedValue( SpSmOp, comp_eigenstate )
+	smsp = op.expectedValue( SmSpOp, comp_eigenstate )
 
 	return np.real(ss + 0.5 * ( spsm + smsp ))
 
