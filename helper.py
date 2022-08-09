@@ -55,10 +55,11 @@ class params:
 	calc_phase: bool = True
 	calc_QP_phase: bool = True
 	calc_abs_phase: bool = True
+	save_dM_amplitudes: bool = False
 	save_phi_amplitudes: bool = False
 	calc_nqp: bool = True
 	calc_imp_spin_correlations: bool = True
-	
+
 	save_all_states: bool = False
 	num_states_to_save: int = 10
 	parallel: bool = False

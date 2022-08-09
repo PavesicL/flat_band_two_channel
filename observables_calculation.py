@@ -115,21 +115,6 @@ def calculate_delta_M2(eigenvector, basis):
 			dM2 += abs(amplitude)**2 * (basis[i].dM**2)
 	return dM2	
 
-def calculate_delta_M_amplitudes(n, eigenvector, basis):
-	"""
-	Returns the list of abs(amplitude) for each dM. 
-	So summing over QP states, what is the amplitude of each dM in the eigenvector.
-	"""
-	dMmax = n//2
-
-	res = np.zeros(1 + 2*dMmax)
-	for i, amplitude in enumerate(eigenvector):
-		state = basis[i]
-		for dM in range(-dMmax,	dMmax+1):
-			if state.dM == dM:
-				res[dM + dMmax] += abs(amplitude)**2 # for dM == -dMmax, this will go to res[0]
-	return res			
-
 def print_and_save_dMs(sector, h5file, states, basis, p):
 	n, Sz = sector
 
@@ -137,11 +122,9 @@ def print_and_save_dMs(sector, h5file, states, basis, p):
 	for i, state in enumerate(states):
 		dM = calculate_delta_M(state, basis)			
 		dM2 = calculate_delta_M2(state, basis)			
-		amplitudes = calculate_delta_M_amplitudes(n, state, basis)	
 
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM/", dM)
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM2/", dM2)
-		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/", amplitudes)
 
 		dMs += f"{round(dM, p.print_precision)} "
 		dM2s += f"{round(dM2, p.print_precision)} "
@@ -230,6 +213,30 @@ def print_and_save_abs_phis(sector, h5file, states, phi_basis, p):
 	print(f"abs phi^2: {abs_phi2s}")	
 
 ###################################################################################################
+# dM AMPLITUDES - SAVE THE AMPLITUDES OF ALL EIGENVECTORS IN THE dM BASIS
+
+def get_delta_Ms_and_amps(dM_eigenvector, dM_basis):
+	"""
+	Returns the list of abs(amplitude) for each dM. 
+	So summing over QP states, what is the amplitude of each dM in the eigenvector.
+	"""
+	dMs, nqps, amps = [], [], []
+	for i, state in enumerate(dM_basis):
+		dMs.append( state.dM )
+		nqps.append( state.nqp )
+		amps.append( abs( dM_eigenvector[i] )**2 )
+	return dMs, nqps, amps	
+
+def print_and_save_dM_amplitudes(sector, h5file, states, basis, p):
+	n, Sz = sector
+	for i, state in enumerate(states):
+		dMs, nqps, amplitudes = calculate_delta_M_amplitudes(state, basis)	
+		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/dMs/", dMs)
+		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/nqps/", nqps)
+		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/amplitudes/", amplitudes)
+	print(f"{i} dM vectors saved")	
+
+###################################################################################################
 # SAVE THE AMPLITUDES OF ALL EIGENVECTORS IN THE phi BASIS
 
 def get_phis_and_amps(state, phi_basis):
@@ -250,14 +257,13 @@ def get_phis_and_amps(state, phi_basis):
 
 def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
 	n, Sz = sector
-
 	for i, state in enumerate(states):
-		phis, nqps, nqpSCs, amps = get_phis_and_amps(state, phi_basis)	
-
-		h5dump(h5file, f"{n}/{Sz}/{i}/all_phis/", phis)
-		h5dump(h5file, f"{n}/{Sz}/{i}/all_nqps/", nqps)
-		h5dump(h5file, f"{n}/{Sz}/{i}/all_nqpSCs/", nqpSCs)
-		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amps/", amps)
+		phis, nqps, nqpSCs, amplitudes = get_phis_and_amps(state, phi_basis)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amplitudes/phis/", phis)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amplitudes/nqps/", nqps)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amplitudes/nqpSCs/", nqpSCs)
+		h5dump(h5file, f"{n}/{Sz}/{i}/phi_amplitudes/amplitudes/", amplitudes)
+	print(f"{i} phi vectors saved")	
 
 ###################################################################################################
 # NUMBER OF QUASIPARTICLES
@@ -331,9 +337,6 @@ def print_and_save_imp_spin_correlations(sector, h5file, computational_eigenstat
 	print(f"Simp.Sl: {impLs}")
 	print(f"Simp.Sr: {impRs}")
 	
-
-
-
 ###################################################################################################
 # PRINTING RESULTS
 
@@ -371,6 +374,8 @@ def process_save_and_print_results(d, h5file, p):
 			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p) #this depends on matrix elements written in the dM_basis
 		if p.calc_abs_phase:
 			print_and_save_abs_phis(sector, h5file, phi_eigenstates, phi_basis, p)
+		if p.save_dM_amplitudes:
+			print_and_save_dM_amplitudes(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.save_phi_amplitudes:
 			print_and_save_phi_amplitudes(sector, h5file, phi_eigenstates, phi_basis, p)
 		if p.calc_nqp:
