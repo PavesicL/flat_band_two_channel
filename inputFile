@@ -44,4 +44,5 @@ calc_dMs = true
 calc_phase = false
 calc_QP_phase = false
 calc_abs_phase = false
-save_phi_amplitudes = false
+save_phi_amplitudes = true
+save_dM_amplitudes = true

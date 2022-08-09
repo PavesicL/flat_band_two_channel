@@ -230,7 +230,7 @@ def get_delta_Ms_and_amps(dM_eigenvector, dM_basis):
 def print_and_save_dM_amplitudes(sector, h5file, states, basis, p):
 	n, Sz = sector
 	for i, state in enumerate(states):
-		dMs, nqps, amplitudes = calculate_delta_M_amplitudes(state, basis)	
+		dMs, nqps, amplitudes = get_delta_Ms_and_amps(state, basis)	
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/dMs/", dMs)
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/nqps/", nqps)
 		h5dump(h5file, f"{n}/{Sz}/{i}/dM_amplitudes/amplitudes/", amplitudes)
