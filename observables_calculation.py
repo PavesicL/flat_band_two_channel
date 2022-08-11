@@ -36,7 +36,9 @@ def print_and_save_energies(sector, n_dict, h5file, p):
 	for i, E in enumerate(n_dict["energies"]):
 		h5dump(h5file, f"{n}/{Sz}/{i}/E/", E)
 
-		Estr += f"{round(E - p.U/2, p.print_precision)}, "
+		if not p.turn_off_all_finite_size_effects: #to compare this with Lanczos/DMRG	
+			E -= -p.U/2
+		Estr += f"{round(E, p.print_precision)}, "
 	Estr = Estr[:-2]	
 	print(Estr)
 

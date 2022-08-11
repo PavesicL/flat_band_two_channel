@@ -105,8 +105,6 @@ def generate_full_basis(subspace, n, p):
 	"""
 	basis, indexList = [], []
 
-	print("AND HERE!!")
-
 	if subspace == "singlet":
 		general_basis = singlet_basis_states
 	if subspace == "doublet":
@@ -115,7 +113,6 @@ def generate_full_basis(subspace, n, p):
 	for mL in range(p.LL+1):
 		for mR in range(p.LL+1):
 			for i, state in enumerate(general_basis(mL, mR, p)):
-				print(state, check_state(state, n, p), n)
 				if check_state(state, n, p):
 					basis.append(state)
 					indexList.append(i)
@@ -137,8 +134,6 @@ def generate_hopping_matrix(subspace, n, p):
 
 	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
 	full_basis, indexList = generate_full_basis(subspace, n, p)
-
-	print("AAAA HERE")
 
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
 	for i, si in enumerate(full_basis):
@@ -170,7 +165,7 @@ def generate_hopping_matrix(subspace, n, p):
 					H[j, i] += np.conj(p_val)
 	
 				"""
-				#this is the hooping in the other direction but does not work for some reason. But we know that it should be hermitian.
+				#this is the hopping in the other direction but does not work for some reason. But we know that it should be hermitian.
 				elif si.dM == -Mmaxi and sj.dM == Mmaxj:
 					p_val = general_hopping_matrix[i_ind][j_ind](mL=1, mR=Mmaxi-1, nL=0, nR=Mmaxj, vL=p.v_L, vR=p.v_R, l=p.LL)
 				"""
@@ -450,7 +445,6 @@ def check_state(state, n, p):
 			return False
 		else:
 			return True
-		#return check_conditions( [[bstate.n == n, bstate.L.occupiedLevels <= p.LL, bstate.R.occupiedLevels <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
 
 def check_conditions(*conditions):
 	"""
