@@ -59,7 +59,8 @@ class params:
 	save_phi_amplitudes: bool = False
 	calc_nqp: bool = True
 	calc_imp_spin_correlations: bool = True
-
+	calc_parity: bool = True
+	
 	save_all_states: bool = False
 	num_states_to_save: int = 10
 	parallel: bool = False
@@ -134,7 +135,7 @@ class params:
 
 	def set_default(self, paramName, defaultValue):
 		"""
-		Given the name of a parameter (string!), sets its default value if it is currently nan.
+		Given the name of a parameter (string!), sets its default value if it is currently unpecified.
 		"""
 		if self.unspecified_default(paramName):
 			object.__setattr__(self, paramName, defaultValue)

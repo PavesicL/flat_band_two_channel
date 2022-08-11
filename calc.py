@@ -35,10 +35,12 @@ def diagonalize_subspace(n, p):
 
 	if p.reorder_matrix_dM:
 		mat, bas = reorder_matrix_dM(mat, bas)	
+		print("Reordered into dM blocks.")
 
 	if p.phase_fourier_transform:
 		mat, basis_transformation_matrix, phi_basis = fourier_transform_matrix(mat, bas, p)
 		#mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list) #THIS HAS A BUG! ALSO, IS NOT THAT IMPORTANT. REMOVE IT?
+		print("Fourier transformed.")
 	else:
 		basis_transformation_matrix = np.identity(len(bas))	
 

@@ -12,6 +12,7 @@ import sys, os
 path_to_my_second_quantization = os.environ["MY_SECOND_QUANTIZATION_PATH"]
 sys.path.insert(1, path_to_my_second_quantization)
 import operators as op
+import bitwise_ops as bo
 ###################################################################################################
 # h5py functions
 
@@ -35,7 +36,7 @@ def print_and_save_energies(sector, n_dict, h5file, p):
 	for i, E in enumerate(n_dict["energies"]):
 		h5dump(h5file, f"{n}/{Sz}/{i}/E/", E)
 
-		Estr += f"{round(E, p.print_precision)}, "
+		Estr += f"{round(E - p.U/2, p.print_precision)}, "
 	Estr = Estr[:-2]	
 	print(Estr)
 
@@ -338,6 +339,97 @@ def print_and_save_imp_spin_correlations(sector, h5file, computational_eigenstat
 	print(f"Simp.Sr: {impRs}")
 	
 ###################################################################################################
+# PARITY
+
+def parity_transform_bitstring(bitstring):
+	"""
+	We know that this is a bitstring for 3 sites. The IMP level is left alone, L and R are switched. 
+	If L and R both have occupancy 1, get a -1 prefactor, otherwise +1.
+	This is the most direct way to do this, but probably transparent and good enough.
+	"""
+	prefactor = 1
+	new_bitstring = 0
+
+	impUp = bo.bit(bitstring, 5)
+	impDn = bo.bit(bitstring, 4)
+	LUp = bo.bit(bitstring, 3)
+	LDn = bo.bit(bitstring, 2)
+	RUp = bo.bit(bitstring, 1)
+	RDn = bo.bit(bitstring, 0)
+	
+	if LUp + LDn == 1 and RUp + RDn == 1:
+		prefactor *= -1
+
+	#now switch R and L
+	new_bitstring += 1 * LDn + 2 * LUp
+	new_bitstring += 4 * RDn + 8 * RUp
+	new_bitstring += 16 * impDn + 32 * impUp
+
+	return new_bitstring, prefactor
+
+def apply_parity_op(state):
+	"""
+	Transforms the basis string and switches mL and mR.
+	When both L and R have one particle, the vector gets a -1 prefactor.
+	"""
+
+	new_vector, new_basis = [], []
+	for i, basis_state in enumerate(state.basis):
+
+
+		new_bitstring, prefactor = parity_transform_bitstring( basis_state.bitstring )
+		new_mL = basis_state.quantum_numbers["mR"]
+		new_mR = basis_state.quantum_numbers["mL"]
+
+		new_basis.append(op.BASIS_STATE( bitstring = new_bitstring, mL = new_mL, mR = new_mR ))	
+		new_vector.append( prefactor * state.vector[i] )
+
+		"""
+		if state.vector[i] != 0:
+			print()
+			print("basis state: ", basis_state)
+			print("new basis state: ", op.BASIS_STATE( bitstring = new_bitstring, mL = new_mL, mR = new_mR ))
+			print(state.vector[i], prefactor, prefactor * state.vector[i])
+		"""
+
+	new_vector, new_basis = zip(*sorted(zip(new_vector, new_basis), key= lambda x : x[1]))
+	res = np.dot( np.conjugate(state.vector), new_vector )
+	"""
+	print(f"Parity is: {res}\n")
+	print("INITIAL STATE:")
+	print(state)
+	print("Resulting state is:")
+	print(op.STATE( vector = np.array(new_vector, dtype=complex), basis = np.array(new_basis, dtype=op.BASIS_STATE), N=state.N) )
+	print("DONE\n\n")
+	"""
+	return op.STATE( vector = np.array(new_vector, dtype=complex), basis = np.array(new_basis, dtype=op.BASIS_STATE), N=state.N)
+
+def calculate_parity(calc_state):
+	"""
+	The space parity operator transforms the creation operators in L to the ones in R and opposite.
+	So a given string of cdag_L cdag_R -> cdag_R cdag_L.
+	Then, these have to be reshuffled back into original IMP, L, R order. 
+	Pairs do not gain a prefactor, so mL and mR can simply be exchanged. 
+	The QP_STATE can gain a prefactor only if there is one particle in L AND one in R. 
+	This is the only way one gets a single commutation and thus a minus.
+	"""
+	P_state = apply_parity_op(calc_state)
+	return np.real( np.dot( np.conjugate(calc_state.vector), P_state.vector ) )
+
+def print_and_save_parity(sector, h5file, calc_states, p):
+	n, Sz = sector
+
+	Ps = ""
+	Psum = 0
+	for i, state in enumerate(calc_states):
+		P = calculate_parity(state)
+		h5dump(h5file, f"{n}/{Sz}/{i}/parity/", P)
+		Ps += f"{round(P, p.print_precision)} "
+		Psum += P
+	print(f"parity: {Ps}")
+	print(f"sum of all Ps (should be integer): {Psum}")
+
+###################################################################################################
 # PRINTING RESULTS
 
 def process_save_and_print_results(d, h5file, p):
@@ -382,3 +474,5 @@ def process_save_and_print_results(d, h5file, p):
 			print_and_save_nqp(sector, h5file, computational_eigenstates, p)
 		if p.calc_imp_spin_correlations:
 			print_and_save_imp_spin_correlations(sector, h5file, computational_eigenstates, p)
+		if p.calc_parity:
+			print_and_save_parity(sector, h5file, computational_eigenstates, p)

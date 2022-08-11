@@ -105,6 +105,8 @@ def generate_full_basis(subspace, n, p):
 	"""
 	basis, indexList = [], []
 
+	print("AND HERE!!")
+
 	if subspace == "singlet":
 		general_basis = singlet_basis_states
 	if subspace == "doublet":
@@ -113,6 +115,7 @@ def generate_full_basis(subspace, n, p):
 	for mL in range(p.LL+1):
 		for mR in range(p.LL+1):
 			for i, state in enumerate(general_basis(mL, mR, p)):
+				print(state, check_state(state, n, p), n)
 				if check_state(state, n, p):
 					basis.append(state)
 					indexList.append(i)
@@ -134,6 +137,8 @@ def generate_hopping_matrix(subspace, n, p):
 
 	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
 	full_basis, indexList = generate_full_basis(subspace, n, p)
+
+	print("AAAA HERE")
 
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
 	for i, si in enumerate(full_basis):
@@ -435,12 +440,17 @@ def check_state(state, n, p):
 		number of occupied levels is not larger than the number of all levels
 		number of cooper pairs is not negative
 	"""
-
 	if p.use_all_states:
 		return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0)
 		#return check_conditions( state.n == n, state.mL >= 0, state.mR >= 0, state.nqp == 1)
 	else:
-		return check_conditions( [[bstate.n() == n, bstate.L.occupiedLevels <= p.LL, bstate.R.occupiedLevels <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
+		all_conds = [[bstate.n == n, bstate.L.occupiedLevels <= p.LL, bstate.R.occupiedLevels <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states]
+		flat_list = [item for sublist in all_conds for item in sublist] #this flattens the list
+		if False in flat_list:
+			return False
+		else:
+			return True
+		#return check_conditions( [[bstate.n == n, bstate.L.occupiedLevels <= p.LL, bstate.R.occupiedLevels <= p.LL, bstate.L.M >= 0, bstate.R.M >= 0] for bstate in state.basis_states] )
 
 def check_conditions(*conditions):
 	"""
