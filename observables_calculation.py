@@ -216,6 +216,43 @@ def print_and_save_abs_phis(sector, h5file, states, phi_basis, p):
 	print(f"abs phi^2: {abs_phi2s}")	
 
 ###################################################################################################
+# COMPUTE <sin(phi)> AND <cos(phi)>
+
+def calculate_sin_cos_phi(eigenvector, phi_basis):
+	"""
+	Calculate expected values of cos(phi) and sin(phi). 
+	"""
+	c, s = 0, 0
+	for i, amp in enumerate(eigenvector):
+		phi = phi_basis[i].phi
+		absamp = abs(amp)**2
+
+		c += absamp	* np.cos(phi)
+		s += absamp * np.sin(phi)
+
+	return c, s
+
+def print_and_save_sin_cos_phi(sector, h5file, states, phi_basis, p):
+	n, Sz = sector
+
+	cs, ss, atans = "", "", ""
+	for i, state in enumerate(states):
+		c, s = calculate_sin_cos_phi(state, phi_basis)			
+		atan2 = np.arctan2(s, c)
+
+		h5dump(h5file, f"{n}/{Sz}/{i}/cos_phi/", c)
+		h5dump(h5file, f"{n}/{Sz}/{i}/sin_phi/", s)
+		h5dump(h5file, f"{n}/{Sz}/{i}/atan2_phi/", atan2)
+
+		cs += f"{round(c, p.print_precision)} "
+		ss += f"{round(s, p.print_precision)} "
+		atans += f"{round(atan2/np.pi, p.print_precision)} " 
+	
+	print(f"cos(phi): {cs}")	
+	print(f"sin(phi): {ss}")
+	print(f"atan(s, c)/pi: {atans}")
+
+###################################################################################################
 # dM AMPLITUDES - SAVE THE AMPLITUDES OF ALL EIGENVECTORS IN THE dM BASIS
 
 def get_delta_Ms_and_amps(dM_eigenvector, dM_basis):
@@ -468,6 +505,8 @@ def process_save_and_print_results(d, h5file, p):
 			print_and_save_all_QP_phases(sector, h5file, dM_eigenstates, dM_basis, p) #this depends on matrix elements written in the dM_basis
 		if p.calc_abs_phase:
 			print_and_save_abs_phis(sector, h5file, phi_eigenstates, phi_basis, p)
+		if p.calc_sin_cos_phi:
+			print_and_save_sin_cos_phi(sector, h5file, phi_eigenstates, phi_basis, p)	
 		if p.save_dM_amplitudes:
 			print_and_save_dM_amplitudes(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.save_phi_amplitudes:

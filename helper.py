@@ -14,21 +14,25 @@ class params:
 
 	UNSPECIFIED_DEFAULT = object() # Empty object, used as a flag for where the default value depends on other attributes. These are handled with the set_default() method.
 
+	#physical parameters
 	N: int #system size, required!
 
 	#imp
 	U: float = 0.
 	epsimp: float = UNSPECIFIED_DEFAULT
+	Ez_imp: float = 0.
 
 	#left channel
 	alpha_L: float = 0.
 	Ec_L: float = 0.
-	n0_L:	float = 0.
+	n0_L: float = 0.
+	Ez_L: float = 0.
 
 	#right channel
 	alpha_R: float = 0.
 	Ec_R: float = 0.
 	n0_R: float = 0.
+	Ez_R: float = 0.
 
 	#hopping
 	# Either specify gammas, which will transform into v later, or specify v only!
@@ -43,6 +47,7 @@ class params:
 	nref: int = UNSPECIFIED_DEFAULT
 	refisn0: bool = False
 	verbose: bool = False
+	doublet_both_Sz: bool = False #whether to use the basis with both Sz=1/2 and -1/2 are used. Needed when these are coupled, eg. with S+, S- terms.
 
 	#set calculations to perform and things to print
 	print_energies: int = 10
@@ -55,6 +60,7 @@ class params:
 	calc_phase: bool = True
 	calc_QP_phase: bool = True
 	calc_abs_phase: bool = True
+	calc_sin_cos_phi: bool = True
 	save_dM_amplitudes: bool = False
 	save_phi_amplitudes: bool = False
 	calc_nqp: bool = True
@@ -266,6 +272,7 @@ class IMP:
 
 	U: float
 	epsimp: float
+	Ez: float
 
 	@property
 	def n(self):
@@ -274,12 +281,12 @@ class IMP:
 	def energy(self):
 		#Upart = self.U if self.state == UPDN else 0
 		#return (self.epsimp * self.state.n) + Upart
-
+		magnetic_field_energy = self.Ez*self.state.Sz
 		if self.U != 0:
 			nu = 0.5 - ( self.epsimp / self.U )
-			return 0.5* self.U * ( self.state.n - nu )**2
+			return 0.5* self.U * ( self.state.n - nu )**2 + magnetic_field_energy
 		else:
-			return self.epsimp * self.state.n	
+			return self.epsimp * self.state.n + magnetic_field_energy
 
 	def __eq__(self, other):
 		return self.state == other.state
@@ -297,6 +304,7 @@ class SC_BATH:
 	alpha: float
 	Ec: float
 	n0: float
+	Ez: float
 
 	turn_off_finite_size_effects: bool
 
@@ -315,7 +323,7 @@ class SC_BATH:
 	def energy(self):
 		U = self.unblocked
 		sc_energy = (-2 * self.alpha * ( U - self.M ) * self.M / self.L)
-		qp_energy = self.alpha * (self.L - U) / self.L
+		qp_energy = self.alpha * (self.L - U) / self.L + self.Ez*self.qp.Sz
 		charging_energy = self.Ec * (self.n - self.n0)**2
 		if self.turn_off_finite_size_effects:
 			"""
@@ -334,9 +342,9 @@ class BASIS_STATE:
 	A basis state is a product state of the impurity level and the two SCs.
 	"""
 	def __init__(self, qp_imp, Ml, qp_L, Mr, qp_R, p):
-		self.imp = IMP(qp_imp, p.U, p.epsimp)
-		self.L = SC_BATH(Ml, qp_L, p.LL, p.alpha_L, p.Ec_L, p.n0_L, p.turn_off_SC_finite_size_effects)
-		self.R = SC_BATH(Mr, qp_R, p.LL, p.alpha_R, p.Ec_R, p.n0_R, p.turn_off_SC_finite_size_effects)
+		self.imp = IMP(qp_imp, p.U, p.epsimp, p.Ez_imp)
+		self.L = SC_BATH(Ml, qp_L, p.LL, p.alpha_L, p.Ec_L, p.n0_L, p.Ez_L, p.turn_off_SC_finite_size_effects)
+		self.R = SC_BATH(Mr, qp_R, p.LL, p.alpha_R, p.Ec_R, p.n0_R, p.Ez_R, p.turn_off_SC_finite_size_effects)
 		self.QP_state = QP_STATE(qp_imp, qp_L, qp_R)
 
 		self.nimp = self.imp.n
@@ -387,8 +395,8 @@ class STATE:
 		self.check_if_normalized()
 
 		self.n = self.basis_states[0].n
-		self.mL = self.basis_states[0].L.M #All basis states have the same mL so this is OK.
-		self.mR = self.basis_states[0].R.M #All basis states have the same mR so this is OK.
+		self.mL = self.basis_states[0].L.M #All components of the basis state have the same mL so this is OK.
+		self.mR = self.basis_states[0].R.M #All components of the basis state have the same mR so this is OK.
 		self.dM = self.mL - self.mR
 		self.nqp = self.n - 2 * (self.mL + self.mR)	
 

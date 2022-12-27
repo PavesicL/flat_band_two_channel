@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 ###################################################################################################
 
-n = 51
+n = 31
 matName = f"matrix_n{n}"
 
 mat = np.genfromtxt(matName, dtype=complex)

@@ -27,8 +27,12 @@ def diagonalize_subspace(n, p):
 		subspaceName = "singlet"
 		Sz = 0
 	else:
-		subspaceName = "doublet"
-		Sz = 1/2
+		if p.doublet_both_Sz:
+			subspaceName = "doublet_both_Sz"
+			Sz = "all"
+		else:
+			subspaceName = "doublet"
+			Sz = 1/2
 
 	mat, bas = generate_total_matrix(subspaceName, n, p)
 	print(f"\nGenerated matrix, size: {len(bas)}\n")
@@ -104,7 +108,6 @@ p = parse_params(inputFile)
 print(p)
 
 print(f"Computing in subspaces: {p.subspace_list}")
-
 
 #compute for each subspace
 num_processes = len(p.subspace_list) if p.parallel else 1

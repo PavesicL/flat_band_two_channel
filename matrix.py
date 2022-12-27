@@ -7,7 +7,11 @@ import cmath
 import os
 
 import sys
-path_to_my_second_quantization = os.environ["MY_SECOND_QUANTIZATION_PATH"]
+
+path_to_my_second_quantization = os.getenv("MY_SECOND_QUANTIZATION_PATH")
+if not path_to_my_second_quantization:
+	raise Exception("System variable 'MY_SECOND_QUANTIZATION_PATH' not defined! Set the path, probably with:\nexport MY_SECOND_QUANTIZATION_PATH=/Volumes/f1login.ijs.si/git_repos/my_second_quantization")
+
 sys.path.insert(1, path_to_my_second_quantization)
 import operators as op
 from operators import BASIS_STATE as COMP_B_STATE
@@ -20,7 +24,7 @@ def doublet_basis_states(mL, mR, p):
 	"""
 	DO NOT CHANGE THE ORDER IN THIS LIST! IT HAS TO BE THE SAME AS IN THE MATHEMATICA NOTEBOOK, BECAUSE MATRIX ELEMENTS ARE PARSED FROM THERE!
 
-	Returns a set of doublet basis states with given mL and mR.
+	Returns a set of doublet basis states with given mL and mR, Sz=+1/2.
 	"""
 
 	# 1 qp
@@ -48,6 +52,67 @@ def doublet_basis_states(mL, mR, p):
 	psi_122 = STATE(13, (1.0, BASIS_STATE(UP, mL, UPDN, mR, UPDN, p)) )
 
 	allStates = [psi_100, psi_010, psi_001, psi_210, psi_201, psi_120, psi_021, psi_012, psi_102, psi_S12, psi_3qp, psi_221, psi_212, psi_122]
+	return allStates
+
+def doublet_basis_states_both_Sz(mL, mR, p):
+	"""
+	DO NOT CHANGE THE ORDER IN THIS LIST! IT HAS TO BE THE SAME AS IN THE MATHEMATICA NOTEBOOK, BECAUSE MATRIX ELEMENTS ARE PARSED FROM THERE!
+
+	Returns a set of doublet basis states with given mL and mR, Sz=+1/2 and Sz=-1/2.
+	"""
+
+	# Sz = +1/2
+	# 1 qp
+	psi_100 = STATE(0, (1.0, BASIS_STATE(UP, mL, ZERO, mR, ZERO, p)) )
+	psi_010 = STATE(1, (1.0, BASIS_STATE(ZERO, mL, UP, mR, ZERO, p)) )
+	psi_001 = STATE(2, (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, UP, p)) )
+
+	# 3 qp
+	psi_210 = STATE(3, (1.0, BASIS_STATE(UPDN, mL, UP, mR, ZERO, p)) )
+	psi_201 = STATE(4, (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, UP, p)) )
+	psi_120 = STATE(5, (1.0, BASIS_STATE(UP, mL, UPDN, mR, ZERO, p)) )
+	psi_021 = STATE(6, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UP, p)) )
+	psi_012 = STATE(7, (1.0, BASIS_STATE(ZERO, mL, UP, mR, UPDN, p)) )
+	psi_102 = STATE(8, (1.0, BASIS_STATE(UP, mL, ZERO, mR, UPDN, p)) )
+	
+	psi_S12 = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)), 
+						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, UP, p)) )
+	psi_3qp = STATE(10,	(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
+						(1/np.sqrt(6),  BASIS_STATE(UP, mL, DOWN, mR, UP, p) ),
+						(-2/np.sqrt(6), BASIS_STATE(UP, mL, UP, mR, DOWN, p) ),
+						)
+	# 5 qp
+	psi_221 = STATE(11, (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, UP, p)) )
+	psi_212 = STATE(12, (1.0, BASIS_STATE(UPDN, mL, UP, mR, UPDN, p)) )
+	psi_122 = STATE(13, (1.0, BASIS_STATE(UP, mL, UPDN, mR, UPDN, p)) )
+
+	# Sz = -1/2
+	# 1 qp
+	psi_100m = STATE(0, (1.0, BASIS_STATE(DOWN, mL, ZERO, mR, ZERO, p)) )
+	psi_010m = STATE(1, (1.0, BASIS_STATE(ZERO, mL, DOWN, mR, ZERO, p)) )
+	psi_001m = STATE(2, (1.0, BASIS_STATE(ZERO, mL, ZERO, mR, DOWN, p)) )
+
+	# 3 qp
+	psi_210m = STATE(3, (1.0, BASIS_STATE(UPDN, mL, DOWN, mR, ZERO, p)) )
+	psi_201m = STATE(4, (1.0, BASIS_STATE(UPDN, mL, ZERO, mR, DOWN, p)) )
+	psi_120m = STATE(5, (1.0, BASIS_STATE(DOWN, mL, UPDN, mR, ZERO, p)) )
+	psi_021m = STATE(6, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, DOWN, p)) )
+	psi_012m = STATE(7, (1.0, BASIS_STATE(ZERO, mL, DOWN, mR, UPDN, p)) )
+	psi_102m = STATE(8, (1.0, BASIS_STATE(DOWN, mL, ZERO, mR, UPDN, p)) )
+	
+	psi_S12m = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, DOWN, p)), 
+						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, DOWN, p)) )
+	psi_3qpm = STATE(10,	(1/np.sqrt(6),  BASIS_STATE(UP, mL, DOWN, mR, DOWN, p) ),
+						(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
+						(-2/np.sqrt(6), BASIS_STATE(DOWN, mL, DOWN, mR, UP, p) ),
+						)
+	# 5 qp
+	psi_221m = STATE(11, (1.0, BASIS_STATE(UPDN, mL, UPDN, mR, DOWN, p)) )
+	psi_212m = STATE(12, (1.0, BASIS_STATE(UPDN, mL, DOWN, mR, UPDN, p)) )
+	psi_122m = STATE(13, (1.0, BASIS_STATE(DOWN, mL, UPDN, mR, UPDN, p)) )
+
+	allStates = [psi_100, psi_010, psi_001, psi_210, psi_201, psi_120, psi_021, psi_012, psi_102, psi_S12, psi_3qp, psi_221, psi_212, psi_122,
+				 psi_100m, psi_010m, psi_001m, psi_210m, psi_201m, psi_120m, psi_021m, psi_012m, psi_102m, psi_S12m, psi_3qpm, psi_221m, psi_212m, psi_122m]
 	return allStates
 
 def singlet_basis_states(mL, mR, p):
@@ -105,11 +170,14 @@ def generate_full_basis(subspace, n, p):
 	"""
 	basis, indexList = [], []
 
+	# Set the name of the function used to generate the basis states for each mL, mR combination.
 	if subspace == "singlet":
 		general_basis = singlet_basis_states
 	if subspace == "doublet":
 		general_basis = doublet_basis_states
-
+	if subspace == "doublet_both_Sz":
+		general_basis = doublet_basis_states_both_Sz
+			
 	for mL in range(p.LL+1):
 		for mR in range(p.LL+1):
 			for i, state in enumerate(general_basis(mL, mR, p)):
@@ -124,7 +192,6 @@ def generate_hopping_matrix(subspace, n, p):
 	Generates the full hopping matrix. 
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
 	"""
-
 	if p.turn_off_hopping_finite_size_effects:
 		matName = subspace + "_no_finite_size_effects.dat"
 	else:
@@ -189,13 +256,14 @@ def reorder_matrix_dM(mat, bas):
 	"""
 	Orders the basis states and the matrix in such a way that the states with equal dm = mL - mR are together.
 	This makes the block structure of the hamiltonian more apparent.
-	The first ordering parameter is dm, the second is the number of unpaired particles, calculated as n - mL - mR
+	Ordering parameters:
+	dm, number of unpaired particles (n-mL-mR),
 	"""
 
 	print("Sorting matrix by dM.")
 
 	sortingRule = [i for i in range(len(bas))]
-	zippedObj = sorted( list(zip(sortingRule, bas)), key = lambda x : (x[1].dM, x[1].n - x[1].mL - x[1].mR ) )
+	zippedObj = sorted( list(zip(sortingRule, bas)), key = lambda x : (x[1].dM, x[1].n - x[1].mL - x[1].mR,  ) )
 	sortingRule, sortedBas = unzip(zippedObj)
 
 	mat = reorder_matrix(mat, sortingRule)
