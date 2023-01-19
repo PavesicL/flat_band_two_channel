@@ -16,9 +16,10 @@ def parse_hopping_matrix(which):
 	"""
 	mat = []
 	strMat = [] # here matrix elements are saved as strings. Not used anywhere as of now, but useful for debugging.
-	mL, mR, nL, nR, vL, vR, l = sympy.symbols("mL mR nL nR vL vR l")
+	mL, mR, nL, nR, vL, vR, phiext, l = sympy.symbols("mL mR nL nR vL vR phiext l")
 
 	with open(which, "r") as f:
+
 		for i, line in enumerate(f):
 			mat.append([])
 			strMat.append([])
@@ -34,20 +35,22 @@ def parse_hopping_matrix(which):
 				elem = re.sub(r"Sqrt\[(.*?)\]", r"sqrt(\1)", elem)
 				elem = re.sub(r"KroneckerDelta\[(.*?)\]", r"KroneckerDelta(\1)", elem)
 
+				# also fix the phiext terms
+				elem = re.sub(r"E\^", r"exp", elem)
+
 				a = parse_expr(elem)
-				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, l], a)
+				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, phiext, l], a)
 				
 				# each element of this matrix is a function of the above parameters,
 				# giving the matrix element for two states with general occupation mL, mR and nL, nR
 				mat[i].append(a)
 				strMat[i].append(elem)
-
 	return mat, strMat
 
 
 def parse_phi_matrix(which):
 	"""
-	Parses the hopping matrix. These elements are all of type +/- 1/4 delta(mL, nL) delta(mR, nR).
+	Parses the matrix of the phi operator. These elements are all of type +/- 1/4 delta(mL, nL) delta(mR, nR).
 	Only Kronecker delta has to be renamed then.
 	"""
 

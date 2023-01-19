@@ -471,7 +471,7 @@ def print_and_save_parity(sector, h5file, calc_states, p):
 ###################################################################################################
 # PRINTING RESULTS
 
-def process_save_and_print_results(d, h5file, p):
+def process_save_and_print_results(d : dict, h5file : str, p):
 	"""
 	Prints results and saves them to the hdf5 file. 
 	"""
@@ -483,7 +483,7 @@ def process_save_and_print_results(d, h5file, p):
 		dM_eigenstates, dM_basis = n_dict["dM_eigenstates"], n_dict["dM_basis"]
 
 		# THE COMPUTATIONAL BASIS IS USEFUL FOR EXTRACTING QUANTITIES WHICH ARE NOT GOOD QUANTUM NUMBERS		
-		computational_basis = generate_computation_basis(n, p)
+		computational_basis = generate_computation_basis(n, Sz, p)
 		computational_eigenstates = [ write_vector_in_computation_basis(eigenstate, dM_basis, computational_basis) for eigenstate in dM_eigenstates ]
 
 		if p.phase_fourier_transform:

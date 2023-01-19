@@ -25,7 +25,7 @@ def diagonalize_subspace(n, p):
 
 	if  n%2==0:
 		subspaceName = "singlet"
-		Sz = 0
+		Sz = 0 #this Sz only goes to the path in the hdf5 file as (n, Sz)!
 	else:
 		if p.doublet_both_Sz:
 			subspaceName = "doublet_both_Sz"

@@ -1,12 +1,12 @@
 #input file for flat band exact diagonalisation
 #alphas have to be positive for superconductivity!!!
 
-Ez_imp = 0.
+doublet_both_Sz = true
 
-#phiext = 0.78539816339
+Ez_imp = 0.1
 
-N = 21
-nref = 21
+N = 13
+nref = 13
 nrange = 1
 
 alpha_L = 1
@@ -15,17 +15,17 @@ alpha_R = 1
 U = 10
 epsimp = -5
 
-#gamma_L = 0.1
-#gamma_R = 0.1
+gamma_L = 1.4
+gamma_R = 0.4
 
-v_L = 0.00001
-v_R = 0.00001
+#v_L = 0.01
+#v_R = 0.01
 
-Ec_L = 0.
-Ec_R = 0.
+Ec_L = 0.5
+Ec_R = 0.1
 
-#n0_L = 6
-#n0_R = 6
+n0_L = 6
+n0_R = 6
 
 print_states = 0
 
@@ -39,15 +39,16 @@ verbose = true
 
 phase_fourier_transform = true
 
-save_all_states = false
-num_states_to_save = 100
+save_all_states = true
+num_states_to_save = 5
 
 calc_occupancies = false
 calc_dMs = false
+calc_phase = false
 calc_QP_phase = false
-calc_abs_phase = true
-save_phi_amplitudes = true
+calc_abs_phase = false
+save_phi_amplitudes = false
 save_dM_amplitudes = false
-calc_nqp = true
+calc_nqp = false
 calc_parity = true
 calc_sin_cos_phi = false

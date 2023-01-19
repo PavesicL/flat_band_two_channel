@@ -41,6 +41,7 @@ class params:
 	gamma_R: float = 0.
 	v_L: float = UNSPECIFIED_DEFAULT
 	v_R: float = UNSPECIFIED_DEFAULT
+	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
 
 	#setting the calculations parameters
 	nrange: int = 0
@@ -57,7 +58,6 @@ class params:
 
 	calc_occupancies: bool = True
 	calc_dMs: bool = True
-	calc_phase: bool = True
 	calc_QP_phase: bool = True
 	calc_abs_phase: bool = True
 	calc_sin_cos_phi: bool = True

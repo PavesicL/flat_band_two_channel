@@ -10,7 +10,7 @@ import sys
 
 path_to_my_second_quantization = os.getenv("MY_SECOND_QUANTIZATION_PATH")
 if not path_to_my_second_quantization:
-	raise Exception("System variable 'MY_SECOND_QUANTIZATION_PATH' not defined! Set the path, probably with:\nexport MY_SECOND_QUANTIZATION_PATH=/Volumes/f1login.ijs.si/git_repos/my_second_quantization")
+	raise Exception("System variable 'MY_SECOND_QUANTIZATION_PATH' not defined! Set the path, probably with:\nexport MY_SECOND_QUANTIZATION_PATH=/Volumes/f1login.ijs.si/git_repos/my_second_quantization\nOR\nexport MY_SECOND_QUANTIZATION_PATH=/home/pavesic/git_repos/my_second_quantization")
 
 sys.path.insert(1, path_to_my_second_quantization)
 import operators as op
@@ -193,7 +193,7 @@ def generate_hopping_matrix(subspace, n, p):
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
 	"""
 	if p.turn_off_hopping_finite_size_effects:
-		matName = subspace + "_no_finite_size_effects.dat"
+		matName = subspace + "_no_finite_size_effects_phiext.dat"
 	else:
 		matName = subspace + "_mat.dat"	
 
@@ -208,7 +208,7 @@ def generate_hopping_matrix(subspace, n, p):
 			i_ind = indexList[i]
 			j_ind = indexList[j]
 
-			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, l=p.LL)
+			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, l=p.LL)
 
 			if np.isnan(val): # we get nan in expressions like mL/sqrt(mL), when mL=0. But this is actually 0.
 				val = 0.0
@@ -390,18 +390,25 @@ def computation_basis(Sz, mL, mR):
 	basis = np.array(basis, dtype=object)	
 	return basis
 
-def generate_computation_basis(n, p):
+def generate_computation_basis(n, Sz, p):
 	"""
 	Generates a list of all basis states with a given n.
 	"""
-	Sz = (n%2)/2
+	#First generate a list of all Szs. 
+	#This should be generalised if the code is extended to do more Szs in the future.
+	if Sz == "all":
+		Szlist = [-1/2, 1/2]
+	else:
+		Szlist = [Sz]
+
 	basis = []
-	for mL in range(0, n): #this loop is overkill but whatever
-		for mR in range(0, n):
-			this_basis = computation_basis(Sz, mL, mR)
-			for state in this_basis:
-				if state.n + 2 * (mL + mR) == n:
-					basis.append(state)
+	for Sz in Szlist:
+		for mL in range(0, n): #this loop is overkill but whatever
+			for mR in range(0, n):
+				this_basis = computation_basis(Sz, mL, mR)
+				for state in this_basis:
+					if state.n + 2 * (mL + mR) == n:
+						basis.append(state)
 
 	basis = np.array( sorted(basis), dtype=op.BASIS_STATE)
 	return basis
