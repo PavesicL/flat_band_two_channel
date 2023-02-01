@@ -3,7 +3,7 @@
 
 Ez_imp = 0.
 
-#phiext = 0.78539816339
+phiext = 1
 
 N = 21
 nref = 21

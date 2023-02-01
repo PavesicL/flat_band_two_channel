@@ -100,6 +100,8 @@ class params:
 		self.set_default("v_L", np.sqrt( 2 * self.gamma_L / pi))
 		self.set_default("v_R", np.sqrt( 2 * self.gamma_R / pi))
 		
+		object.__setattr__(self, "phiext", self.phiext * np.pi ) #multiply phiext by pi! The input is thus in units of pi.
+
 		default_nref = 0
 		if self.U != 0:
 			default_nref += (0.5 - (self.epsimp/self.U))
