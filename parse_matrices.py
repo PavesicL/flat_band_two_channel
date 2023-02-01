@@ -19,7 +19,6 @@ def parse_hopping_matrix(which):
 	mL, mR, nL, nR, vL, vR, phiext, tsc, l = sympy.symbols("mL mR nL nR vL vR phiext tsc l")
 
 	with open(which, "r") as f:
-
 		for i, line in enumerate(f):
 			mat.append([])
 			strMat.append([])
@@ -40,7 +39,7 @@ def parse_hopping_matrix(which):
 
 				a = parse_expr(elem)
 				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, phiext, tsc, l], a)
-				
+			
 				# each element of this matrix is a function of the above parameters,
 				# giving the matrix element for two states with general occupation mL, mR and nL, nR
 				mat[i].append(a)

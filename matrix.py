@@ -193,7 +193,7 @@ def generate_hopping_matrix(subspace, n, p):
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
 	"""
 	if p.turn_off_hopping_finite_size_effects:
-		matName = subspace + "_no_finite_size_effects_phiext.dat"
+		matName = subspace + "_no_finite_size_effects.dat"
 	else:
 		matName = subspace + "_mat.dat"	
 

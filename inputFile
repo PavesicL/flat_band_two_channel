@@ -18,9 +18,10 @@ epsimp = -5
 #gamma_L = 0.1
 #gamma_R = 0.1
 
-v_L = 0.001
-v_R = 0.001
+v_L = 1.3
+v_R = 1.3
 
+tsc = 10000
 
 Ec_L = 0.
 Ec_R = 0.
@@ -33,7 +34,7 @@ print_states = 0
 turn_off_all_finite_size_effects = true
 add_periodic_hopping_blocks = false
 
-save_matrix = true
+save_matrix = false
 reorder_matrix_dM = false
 
 verbose = true
@@ -41,7 +42,7 @@ verbose = true
 phase_fourier_transform = true
 
 save_all_states = false
-num_states_to_save = 100
+num_states_to_save = 4
 
 calc_occupancies = false
 calc_dMs = false
