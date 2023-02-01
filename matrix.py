@@ -208,7 +208,7 @@ def generate_hopping_matrix(subspace, n, p):
 			i_ind = indexList[i]
 			j_ind = indexList[j]
 
-			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, l=p.LL)
+			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL)
 
 			if np.isnan(val): # we get nan in expressions like mL/sqrt(mL), when mL=0. But this is actually 0.
 				val = 0.0
@@ -220,22 +220,14 @@ def generate_hopping_matrix(subspace, n, p):
 				Mmaxj = sj.mL + sj.mR
 
 				if si.dM == Mmaxi and sj.dM == -Mmaxj:
-					p_val = general_hopping_matrix[i_ind][j_ind](mL=Mmaxi-1, mR=1, nL=Mmaxj, nR=0, vL=p.v_L, vR=p.v_R, l=p.LL) * cmath.exp(1j * 0 * np.pi)
-					
+					p_val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL) * cmath.exp(1j * 0 * np.pi)					
 					H[i, j] += p_val
 					H[j, i] += np.conj(p_val)
 
 				elif si.dM == -Mmaxi and sj.dM == Mmaxj:
-					p_val = general_hopping_matrix[i_ind][j_ind](mL=Mmaxi-1, mR=1, nL=Mmaxj, nR=0, vL=p.v_L, vR=p.v_R, l=p.LL) * cmath.exp(1j * 0 * np.pi)
-
+					p_val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL) * cmath.exp(1j * 0 * np.pi)
 					H[i, j] += p_val
 					H[j, i] += np.conj(p_val)
-	
-				"""
-				#this is the hopping in the other direction but does not work for some reason. But we know that it should be hermitian.
-				elif si.dM == -Mmaxi and sj.dM == Mmaxj:
-					p_val = general_hopping_matrix[i_ind][j_ind](mL=1, mR=Mmaxi-1, nL=0, nR=Mmaxj, vL=p.v_L, vR=p.v_R, l=p.LL)
-				"""
 	return H, full_basis
 
 def add_diagonal_elements(H, basis):

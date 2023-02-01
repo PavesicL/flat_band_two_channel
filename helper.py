@@ -42,6 +42,7 @@ class params:
 	v_L: float = UNSPECIFIED_DEFAULT
 	v_R: float = UNSPECIFIED_DEFAULT
 	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
+	tsc: float = 0. #hopping between the two SCs on the other end, not through the QD. Completes the SQUID-like loop. 
 
 	#setting the calculations parameters
 	nrange: int = 0
