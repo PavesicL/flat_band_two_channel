@@ -54,8 +54,10 @@ class params:
 	doublet_both_Sz: bool = False #whether to use the basis with both Sz=1/2 and -1/2 are used. Needed when these are coupled, eg. with S+, S- terms.
 
 	#set calculations to perform and things to print
+	print_states_dM: bool = False
+	print_states_phi: bool = False
 	print_energies: int = 10
-	print_states: int = 0
+	number_of_states_to_print: int = 0
 	print_states_precision: float = 0.01
 	print_precision: int = 5
 

@@ -46,9 +46,9 @@ def print_and_save_energies(sector, n_dict, h5file, p):
 # PRINT AN EIGENSTATE
 
 def print_states(eigenstates, basis, label, p):
-	if p.print_states > 0:
+	if p.number_of_states_to_print > 0:
 		print(f"\nEigenvectors, {label}:")
-		for i in range(p.print_states):
+		for i in range(p.number_of_states_to_print):
 			
 			print(f"i = {i}")
 			print_state(eigenstates[i], basis, p)
@@ -493,10 +493,12 @@ def process_save_and_print_results(d : dict, h5file : str, p):
 		print("###################################################################################################")
 		print(f"RESULTS FOR n = {n}, Sz = {Sz}:")
 		print_and_save_energies(sector, n_dict, h5file, p)
-		print_states(dM_eigenstates, dM_basis, "dM basis", p)
 		
-		if p.phase_fourier_transform:
+		if p.print_states_dM:
+			print_states(dM_eigenstates, dM_basis, "dM basis", p)	
+		if p.phase_fourier_transform and p.print_states_phi:
 			print_states(phi_eigenstates, phi_basis, "phi basis", p)
+		
 		if p.calc_occupancies:
 			print_and_save_all_occupancies(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_dMs:

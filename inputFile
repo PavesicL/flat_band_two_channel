@@ -12,16 +12,16 @@ nrange = 1
 alpha_L = 1
 alpha_R = 1
 
-U = 100
-#epsimp = 0
+U = 0
 
 #gamma_L = 0.1
 #gamma_R = 0.1
 
-v_L = 5
-v_R = 5
+v_L = 0.3
+v_R = 0.3
 
 tsc = 0
+tpair = 0
 
 Ec_L = 0.
 Ec_R = 0.
@@ -30,8 +30,8 @@ Ec_R = 0.
 #n0_R = 6
 
 
-
-print_states = 0
+print_states_phi = true
+number_of_states_to_print = 3
 
 turn_off_all_finite_size_effects = true
 add_periodic_hopping_blocks = false
@@ -53,5 +53,5 @@ calc_abs_phase = true
 save_phi_amplitudes = true
 save_dM_amplitudes = false
 calc_nqp = true
-calc_parity = true
-calc_sin_cos_phi = false
+calc_parity = false
+calc_sin_cos_phi = true
