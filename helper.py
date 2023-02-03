@@ -42,7 +42,9 @@ class params:
 	v_L: float = UNSPECIFIED_DEFAULT
 	v_R: float = UNSPECIFIED_DEFAULT
 	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
-	tsc: float = 0. #hopping between the two SCs on the other end, not through the QD. Completes the SQUID-like loop. 
+
+	tsc: float = 0. #hopping between the two SCs directly, not through the QD.
+	tpair: float = 0. #pair hopping between the two SCs, without including any quasiparticles. 
 
 	#setting the calculations parameters
 	nrange: int = 0
@@ -441,6 +443,7 @@ class STATE:
 
 	@property
 	def nL(self):
+		"""This is the number of all particles in the left part of the system!"""
 		n = 0
 		for i, bs in enumerate(self.basis_states):
 			n += self.amplitudes[i]**2 * bs.L.n
@@ -448,6 +451,7 @@ class STATE:
 
 	@property
 	def nR(self):
+		"""This is the number of all particles in the right part of the system!"""
 		n = 0
 		for i, bs in enumerate(self.basis_states):
 			n += self.amplitudes[i]**2 * bs.R.n

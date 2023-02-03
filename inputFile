@@ -3,7 +3,7 @@
 
 Ez_imp = 0.
 
-phiext = 1
+phiext = 0
 
 N = 21
 nref = 21
@@ -12,22 +12,24 @@ nrange = 1
 alpha_L = 1
 alpha_R = 1
 
-U = 10
-epsimp = -5
+U = 100
+#epsimp = 0
 
 #gamma_L = 0.1
 #gamma_R = 0.1
 
-v_L = 1.3
-v_R = 1.3
+v_L = 5
+v_R = 5
 
-tsc = 10000
+tsc = 0
 
 Ec_L = 0.
 Ec_R = 0.
 
 #n0_L = 6
 #n0_R = 6
+
+
 
 print_states = 0
 

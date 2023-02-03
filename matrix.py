@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from helper import STATE, BASIS_STATE, PHI_STATE, UP, DOWN, ZERO, UPDN
+from helper import STATE, BASIS_STATE, PHI_STATE, UP, DOWN, ZERO, UPDN, delta
 from parse_matrices import parse_hopping_matrix
 import numpy as np
 import cmath
@@ -187,7 +187,7 @@ def generate_full_basis(subspace, n, p):
 
 	return basis, indexList
 
-def generate_hopping_matrix(subspace, n, p):
+def generate_hopping_matrix(subspace, full_basis, index_list, p):
 	"""
 	Generates the full hopping matrix. 
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
@@ -200,13 +200,12 @@ def generate_hopping_matrix(subspace, n, p):
 	file_path =  os.path.abspath(os.path.dirname(__file__))	#this is the absolute path of the script! (eg. /home/pavesic/git_repos/flat_band_two_channel on spinon) 
 
 	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
-	full_basis, indexList = generate_full_basis(subspace, n, p)
 
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
 	for i, si in enumerate(full_basis):
 		for j, sj in enumerate(full_basis):
-			i_ind = indexList[i]
-			j_ind = indexList[j]
+			i_ind = index_list[i]
+			j_ind = index_list[j]
 
 			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL)
 
@@ -228,10 +227,23 @@ def generate_hopping_matrix(subspace, n, p):
 					p_val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL) * cmath.exp(1j * 0 * np.pi)
 					H[i, j] += p_val
 					H[j, i] += np.conj(p_val)
-	return H, full_basis
+	return H
+
+def add_sc_pair_hopping(H, basis, p):
+	"""
+	This is pair hopping between the two SCs and is just pair exhange between the two reservoirs.
+	It should not affect quasiparticles or the QD configuration. 
+	Its matrix element between states |qp, mL, mR> and |qp, nL, nR> is proportional to: 
+		delta(mL, nL+1) delta(mR, nR-1) + delta(mL, nL-1) delta(mR, nR+1) 
+	"""
+	for i, state1 in enumerate(basis):
+		for j, state2 in enumerate(basis):
+			mL, mR = state1.mL, state1.mR
+			nL, nR = state2.mL, state2.mR
+			H[i, j] += p.tpair * ( delta(mL, nL+1) * delta(mR, nR-1) + delta(mL, nL-1) * delta(mR, nR+1) ) 
+	return H	
 
 def add_diagonal_elements(H, basis):
-
 	for i, state in enumerate(basis):
 		H[i, i] += state.energy()
 	return H	
@@ -240,9 +252,11 @@ def generate_total_matrix(subspace, n, p):
 	"""
 	Generates the full Hamiltonian as a sum of hopping and diagonal terms.
 	"""
-	H, basis = generate_hopping_matrix(subspace, n, p)
-	H = add_diagonal_elements(H, basis)
-	return H, basis
+	full_basis, index_list = generate_full_basis(subspace, n, p)
+	H = generate_hopping_matrix(subspace, full_basis, index_list, p)
+	H = add_sc_pair_hopping(H, full_basis, p)
+	H = add_diagonal_elements(H, full_basis)
+	return H, full_basis
 
 def reorder_matrix_dM(mat, bas):
 	"""
