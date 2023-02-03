@@ -14,12 +14,7 @@ alpha_R = 1
 
 U = 0
 
-#gamma_L = 0.1
-#gamma_R = 0.1
-
-v_L = 0.3
-v_R = 0.3
-
+v= 0.1
 tsc = 0
 tpair = 0
 

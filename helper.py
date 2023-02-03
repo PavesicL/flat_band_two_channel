@@ -35,10 +35,8 @@ class params:
 	Ez_R: float = 0.
 
 	#hopping
-	# Either specify gammas, which will transform into v later, or specify v only!
-	# Gammas are not used in the calculation.
-	gamma_L: float = 0.
-	gamma_R: float = 0.
+	#By default the hoppings are equal to v, but can be specified asymmetric.
+	v: float = 0.
 	v_L: float = UNSPECIFIED_DEFAULT
 	v_R: float = UNSPECIFIED_DEFAULT
 	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
@@ -101,8 +99,8 @@ class params:
 		
 		# set the default values here!
 		self.set_default("epsimp", -self.U/2)
-		self.set_default("v_L", np.sqrt( 2 * self.gamma_L / pi))
-		self.set_default("v_R", np.sqrt( 2 * self.gamma_R / pi))
+		self.set_default("v_L", self.v)
+		self.set_default("v_R", self.v)
 		
 		object.__setattr__(self, "phiext", self.phiext * np.pi ) #multiply phiext by pi! The input is thus in units of pi.
 
