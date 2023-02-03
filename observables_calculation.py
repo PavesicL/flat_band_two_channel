@@ -195,25 +195,33 @@ def calculate_abs_phi(eigenvector, phi_basis):
 			#reflect into the first two quadrants
 			phi = 2*np.pi - phi
 
+		#now express phi in the units of pi!!!
+		phi = phi/np.pi
+
 		avg += abs(amp)**2 * phi
 		std += abs(amp)**2 * (phi**2)
 
-	return avg, std	
+	return avg, std
 
 def print_and_save_abs_phis(sector, h5file, states, phi_basis, p):
 	n, Sz = sector
 
 	abs_phis, abs_phi2s = "", ""
+	fluctuations = ""
 	for i, state in enumerate(states):
-		phi, phi2 = calculate_abs_phi(state, phi_basis)			
+		phi, phi2 = calculate_abs_phi(state, phi_basis)
+		fluct = abs( phi**2 - phi2 )
 
 		h5dump(h5file, f"{n}/{Sz}/{i}/abs_phi/", phi)
 		h5dump(h5file, f"{n}/{Sz}/{i}/abs_phi2/", phi2)
 
-		abs_phis += f"{round(phi/np.pi, p.print_precision)} "
+		abs_phis += f"{round(phi, p.print_precision)} "
 		abs_phi2s += f"{round(phi2, p.print_precision)} "
+		fluctuations += f"{round(fluct, p.print_precision)} "
+
 	print(f"abs phi/pi: {abs_phis}")	
 	print(f"abs phi^2: {abs_phi2s}")	
+	print(f"fluctuations: {fluctuations}")	
 
 ###################################################################################################
 # COMPUTE <sin(phi)> AND <cos(phi)>
