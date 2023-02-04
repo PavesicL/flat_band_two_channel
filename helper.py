@@ -22,17 +22,23 @@ class params:
 	epsimp: float = UNSPECIFIED_DEFAULT
 	Ez_imp: float = 0.
 
+	#symetric parmeters, default for both channels
+	alpha: float = 0.
+	Ec: float = 0.
+	n0: float = 0.
+	Ez_sc: float = 0.
+
 	#left channel
-	alpha_L: float = 0.
-	Ec_L: float = 0.
-	n0_L: float = 0.
-	Ez_L: float = 0.
+	alpha_L: float = UNSPECIFIED_DEFAULT
+	Ec_L: float = UNSPECIFIED_DEFAULT
+	n0_L: float = UNSPECIFIED_DEFAULT
+	Ez_L: float = UNSPECIFIED_DEFAULT
 
 	#right channel
-	alpha_R: float = 0.
-	Ec_R: float = 0.
-	n0_R: float = 0.
-	Ez_R: float = 0.
+	alpha_R: float = UNSPECIFIED_DEFAULT
+	Ec_R: float = UNSPECIFIED_DEFAULT
+	n0_R: float = UNSPECIFIED_DEFAULT
+	Ez_R: float = UNSPECIFIED_DEFAULT
 
 	#hopping
 	#By default the hoppings are equal to v, but can be specified asymmetric.
@@ -101,6 +107,14 @@ class params:
 		self.set_default("epsimp", -self.U/2)
 		self.set_default("v_L", self.v)
 		self.set_default("v_R", self.v)
+		self.set_default("alpha_L", self.alpha)
+		self.set_default("alpha_R", self.alpha)
+		self.set_default("Ec_L", self.Ec)
+		self.set_default("Ec_R", self.Ec)
+		self.set_default("n0_L", self.n0)
+		self.set_default("n0_R", self.n0)
+		self.set_default("Ez_L", self.Ez_sc)
+		self.set_default("Ez_R", self.Ez_sc)
 		
 		object.__setattr__(self, "phiext", self.phiext * np.pi ) #multiply phiext by pi! The input is thus in units of pi.
 
