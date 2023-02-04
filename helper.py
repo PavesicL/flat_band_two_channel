@@ -107,7 +107,9 @@ class params:
 		default_nref = 0
 		if self.U != 0:
 			default_nref += (0.5 - (self.epsimp/self.U))
-		
+		else:
+			default_nref += 1
+			
 		if self.Ec_L != 0:
 			default_nref += self.n0_L
 		else:
