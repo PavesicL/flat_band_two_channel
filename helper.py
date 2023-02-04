@@ -60,15 +60,15 @@ class params:
 	print_precision: int = 5
 
 	calc_occupancies: bool = True
-	calc_dMs: bool = True
-	calc_QP_phase: bool = True
+	calc_dMs: bool = False
+	calc_QP_phase: bool = False
 	calc_abs_phase: bool = True
-	calc_sin_cos_phi: bool = True
+	calc_sin_cos_phi: bool = False
 	save_dM_amplitudes: bool = False
 	save_phi_amplitudes: bool = False
 	calc_nqp: bool = True
-	calc_imp_spin_correlations: bool = True
-	calc_parity: bool = True
+	calc_imp_spin_correlations: bool = False
+	calc_parity: bool = False
 	
 	save_all_states: bool = False
 	num_states_to_save: int = 10
