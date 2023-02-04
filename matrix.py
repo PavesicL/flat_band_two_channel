@@ -241,7 +241,7 @@ def add_sc_pair_hopping(H, basis, p):
 			mL, mR = state1.mL, state1.mR
 			nL, nR = state2.mL, state2.mR
 			#this has to have a minus in order for the ground state to have phi=0!
-			H[i, j] += -1 * (p.tpair/np.sqrt((p.N-1)/2)) * ( delta(mL, nL+1) * delta(mR, nR-1) + delta(mL, nL-1) * delta(mR, nR+1) ) 
+			H[i, j] += -1 * p.tpair * ( delta(mL, nL+1) * delta(mR, nR-1) + delta(mL, nL-1) * delta(mR, nR+1) ) 
 	return H	
 
 def add_diagonal_elements(H, basis):
