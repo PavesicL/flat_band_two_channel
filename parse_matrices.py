@@ -46,7 +46,6 @@ def parse_hopping_matrix(which):
 				strMat[i].append(elem)
 	return mat, strMat
 
-
 def parse_phi_matrix(which):
 	"""
 	Parses the matrix of the phi operator. These elements are all of type +/- 1/4 delta(mL, nL) delta(mR, nR).

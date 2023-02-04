@@ -3,7 +3,7 @@
 
 Ez_imp = 0.
 
-phiext = 0
+phiext = 0.7
 
 N = 21
 nref = 21
@@ -12,11 +12,11 @@ nrange = 1
 alpha_L = 1
 alpha_R = 1
 
-U = 0
+U = 100
 
-v= 0.1
+v = 1
 tsc = 0
-tpair = 0
+tpair = 2
 
 Ec_L = 0.
 Ec_R = 0.
@@ -26,7 +26,7 @@ Ec_R = 0.
 
 
 print_states_phi = true
-number_of_states_to_print = 3
+number_of_states_to_print = 1
 
 turn_off_all_finite_size_effects = true
 add_periodic_hopping_blocks = false
