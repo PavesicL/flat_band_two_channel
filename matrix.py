@@ -162,6 +162,44 @@ def singlet_basis_states(mL, mR, p):
 
 ###################################################################################################
 #FUNCTIONS FOR THE GENERATION OF THE MATRIX
+bias = "left"
+
+def get_excluded_dMs(bias: str, n: int):
+	"""
+	Generate a list of dM values to be excluded. 
+	An odd number of values has to be excluded. For odd n, it has to be 3, for even; 5.
+	For a span of -m, -m+1, ..., m, either exclude the first one and two last or the opposite.
+	bias can be "left" or "right". "left" means exclude one value on the left and two on the right, 
+	while "right" means the opposite. 
+	"""
+	if n%2 == 1:
+		val = (n-1)/2
+		if bias == "left":
+			return [-val, val, val-1]
+		elif bias == "right":
+			return [-val, -val+1, val]
+	elif n%2 == 0:
+		val = n/2
+		if bias == "left":
+			return [-val, -val+1, val, val-1, val-2]
+		elif bias == "right":
+			return [-val, -val+1, -val+2, val, val-1]
+
+def get_max_min_dMs(bias: str, n: int):
+	if n%2 == 1:
+		val = (n-1)/2
+		if bias == "left":
+			smallest_dM, largest_dM = -val + 1, val - 2
+		elif bias == "right":
+			smallest_dM, largest_dM = -val + 2, val - 1
+	elif n%2 == 0:
+		val = n/2
+		if bias == "left":
+			smallest_dM, largest_dM = -val + 2, val - 3
+		elif bias == "right":
+			smallest_dM, largest_dM = -val + 3, val - 2
+
+	return smallest_dM, largest_dM				
 
 def generate_full_basis(subspace, n, p):
 	"""
@@ -180,6 +218,13 @@ def generate_full_basis(subspace, n, p):
 			
 	for mL in range(p.LL+1):
 		for mR in range(p.LL+1):
+			if p.restrict_basis_to_make_periodic:
+				# Throw away all states that would form uncomplete dM blocks. To make the matrix perfectly periodic with additional periodic hopping blocks, 
+				# we have to throw away three blocks! (There is always an odd number of available dM blocks, eq: -3, -2, -1, 0, 1, 2, 3.)
+				# Here calculate the largest possible dMmax and throw away states with dM = -dMmax, dM = +dMmax and dM = +dMmax - 1.
+				restrict_dMs = get_excluded_dMs(bias, n)
+				if mL - mR in restrict_dMs:
+					continue #skips this iteration of the loop
 			for i, state in enumerate(general_basis(mL, mR, p)):
 				if check_state(state, n, p):
 					basis.append(state)
@@ -187,7 +232,7 @@ def generate_full_basis(subspace, n, p):
 
 	return basis, indexList
 
-def generate_hopping_matrix(subspace, full_basis, index_list, p):
+def generate_hopping_matrix(subspace, full_basis, index_list, n, p):
 	"""
 	Generates the full hopping matrix. 
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
@@ -207,43 +252,58 @@ def generate_hopping_matrix(subspace, full_basis, index_list, p):
 			i_ind = index_list[i]
 			j_ind = index_list[j]
 
-			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL)
+			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
 
 			if np.isnan(val): # we get nan in expressions like mL/sqrt(mL), when mL=0. But this is actually 0.
 				val = 0.0
 			H[i, j] += val
 
 			if p.add_periodic_hopping_blocks:
-				p_val = 0
-				Mmaxi = si.mL + si.mR
-				Mmaxj = sj.mL + sj.mR
-
-				if si.dM == Mmaxi and sj.dM == -Mmaxj:
-					p_val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL) * cmath.exp(1j * 0 * np.pi)					
-					H[i, j] += p_val
-					H[j, i] += np.conj(p_val)
-
-				elif si.dM == -Mmaxi and sj.dM == Mmaxj:
-					p_val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, phiext=p.phiext, tsc=p.tsc, l=p.LL) * cmath.exp(1j * 0 * np.pi)
-					H[i, j] += p_val
-					H[j, i] += np.conj(p_val)
+				# This has to be used with p.restrict_basis_to_make_periodic. 
+				# If dMmax = n//2, the states will have dM = -dMmax+1, +2, +3, ..., +dMmax-2. 
+				# You have to add hopping between the extreme ones, ie. -dMmax+1 and +dMmax-2
+				smallest_dM, largest_dM = get_max_min_dMs(bias, n)
+				val = 0	
+				if si.dM == smallest_dM and sj.dM == largest_dM:
+					# make the values like they are for dM -> dM+1 artificially! 
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL-1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR+1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+				elif si.dM == largest_dM and sj.dM == smallest_dM:
+					# make the values like they are for dM -> dM-1 artificially! 
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL+1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR-1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+				H[i, j] += val
 	return H
 
-def add_sc_pair_hopping(H, basis, p):
+def pair_hopping_element(tpair: float, phiext: float, mL: int, mR: int, nL: int, nR: int) -> float :
+	return -1 * tpair * ( np.exp(1j * phiext) * delta(mL, nL+1) * delta(mR, nR-1) + np.exp(- 1j * phiext) * delta(mL, nL-1) * delta(mR, nR+1) )
+
+def add_sc_pair_hopping(H, basis, n, p):
 	"""
 	This is pair hopping between the two SCs and is just pair exhange between the two reservoirs.
 	It should not affect quasiparticles or the QD configuration. 
 	Its matrix element between states |qp, mL, mR> and |qp, nL, nR> is proportional to: 
 		delta(mL, nL+1) delta(mR, nR-1) + delta(mL, nL-1) delta(mR, nR+1) 
 	"""
-	for i, state1 in enumerate(basis):
-		for j, state2 in enumerate(basis):
-			mL, mR = state1.mL, state1.mR
-			nL, nR = state2.mL, state2.mR
+	for i, si in enumerate(basis):
+		for j, sj in enumerate(basis):
+			mL, mR = si.mL, si.mR
+			nL, nR = sj.mL, sj.mR
 			#this has to have a minus in order for the ground state to have phi=0!
-			H[i, j] += -1 * p.tpair * ( np.exp(1j * p.phiext) * delta(mL, nL+1) * delta(mR, nR-1) + 
-										np.exp(- 1j * p.phiext) * delta(mL, nL-1) * delta(mR, nR+1) ) 
-	return H	
+			H[i, j] += pair_hopping_element(p.tpair, p.phiext, mL, mR, nL, nR)
+			if p.add_periodic_hopping_blocks:
+				#HERE DO LIKE ABOVE FOR REAL HOPPING!!
+				smallest_dM, largest_dM = get_max_min_dMs(bias, n)
+				val = 0	
+				if si.dM == smallest_dM and sj.dM == largest_dM:
+					# make the values like they are for dM -> dM+1 artificially! 
+					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL-1, mR)
+					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL, mR+1)
+				elif si.dM == largest_dM and sj.dM == smallest_dM:
+					# make the values like they are for dM -> dM-1 artificially! 
+					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL+1, mR)
+					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL, mR-1)
+	return H
 
 def add_diagonal_elements(H, basis):
 	for i, state in enumerate(basis):
@@ -255,8 +315,9 @@ def generate_total_matrix(subspace, n, p):
 	Generates the full Hamiltonian as a sum of hopping and diagonal terms.
 	"""
 	full_basis, index_list = generate_full_basis(subspace, n, p)
-	H = generate_hopping_matrix(subspace, full_basis, index_list, p)
-	H = add_sc_pair_hopping(H, full_basis, p)
+
+	H = generate_hopping_matrix(subspace, full_basis, index_list, n, p)
+	H = add_sc_pair_hopping(H, full_basis, n, p)
 	H = add_diagonal_elements(H, full_basis)
 	return H, full_basis
 
@@ -473,16 +534,19 @@ def fourier_transform_basis(basis, p):
 
 		deltaMs = [ state.dM for state in basis if state.QP_state == QP]
 		deltaMs = np.unique(deltaMs)
+		numdMs = len(deltaMs)
 		m_MAX = max(deltaMs)
+		m_MIN = min(deltaMs)
 		
-		phis = [ 2 * np.pi * i / (m_MAX +1) for i in range(len(deltaMs))]
+		#phis = [ 2 * np.pi * i / (m_MAX +1) for i in range(len(deltaMs))]
+		phis = [ 2 * np.pi * i / numdMs for i in range(len(deltaMs))]
 		# now for each phi construct the vector |phi, QP>, by adding contributions e^(i phi dM) to the position of the eigenvector in the basis
 		for phi in phis:
 			for i, state in enumerate(basis):
 				if state.QP_state == QP:
 					#print((1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) ), m_MAX, state.dM)
-
-					basis_transformation_matrix[i, total_count] += (1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) )
+					#print("A", state.dM - m_MIN)
+					basis_transformation_matrix[i, total_count] += (1/np.sqrt(numdMs)) * cmath.exp( 1j * phi * 0.5 * (state.dM - m_MIN) )
 				
 			phi_basis.append( PHI_STATE(phi, QP) )
 
@@ -556,7 +620,3 @@ def my_find_ndx(element, compareList):
 		if element == el:
 			return i
 	return None
-
-
-
-

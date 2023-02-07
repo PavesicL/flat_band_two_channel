@@ -477,6 +477,23 @@ def print_and_save_parity(sector, h5file, calc_states, p):
 	print(f"sum of all Ps (should be integer): {Psum}")
 
 ###################################################################################################
+
+def calc_dEs(energies, p):
+	difsString = ""
+	for i in range(len(energies)-1):
+		d = energies[i+1] - energies[i]
+		difsString += f"{round(d, p.print_precision)} "	
+	return difsString
+
+def print_dEs(sector, energies, p):
+	"""
+	Print the energy difference to the previous state.
+	"""
+	n, Sz = sector
+	difsString = calc_dEs(energies, p)
+	print(f"dEs: {difsString}")
+
+###################################################################################################
 # PRINTING RESULTS
 
 def process_save_and_print_results(d : dict, h5file : str, p):
@@ -527,3 +544,5 @@ def process_save_and_print_results(d : dict, h5file : str, p):
 			print_and_save_imp_spin_correlations(sector, h5file, computational_eigenstates, p)
 		if p.calc_parity:
 			print_and_save_parity(sector, h5file, computational_eigenstates, p)
+		if p.calc_dEs:
+			print_dEs(sector, energies, p)

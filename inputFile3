@@ -3,48 +3,46 @@
 
 print_precision = 10
 
-N = 55
-nref = 55
+N = 201
 nrange = 1
 
 alpha_L = 1
 alpha_R = 1
 
-U = 10
+U = 100
 
 v = 1
 
 Ec = 0
 
 tsc = 0
-tpair = 0.5
-phiext = 1
+tpair = 0
 
 phase_fourier_transform = true
 
 print_states_phi = true
-print_states_dM = false
-number_of_states_to_print = 3
+print_states_dM = true
+number_of_states_to_print = 2
 
 turn_off_all_finite_size_effects = true
-restrict_basis_to_make_periodic = true
-add_periodic_hopping_blocks = true
+restrict_basis_to_make_periodic = false
+add_periodic_hopping_blocks = false
 
 save_matrix = true
 reorder_matrix_dM = true
 
 verbose = true
 
+
 save_all_states = false
-num_states_to_save = 200
+num_states_to_save = 4
 
 calc_occupancies = false
 calc_dMs = false
 calc_QP_phase = false
-calc_abs_phase = true
-save_phi_amplitudes = false
+calc_abs_phase = false
+save_phi_amplitudes = true
 save_dM_amplitudes = false
 calc_nqp = true
 calc_parity = false
-calc_sin_cos_phi = false
-calc_dEs = true
+calc_sin_cos_phi = true

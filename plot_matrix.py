@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 ###################################################################################################
 
-n = 31
+n = 16
 matName = f"matrix_n{n}"
 
 mat = np.genfromtxt(matName, dtype=complex)
@@ -18,7 +18,7 @@ for i in mat:
 print(f"Non zero elements count: {countNonZero}")
 
 if 1:
-	vmax = 0.1
+	vmax = 2
 	plt.imshow(mat, cmap="Greys", vmin=0, vmax=vmax)
 	plt.title(fr"$n = {n}$, $vmax = {vmax}$")
 
@@ -30,32 +30,10 @@ else:
 
 	plt.plot(xx, antiDiagonal)
 
-
-if 0:
-	if n%2 == 1:
-		k=3
-		ticks = [k, ]
-		while k < len(mat) - 3 - 8 - 6:
-			k += 8
-			ticks.append(k)	
-			k += 6
-			ticks.append(k)
-
-		ticks.append(k+8)
-
-	else:
-		k = 1
-		ticks = [k,]
-		k+= 6
-		ticks.append(k)
-		while k < len(mat) - 17:
-			k += 7
-			ticks.append(k)
-			k += 7
-			ticks.append(k)
-		ticks.append(k+6)
-		ticks.append(k+6+6)
-		
+print(len(mat), len(mat)/14)
+if 1:
+	ticks = [-0.5 + i * 14 for i in range(1+len(mat)//14)]
+	print(ticks)
 	plt.xticks(ticks)
 	plt.yticks(ticks)
 

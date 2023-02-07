@@ -75,6 +75,7 @@ class params:
 	calc_nqp: bool = True
 	calc_imp_spin_correlations: bool = False
 	calc_parity: bool = False
+	calc_dEs: bool = False
 	
 	save_all_states: bool = False
 	num_states_to_save: int = 10
@@ -88,9 +89,10 @@ class params:
 	#approximations
 	turn_off_all_finite_size_effects: bool = False
 	turn_off_SC_finite_size_effects: bool = UNSPECIFIED_DEFAULT			# no finite size effects in SCs - the energy is just alpha * number of QPs
-	turn_off_hopping_finite_size_effects: bool = UNSPECIFIED_DEFAULT	# all hoppings are taken in the limit of half filling and large L
+	turn_off_hopping_finite_size_effects: bool = UNSPECIFIED_DEFAULT	# all hoppings are taken in the limit of half filling and large L - matrices with no_finite_size are used
 	use_all_states: bool = UNSPECIFIED_DEFAULT							# does not throw away "unphysical" states, eg. a state with mL = L and a quasiparticle in the same channel is kept
-	add_periodic_hopping_blocks: bool = UNSPECIFIED_DEFAULT				# adds hopping between m = L and m = 0 blocks
+	restrict_basis_to_make_periodic: bool = UNSPECIFIED_DEFAULT			# this throws away the states that form the blocks which are not full (14x14) but smaller. Use with add_periodic_hopping_blocks for perfect periodization.
+	add_periodic_hopping_blocks: bool = UNSPECIFIED_DEFAULT				# adds hopping blocks
 
 	def __post_init__(self):
 
@@ -136,9 +138,11 @@ class params:
 	
 		self.set_default("nref", int(default_nref))
 		
+		# turn_off_all_finite_size_effects enables everything.
 		self.set_default("turn_off_SC_finite_size_effects", self.turn_off_all_finite_size_effects)
 		self.set_default("turn_off_hopping_finite_size_effects", self.turn_off_all_finite_size_effects)
 		self.set_default("use_all_states", self.turn_off_all_finite_size_effects)
+		self.set_default("restrict_basis_to_make_periodic", self.turn_off_all_finite_size_effects)
 		self.set_default("add_periodic_hopping_blocks", self.turn_off_all_finite_size_effects)
 
 	@property

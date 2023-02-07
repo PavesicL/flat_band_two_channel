@@ -16,7 +16,7 @@ def parse_hopping_matrix(which):
 	"""
 	mat = []
 	strMat = [] # here matrix elements are saved as strings. Not used anywhere as of now, but useful for debugging.
-	mL, mR, nL, nR, vL, vR, phiext, tsc, l = sympy.symbols("mL mR nL nR vL vR phiext tsc l")
+	mL, mR, nL, nR, vL, vR, tsc, l = sympy.symbols("mL mR nL nR vL vR tsc l")
 
 	with open(which, "r") as f:
 		for i, line in enumerate(f):
@@ -34,11 +34,8 @@ def parse_hopping_matrix(which):
 				elem = re.sub(r"Sqrt\[(.*?)\]", r"sqrt(\1)", elem)
 				elem = re.sub(r"KroneckerDelta\[(.*?)\]", r"KroneckerDelta(\1)", elem)
 
-				# also fix the phiext terms
-				elem = re.sub(r"E\^", r"exp", elem)
-
 				a = parse_expr(elem)
-				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, phiext, tsc, l], a)
+				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, tsc, l], a)
 			
 				# each element of this matrix is a function of the above parameters,
 				# giving the matrix element for two states with general occupation mL, mR and nL, nR
