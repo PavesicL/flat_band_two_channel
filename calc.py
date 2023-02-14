@@ -29,10 +29,11 @@ def diagonalize_subspace(n, p):
 	else:
 		if p.doublet_both_Sz:
 			subspaceName = "doublet_both_Sz"
-			Sz = "all"
+			Sz = 0 #if both Sz=+1/2 and Sz=-1/2 states are in the same sector, it is denoted in the .h5 file as Sz=0!!!
 		else:
 			subspaceName = "doublet"
 			Sz = 1/2
+	sector = (n, Sz)
 
 	mat, bas = generate_total_matrix(subspaceName, n, p)
 	print(f"\nGenerated matrix, size: {len(bas)}\n")
@@ -73,7 +74,7 @@ def diagonalize_subspace(n, p):
 
 	###############################################################################################
 	#save the results into a dictionary of dictionaries	
-	results_dict[(n, Sz)] = { "energies" : val + p.U/2, "dM_basis" : bas }
+	results_dict[sector] = { "energies" : val + p.U/2, "dM_basis" : bas }
 
 	if p.phase_fourier_transform:
 		#The results are in the FT basis, to get the dM basis back transform all vectors back.
@@ -81,13 +82,13 @@ def diagonalize_subspace(n, p):
 		#transform eigenvectors back into the original basis
 		dMvec = [ np.matmul(basis_transformation_matrix, v) for v in vec]
 
-		results_dict[(n, Sz)]["dM_eigenstates"] = dMvec
-		results_dict[(n, Sz)]["phi_eigenstates"] = vec
-		results_dict[(n, Sz)]["phi_basis"] = phi_basis
+		results_dict[sector]["dM_eigenstates"] = dMvec
+		results_dict[sector]["phi_eigenstates"] = vec
+		results_dict[sector]["phi_basis"] = phi_basis
 
 	else:
 		#if FT was not performed, just save the eigenvalues as they are
-		results_dict[(n, Sz)]["dM_eigenstates"] = vec
+		results_dict[sector]["dM_eigenstates"] = vec
 
 	###############################################################################################
 
