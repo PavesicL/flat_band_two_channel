@@ -12,7 +12,7 @@ nrange = 1
 alpha_L = 1
 alpha_R = 1
 
-Ez_imp = 0.1
+Ez_imp = 0.
 
 U = 10
 
@@ -21,14 +21,14 @@ v = 1
 Ec = 0
 
 tsc = 0
-tpair = 0.5
-phiext = 1
+tpair = 3
+phiext = 0.7
 
 phase_fourier_transform = true
 
 print_states_phi = true
-print_states_dM = false
-number_of_states_to_print = 3
+print_states_dM = true
+number_of_states_to_print = 2
 
 turn_off_all_finite_size_effects = true
 restrict_basis_to_make_periodic = true

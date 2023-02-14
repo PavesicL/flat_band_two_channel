@@ -275,8 +275,12 @@ def generate_hopping_matrix(subspace, full_basis, index_list, n, p):
 				H[i, j] += val
 	return H
 
-def pair_hopping_element(tpair: float, phiext: float, mL: int, mR: int, nL: int, nR: int) -> float :
-	return -1 * tpair * ( np.exp(1j * phiext) * delta(mL, nL+1) * delta(mR, nR-1) + np.exp(- 1j * phiext) * delta(mL, nL-1) * delta(mR, nR+1) )
+#def pair_hopping_element(tpair: float, phiext: float, mL: int, mR: int, nL: int, nR: int) -> float :
+def pair_hopping_element(tpair: float, phiext: float, si: STATE, sj: STATE) -> float :
+	mL, mR = si.mL, si.mR
+	nL, nR = sj.mL, sj.mR
+	QPi, QPj = si.QP_state, sj.QP_state
+	return -1 * tpair * delta(QPi, QPj) * ( np.exp(1j * phiext) * delta(mL, nL+1) * delta(mR, nR-1) + np.exp(- 1j * phiext) * delta(mL, nL-1) * delta(mR, nR+1) )
 
 def add_sc_pair_hopping(H, basis, n, p):
 	"""
@@ -290,19 +294,19 @@ def add_sc_pair_hopping(H, basis, n, p):
 			mL, mR = si.mL, si.mR
 			nL, nR = sj.mL, sj.mR
 			#this has to have a minus in order for the ground state to have phi=0!
-			H[i, j] += pair_hopping_element(p.tpair, p.phiext, mL, mR, nL, nR)
+			H[i, j] += pair_hopping_element(p.tpair, p.phiext, si, sj)
 			if p.add_periodic_hopping_blocks:
 				#HERE DO LIKE ABOVE FOR REAL HOPPING!!
 				smallest_dM, largest_dM = get_max_min_dMs(bias, n)
 				val = 0	
 				if si.dM == smallest_dM and sj.dM == largest_dM:
 					# make the values like they are for dM -> dM+1 artificially! 
-					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL-1, mR)
-					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL, mR+1)
+					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
+					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 				elif si.dM == largest_dM and sj.dM == smallest_dM:
 					# make the values like they are for dM -> dM-1 artificially! 
-					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL+1, mR)
-					val += pair_hopping_element(p.tpair, p.phiext, mL, mR, mL, mR-1)
+					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
+					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 	return H
 
 def add_diagonal_elements(H, basis):
