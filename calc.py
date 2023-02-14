@@ -29,7 +29,7 @@ def diagonalize_subspace(n, p):
 	else:
 		if p.doublet_both_Sz:
 			subspaceName = "doublet_both_Sz"
-			Sz = 0 #if both Sz=+1/2 and Sz=-1/2 states are in the same sector, it is denoted in the .h5 file as Sz=0!!!
+			Sz = "all" #if both Sz=+1/2 and Sz=-1/2 states are calculated in the same matrix
 		else:
 			subspaceName = "doublet"
 			Sz = 1/2

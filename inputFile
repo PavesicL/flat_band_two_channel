@@ -3,12 +3,16 @@
 
 print_precision = 10
 
-N = 55
-nref = 55
+doublet_both_Sz = true
+
+N = 15
+nref = 15
 nrange = 1
 
 alpha_L = 1
 alpha_R = 1
+
+Ez_imp = 0.1
 
 U = 10
 
