@@ -2,6 +2,7 @@
 
 import re
 import sympy
+from sympy import I
 from sympy.parsing.sympy_parser import parse_expr
 from sympy.functions.special.tensor_functions import KroneckerDelta
 ###################################################################################################
@@ -16,7 +17,7 @@ def parse_hopping_matrix(which):
 	"""
 	mat = []
 	strMat = [] # here matrix elements are saved as strings. Not used anywhere as of now, but useful for debugging.
-	mL, mR, nL, nR, vL, vR, tsc, l = sympy.symbols("mL mR nL nR vL vR tsc l")
+	mL, mR, nL, nR, vL, vR, tsc, tspinL, tspinR, l = sympy.symbols("mL mR nL nR vL vR tsc tspinL, tspinR l")
 
 	with open(which, "r") as f:
 		for i, line in enumerate(f):
@@ -30,12 +31,12 @@ def parse_hopping_matrix(which):
 
 				# change the brackets in Sqrt and KroneckerDelta, [ ] -> ( )
 				# sympy will now understand the expression 
-
+				
 				elem = re.sub(r"Sqrt\[(.*?)\]", r"sqrt(\1)", elem)
 				elem = re.sub(r"KroneckerDelta\[(.*?)\]", r"KroneckerDelta(\1)", elem)
 
 				a = parse_expr(elem)
-				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, tsc, l], a)
+				a = sympy.lambdify([mL, mR, nL, nR, vL, vR, tsc, tspinL, tspinR, l], a)
 			
 				# each element of this matrix is a function of the above parameters,
 				# giving the matrix element for two states with general occupation mL, mR and nL, nR

@@ -25,7 +25,7 @@ class params:
 	#symetric parmeters, default for both channels
 	alpha: float = 0.
 	Ec: float = 0.
-	n0: float = 0.
+	n0: float = UNSPECIFIED_DEFAULT
 	Ez_sc: float = 0.
 
 	#left channel
@@ -48,6 +48,9 @@ class params:
 	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
 
 	tsc: float = 0. #hopping between the two SCs directly, not through the QD.
+	tspin: float = 0. #spin flipping hoppinh between the QD and SCs.
+	tspin_L: float = UNSPECIFIED_DEFAULT
+	tspin_R: float = UNSPECIFIED_DEFAULT
 	tpair: float = 0. #pair hopping between the two SCs, without including any quasiparticles. 
 
 	#setting the calculations parameters
@@ -107,8 +110,11 @@ class params:
 		
 		# set the default values here!
 		self.set_default("epsimp", -self.U/2)
+		self.set_default("n0", (self.N-1)/2)
 		self.set_default("v_L", self.v)
 		self.set_default("v_R", self.v)
+		self.set_default("tspin_L", self.tspin)
+		self.set_default("tspin_R", self.tspin)
 		self.set_default("alpha_L", self.alpha)
 		self.set_default("alpha_R", self.alpha)
 		self.set_default("Ec_L", self.Ec)

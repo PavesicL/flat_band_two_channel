@@ -246,13 +246,15 @@ def generate_hopping_matrix(subspace, full_basis, index_list, n, p):
 
 	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
 
+	print("this matrix: ", matName)
+
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
 	for i, si in enumerate(full_basis):
 		for j, sj in enumerate(full_basis):
 			i_ind = index_list[i]
 			j_ind = index_list[j]
 
-			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+			val = general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=sj.mL, nR=sj.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 
 			if np.isnan(val): # we get nan in expressions like mL/sqrt(mL), when mL=0. But this is actually 0.
 				val = 0.0
@@ -266,12 +268,12 @@ def generate_hopping_matrix(subspace, full_basis, index_list, n, p):
 				val = 0	
 				if si.dM == smallest_dM and sj.dM == largest_dM:
 					# make the values like they are for dM -> dM+1 artificially! 
-					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL-1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
-					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR+1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL-1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR+1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 				elif si.dM == largest_dM and sj.dM == smallest_dM:
 					# make the values like they are for dM -> dM-1 artificially! 
-					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL+1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
-					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR-1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, l=p.LL)
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL+1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
+					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR-1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 				H[i, j] += val
 	return H
 
