@@ -61,9 +61,10 @@ def print_state(eigenvector, basis, p):
 			size, phi = cmath.polar(amplitude)
 			printList.append([size, phi/np.pi, basis[i]])
 	printList = sorted(printList, key = lambda x : -abs(x[0]))
-	#printList = sorted(printList, key = lambda x : x[2].dM)
+	# multiply so that the largest contribution has a real valued amplitude
+	first_phi = printList[0][1]
 	for amp, phi, bas in printList:
-		print(f"{amp}	exp({round(phi, 3)}/pi)	{bas}")		
+		print(f"{amp}	exp({round(phi - first_phi, 3)}/pi)	{bas}")		
 
 ###################################################################################################
 # OCCUPANCY CALCULATION
@@ -95,6 +96,28 @@ def print_and_save_all_occupancies(sector, h5file, states, basis, p):
 	
 	print(f"occupation: {ns}")	
 
+###################################################################################################
+# total Sz CALCULATION
+
+def calculate_Sz(dM_eigenvector, dM_basis):
+	Sz = 0
+	for i, amplitude in enumerate(dM_eigenvector):
+		if amplitude != 0:
+			Sz += abs(amplitude)**2 * dM_basis[i].Sz
+	return Sz
+
+def print_and_save_total_Sz(sector, h5file, states, basis, p):
+
+	n, Sz = sector
+
+	Szs = ""
+	for i, state in enumerate(states):
+		totSz = calculate_Sz(state, basis)			
+		h5dump(h5file, f"{n}/{Sz}/{i}/tot_Sz/", totSz)
+		
+		Szs += f"{round(totSz, p.print_precision)}, "
+	
+	print(f"Sz: {Szs}")	
 ###################################################################################################
 # deltaM CALCULATION
 
@@ -526,6 +549,8 @@ def process_save_and_print_results(d : dict, h5file : str, p):
 		
 		if p.calc_occupancies:
 			print_and_save_all_occupancies(sector, h5file, dM_eigenstates, dM_basis, p)
+		if p.calc_tot_Sz:
+			print_and_save_total_Sz(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_dMs:
 			print_and_save_dMs(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_QP_phase:

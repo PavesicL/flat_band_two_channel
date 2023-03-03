@@ -48,10 +48,10 @@ class params:
 	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
 
 	tsc: float = 0. #hopping between the two SCs directly, not through the QD.
-	tspin: float = 0. #spin flipping hoppinh between the QD and SCs.
+	tpair: float = 0. #pair hopping between the two SCs, without including any quasiparticles. 
+	tspin: float = 0. #spin flipping hopping.
 	tspin_L: float = UNSPECIFIED_DEFAULT
 	tspin_R: float = UNSPECIFIED_DEFAULT
-	tpair: float = 0. #pair hopping between the two SCs, without including any quasiparticles. 
 
 	#setting the calculations parameters
 	nrange: int = 0
@@ -69,6 +69,7 @@ class params:
 	print_precision: int = 5
 
 	calc_occupancies: bool = True
+	calc_tot_Sz: bool = False
 	calc_dMs: bool = False
 	calc_QP_phase: bool = False
 	calc_abs_phase: bool = True
@@ -239,7 +240,13 @@ class QP(Enum):
 	def __init__(self, Sz, n):
 		self.Sz = Sz
 		self.n = n
-
+	
+	def __str__(self):
+		"""
+		This makes it so printing the enum gives ZERO instead of QP.ZERO
+		"""
+		return self.name 
+	
 	@property
 	def bit_integer(self):
 		"""
@@ -258,12 +265,6 @@ class QP(Enum):
 	@classmethod
 	def export_to(cls, namespace):
 	    namespace.update(cls.__members__) 
-
-	def __str__(self):
-		"""
-		This makes it so printing the enum gives ZERO instead of QP.ZERO
-		"""
-		return self.name 
 
 QP.export_to(globals()) #this exports the class enums into global namespace, so they can be called by eg. ZERO instead of QP.ZERO
 
@@ -482,6 +483,13 @@ class STATE:
 		for i, bs in enumerate(self.basis_states):
 			n += self.amplitudes[i]**2 * bs.R.n
 		return n
+
+	@property	
+	def Sz(self):
+		Sz = 0
+		for i, bs in enumerate(self.basis_states):
+			Sz += self.amplitudes[i]**2 * bs.QP_state.Sz
+		return Sz
 
 	def __str__(self):
 		s = ""

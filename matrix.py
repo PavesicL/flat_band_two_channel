@@ -282,6 +282,7 @@ def pair_hopping_element(tpair: float, phiext: float, si: STATE, sj: STATE) -> f
 	mL, mR = si.mL, si.mR
 	nL, nR = sj.mL, sj.mR
 	QPi, QPj = si.QP_state, sj.QP_state
+	#this has to have a minus in order for the ground state to have phi=0!
 	return -1 * tpair * delta(QPi, QPj) * ( np.exp(1j * phiext) * delta(mL, nL+1) * delta(mR, nR-1) + np.exp(- 1j * phiext) * delta(mL, nL-1) * delta(mR, nR+1) )
 
 def add_sc_pair_hopping(H, basis, n, p):
@@ -293,9 +294,6 @@ def add_sc_pair_hopping(H, basis, n, p):
 	"""
 	for i, si in enumerate(basis):
 		for j, sj in enumerate(basis):
-			mL, mR = si.mL, si.mR
-			nL, nR = sj.mL, sj.mR
-			#this has to have a minus in order for the ground state to have phi=0!
 			H[i, j] += pair_hopping_element(p.tpair, p.phiext, si, sj)
 			if p.add_periodic_hopping_blocks:
 				#HERE DO LIKE ABOVE FOR REAL HOPPING!!
@@ -325,6 +323,7 @@ def generate_total_matrix(subspace, n, p):
 	H = generate_hopping_matrix(subspace, full_basis, index_list, n, p)
 	H = add_sc_pair_hopping(H, full_basis, n, p)
 	H = add_diagonal_elements(H, full_basis)
+
 	return H, full_basis
 
 def reorder_matrix_dM(mat, bas):
