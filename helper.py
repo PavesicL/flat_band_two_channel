@@ -76,6 +76,7 @@ class params:
 	calc_sin_cos_phi: bool = False
 	save_dM_amplitudes: bool = False
 	save_phi_amplitudes: bool = False
+	calc_wigner_distribution: bool = False
 	calc_nqp: bool = True
 	calc_imp_spin_correlations: bool = False
 	calc_parity: bool = False

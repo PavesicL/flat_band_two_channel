@@ -337,6 +337,69 @@ def print_and_save_phi_amplitudes(sector, h5file, states, phi_basis, p):
 	print(f"{i} phi vectors saved")	
 
 ###################################################################################################
+
+def trace_out_QD_amps(dM_eigenvector, dM_basis):
+	"""
+	Sum all amplitudes with the same dM. 	
+	"""
+
+	unique_dMs = []
+	for state in dM_basis:
+		unique_dMs.append(state.dM)	
+	unique_dMs = np.unique(unique_dMs)
+	unique_amps = np.zeros(len(unique_dMs), dtype=complex)
+
+	for i, state in enumerate(dM_basis):
+		ndx = list(unique_dMs).index(state.dM)
+		unique_amps[ndx] += dM_eigenvector[i]
+
+	return unique_dMs, unique_amps
+
+def get_amp(dm, dmdict):
+	try:
+		return dmdict[dm]
+	except KeyError:
+		return 0
+	
+def wigner(dm, phi, n, dmdict):
+	res = 0
+	for y in range(-n, n+1, 1):
+		amp1 = get_amp(dm - y, dmdict)
+		amp2 = get_amp(dm + y, dmdict)
+		fac = np.exp( 1j * 2 * y * phi )
+
+		res += np.conj(amp1) * amp2 * fac
+	res /= np.pi
+	return res
+
+def check_if_all_real(vals, prec = 10**(-8)):
+	vals = np.array(vals).flatten()
+	for v in vals:
+		if abs(v.imag) > prec:
+			raise Exception(f"Value {v} is not real in the calculation of the Wigner distribution!")
+
+def calc_wigner_dist(n, dM_eigenvector, dM_basis):
+
+	unique_dMs, unique_amps = trace_out_QD_amps(dM_eigenvector, dM_basis)
+	dmdict = dict(zip(unique_dMs, unique_amps))
+	phis = np.linspace(0, 2 * pi, len(unique_dMs))
+	
+	res = [[wigner(dm, phi, n, dmdict) for dm in unique_dMs] for phi in phis]
+	check_if_all_real(res)
+	res = np.real(res)
+	return res, unique_dMs, phis
+
+def print_and_save_wigner_distribution(sector, h5file, states, basis, p):
+	n, Sz = sector
+	for i, state in enumerate(states):
+		vals, dMs, phis = calc_wigner_dist(n, state, basis)
+		h5dump(h5file, f"{n}/{Sz}/{i}/wigner_distribution/dMs/", dMs)
+		h5dump(h5file, f"{n}/{Sz}/{i}/wigner_distribution/phis/", phis)
+		h5dump(h5file, f"{n}/{Sz}/{i}/wigner_distribution/vals/", vals)
+	print(f"{i} wigner distributions saved")	
+
+
+###################################################################################################
 # NUMBER OF QUASIPARTICLES
 
 def calculate_nqp(comp_eigenstate):
@@ -563,6 +626,8 @@ def process_save_and_print_results(d : dict, h5file : str, p):
 			print_and_save_dM_amplitudes(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.save_phi_amplitudes:
 			print_and_save_phi_amplitudes(sector, h5file, phi_eigenstates, phi_basis, p)
+		if p.calc_wigner_distribution:
+			print_and_save_wigner_distribution(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_nqp:
 			print_and_save_nqp(sector, h5file, computational_eigenstates, p)
 		if p.calc_imp_spin_correlations:
