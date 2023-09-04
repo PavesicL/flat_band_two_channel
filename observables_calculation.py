@@ -204,7 +204,7 @@ def print_and_save_all_QP_phases(sector, h5file, states, basis, p):
 ###################################################################################################
 # ABSOLUTE PHI DIRECTLY FROM BASIS VECTORS
 
-def calculate_abs_phi(eigenvector, phi_basis):
+def calculate_abs_phi(eigenvector, phi_basis, p):
 	"""
 	The eigenstates are typically (always?) a superposition of |phi> + |-phi>. The average phase as computed
 	using various operators is then 0, or ill defined. Here, |phi| is computed by reflecting all phi > pi
@@ -213,13 +213,14 @@ def calculate_abs_phi(eigenvector, phi_basis):
 	avg, std = 0, 0
 	for i, amp in enumerate(eigenvector):
 		phi = phi_basis[i].phi
+		phi -= p.phiext # compute this relative to phiext! 
 
 		if phi > np.pi:
 			#reflect into the first two quadrants
 			phi = 2*np.pi - phi
 
-		#now express phi in the units of pi!!!
-		phi = phi/np.pi
+		#now express phi in the units of pi!!! Also put phiext back in.
+		phi = ( phi + p.phiext ) / np.pi
 
 		avg += abs(amp)**2 * phi
 		std += abs(amp)**2 * (phi**2)
@@ -232,7 +233,7 @@ def print_and_save_abs_phis(sector, h5file, states, phi_basis, p):
 	abs_phis, abs_phi2s = "", ""
 	fluctuations = ""
 	for i, state in enumerate(states):
-		phi, phi2 = calculate_abs_phi(state, phi_basis)
+		phi, phi2 = calculate_abs_phi(state, phi_basis, p)
 		fluct = abs( phi**2 - phi2 )
 
 		h5dump(h5file, f"{n}/{Sz}/{i}/abs_phi/", phi)
