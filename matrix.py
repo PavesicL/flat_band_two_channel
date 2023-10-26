@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from helper import STATE, BASIS_STATE, PHI_STATE, UP, DOWN, ZERO, UPDN, delta
+from helper import params, STATE, BASIS_STATE, PHI_STATE, UP, DOWN, ZERO, UPDN, delta
 from parse_matrices import parse_hopping_matrix
 import numpy as np
 import cmath
@@ -20,7 +20,7 @@ from bitwise_ops import generate_Sz_basis
 ###################################################################################################
 #GENERAL BASIS GENERATION
 
-def doublet_basis_states(mL, mR, p):
+def doublet_basis_states(mL : int, mR : int, p : params) -> list[ STATE ]:
 	"""
 	DO NOT CHANGE THE ORDER IN THIS LIST! IT HAS TO BE THE SAME AS IN THE MATHEMATICA NOTEBOOK, BECAUSE MATRIX ELEMENTS ARE PARSED FROM THERE!
 
@@ -54,7 +54,7 @@ def doublet_basis_states(mL, mR, p):
 	allStates = [psi_100, psi_010, psi_001, psi_210, psi_201, psi_120, psi_021, psi_012, psi_102, psi_S12, psi_3qp, psi_221, psi_212, psi_122]
 	return allStates
 
-def doublet_basis_states_both_Sz(mL, mR, p):
+def doublet_basis_states_both_Sz(mL : int, mR : int, p : params) -> list[STATE]:
 	"""
 	DO NOT CHANGE THE ORDER IN THIS LIST! IT HAS TO BE THE SAME AS IN THE MATHEMATICA NOTEBOOK, BECAUSE MATRIX ELEMENTS ARE PARSED FROM THERE!
 
@@ -115,7 +115,7 @@ def doublet_basis_states_both_Sz(mL, mR, p):
 				 psi_100m, psi_010m, psi_001m, psi_210m, psi_201m, psi_120m, psi_021m, psi_012m, psi_102m, psi_S12m, psi_3qpm, psi_221m, psi_212m, psi_122m]
 	return allStates
 
-def singlet_basis_states(mL, mR, p):
+def singlet_basis_states(mL : int, mR : int, p : params) -> list[STATE]:
 	"""
 	DO NOT CHANGE THE ORDER IN THIS LIST! IT HAS TO BE THE SAME AS IN THE MATHEMATICA NOTEBOOK, BECAUSE MATRIX ELEMENTS ARE PARSED FROM THERE!
 
@@ -164,10 +164,10 @@ def singlet_basis_states(mL, mR, p):
 #FUNCTIONS FOR THE GENERATION OF THE MATRIX
 bias = "left"
 
-def get_excluded_dMs(bias: str, n: int):
+def get_excluded_dMs(bias: str, n: int) -> list[int]:
 	"""
 	Generate a list of dM values to be excluded. 
-	An odd number of values has to be excluded. For odd n, it has to be 3, for even; 5.
+	An odd number of values has to be excluded. For odd n, it has to be 3, for even 5.
 	For a span of -m, -m+1, ..., m, either exclude the first one and two last or the opposite.
 	bias can be "left" or "right". "left" means exclude one value on the left and two on the right, 
 	while "right" means the opposite. 
@@ -185,7 +185,7 @@ def get_excluded_dMs(bias: str, n: int):
 		elif bias == "right":
 			return [-val, -val+1, -val+2, val, val-1]
 
-def get_max_min_dMs(bias: str, n: int):
+def get_max_min_dMs(bias: str, n: int) -> list[int]:
 	if n%2 == 1:
 		val = (n-1)/2
 		if bias == "left":
@@ -201,7 +201,7 @@ def get_max_min_dMs(bias: str, n: int):
 
 	return smallest_dM, largest_dM				
 
-def generate_full_basis(subspace, n, p):
+def generate_full_basis(subspace : str, n : int, p : params) -> tuple[ list[STATE], list[int] ]:
 	"""
 	Generates the full basis for a given problem, as well as the indeces which relate the states to their indeces in the general basis.
 	This is neccessary to relate the basis state with the parsed hopping matrix elements.
@@ -232,7 +232,7 @@ def generate_full_basis(subspace, n, p):
 
 	return basis, indexList
 
-def generate_hopping_matrix(subspace, full_basis, index_list, n, p):
+def generate_hopping_matrix(subspace : str, full_basis : list[STATE], index_list : list[int], n : int, p : params) -> np.array:
 	"""
 	Generates the full hopping matrix. 
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
@@ -278,14 +278,14 @@ def generate_hopping_matrix(subspace, full_basis, index_list, n, p):
 	return H
 
 #def pair_hopping_element(tpair: float, phiext: float, mL: int, mR: int, nL: int, nR: int) -> float :
-def pair_hopping_element(tpair: float, phiext: float, si: STATE, sj: STATE) -> float :
+def pair_hopping_element(tpair: float, phiext: float, si: STATE, sj: STATE) -> float:
 	mL, mR = si.mL, si.mR
 	nL, nR = sj.mL, sj.mR
 	QPi, QPj = si.QP_state, sj.QP_state
 	#this has to have a minus in order for the ground state to have phi=0!
 	return -1 * tpair * delta(QPi, QPj) * ( np.exp(1j * phiext) * delta(mL, nL+1) * delta(mR, nR-1) + np.exp(- 1j * phiext) * delta(mL, nL-1) * delta(mR, nR+1) )
 
-def add_sc_pair_hopping(H, basis, n, p):
+def add_sc_pair_hopping(H : np.array, basis : list[STATE], n : int, p : params) -> np.array:
 	"""
 	This is pair hopping between the two SCs and is just pair exhange between the two reservoirs.
 	It should not affect quasiparticles or the QD configuration. 
@@ -309,12 +309,12 @@ def add_sc_pair_hopping(H, basis, n, p):
 					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 	return H
 
-def add_diagonal_elements(H, basis):
+def add_diagonal_elements(H : np.array, basis : list[STATE]) -> np.array:
 	for i, state in enumerate(basis):
 		H[i, i] += state.energy()
 	return H	
 
-def generate_total_matrix(subspace, n, p):
+def generate_total_matrix(subspace : str, n : int, p : params) -> tuple[np.array, list[STATE]]:
 	"""
 	Generates the full Hamiltonian as a sum of hopping and diagonal terms.
 	"""
@@ -326,7 +326,7 @@ def generate_total_matrix(subspace, n, p):
 
 	return H, full_basis
 
-def reorder_matrix_dM(mat, bas):
+def reorder_matrix_dM(mat : np.array, bas : list[STATE] ) -> tuple[np.array, list[STATE]]:
 	"""
 	Orders the basis states and the matrix in such a way that the states with equal dm = mL - mR are together.
 	This makes the block structure of the hamiltonian more apparent.
@@ -343,28 +343,7 @@ def reorder_matrix_dM(mat, bas):
 	mat = reorder_matrix(mat, sortingRule)
 	return mat, sortedBas
 
-def reorder_matrix_phi(mat, basis_transformation_matrix, phi_list):
-	"""
-	Orders the matrix into blocks with equal phi.
-	phi_list is a list, i-th element is phi of the i-th vector.
-	"""
-
-	print("Sorting matrix by phi.")
-	raise Exception("REORDERING BY PHI DOES NOT WORK! THE BASIS IS WRONG!")
-
-	sortingRule = [i for i in range(len(mat))]
-	zippedObj = sorted( list(zip(sortingRule, phi_list)), key = lambda x : x[1] )
-	sortingRule, sortedPhis = unzip(zippedObj)
-
-	mat = reorder_matrix(mat, sortingRule)
-	#basis_transformation_matrix = reorder_matrix(basis_transformation_matrix, sortingRule)
-
-	basis_transformation_matrix = basis_transformation_matrix[:, sortingRule]
-	#basis_transformation_matrix = basis_transformation_matrix[sortingRule, :]
-
-	return mat, basis_transformation_matrix
-
-def reorder_matrix(mat, rule):
+def reorder_matrix(mat : np.array, rule : list[int]) -> np.array:
 	"""
 	Orders the matrix and basis by the given rule.
 	rule is a list of integers, rule[i] is where to move the i-th element to. 
@@ -378,80 +357,88 @@ def unzip(zipped_object):
 
 ###################################################################################################
 #COMPUTATION BASIS - basis with unique basis states with (n, Sz). Used for calculations of properties.
+# So, the basis used to define the hamiltonian is used because it has well defined total spin. However, 
+# its states are superpositions of states with (n, Sz), so it is hard to do calculations in it. 
+# Functions here are used to generate a computational basis (ie. a list of bitstrings (actually integers) defining the occupation of the three orbitals).
 
-def odd_computation_basis_OLD(mL, mR, p):
-	"""
-	A list of all unique BASIS_STATE with Sz=1/2.
-	"""
-	basis = []
+# THE _OLD FUNCTIONS WERE USED BEFORE I IMPLEMENTED AND INCLUDED my_second_quantization
+if 0:
+	pass
+	'''
+	def odd_computation_basis_OLD(mL, mR, p):
+		"""
+		A list of all unique BASIS_STATE with Sz=1/2.
+		"""
+		basis = []
 
-	#1 qp
-	basis.append( BASIS_STATE(UP, mL, ZERO, mR, ZERO, p) )
-	basis.append( BASIS_STATE(ZERO, mL, UP, mR, ZERO, p) )
-	basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UP, p) )
+		#1 qp
+		basis.append( BASIS_STATE(UP, mL, ZERO, mR, ZERO, p) )
+		basis.append( BASIS_STATE(ZERO, mL, UP, mR, ZERO, p) )
+		basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UP, p) )
+		
+		#3 qp
+		basis.append( BASIS_STATE(UP, mL, UP, mR, DOWN, p) )
+		basis.append( BASIS_STATE(UP, mL, DOWN, mR, UP, p) )
+		basis.append( BASIS_STATE(DOWN, mL, UP, mR, UP, p) )
+
+		basis.append( BASIS_STATE(UPDN, mL, UP, mR, ZERO, p) )
+		basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UP, p) )
+		basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, UP, p) )
+		basis.append( BASIS_STATE(UP, mL, UPDN, mR, ZERO, p) )
+		basis.append( BASIS_STATE(UP, mL, ZERO, mR, UPDN, p) )
+		basis.append( BASIS_STATE(ZERO, mL, UP, mR, UPDN, p) )
+
+		# 5 qp
+		basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, UP, p) )
+		basis.append( BASIS_STATE(UPDN, mL, UP, mR, UPDN, p) )
+		basis.append( BASIS_STATE(UP, mL, UPDN, mR, UPDN, p) )
+
+		return basis
+
+	def even_computation_basis_OLD(mL, mR, p):
+		"""
+		A list of all unique BASIS_STATE with Sz=0.
+		"""
+		basis = []
+		
+		# 0 qp
+		basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, ZERO, p) )
+		
+		# 2 qp
+		basis.append( BASIS_STATE(UP, mL, DOWN, mR, ZERO, p) )
+		basis.append( BASIS_STATE(UP, mL, ZERO, mR, DOWN, p) )
+
+		basis.append( BASIS_STATE(DOWN, mL, UP, mR, ZERO, p) )
+		basis.append( BASIS_STATE(DOWN, mL, ZERO, mR, UP, p) )
+
+		basis.append( BASIS_STATE(ZERO, mL, UP, mR, DOWN, p) )
+		basis.append( BASIS_STATE(ZERO, mL, DOWN, mR, UP, p) )
+
+		basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, ZERO, p) )
+		basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, ZERO, p) )
+		basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UPDN, p) )
+		
+		# 4 qp
+		basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p) )
+		basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UPDN, p) )
+		basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, UPDN, p) )
+
+		basis.append( BASIS_STATE(UPDN, mL, UP, mR, DOWN, p) )
+		basis.append( BASIS_STATE(UPDN, mL, DOWN, mR, UP, p) )
+
+		basis.append( BASIS_STATE(UP, mL, UPDN, mR, DOWN, p) )
+		basis.append( BASIS_STATE(DOWN, mL, UPDN, mR, UP, p) )
+
+		basis.append( BASIS_STATE(UP, mL, DOWN, mR, UPDN, p) )
+		basis.append( BASIS_STATE(DOWN, mL, UP, mR, UPDN, p) )
+
+		# 6 qp
+		basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, UPDN, p) )
+
+		return basis
+	'''
 	
-	#3 qp
-	basis.append( BASIS_STATE(UP, mL, UP, mR, DOWN, p) )
-	basis.append( BASIS_STATE(UP, mL, DOWN, mR, UP, p) )
-	basis.append( BASIS_STATE(DOWN, mL, UP, mR, UP, p) )
-
-	basis.append( BASIS_STATE(UPDN, mL, UP, mR, ZERO, p) )
-	basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UP, p) )
-	basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, UP, p) )
-	basis.append( BASIS_STATE(UP, mL, UPDN, mR, ZERO, p) )
-	basis.append( BASIS_STATE(UP, mL, ZERO, mR, UPDN, p) )
-	basis.append( BASIS_STATE(ZERO, mL, UP, mR, UPDN, p) )
-
-	# 5 qp
-	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, UP, p) )
-	basis.append( BASIS_STATE(UPDN, mL, UP, mR, UPDN, p) )
-	basis.append( BASIS_STATE(UP, mL, UPDN, mR, UPDN, p) )
-
-	return basis
-
-def even_computation_basis_OLD(mL, mR, p):
-	"""
-	A list of all unique BASIS_STATE with Sz=0.
-	"""
-	basis = []
-	
-	# 0 qp
-	basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, ZERO, p) )
-	
-	# 2 qp
-	basis.append( BASIS_STATE(UP, mL, DOWN, mR, ZERO, p) )
-	basis.append( BASIS_STATE(UP, mL, ZERO, mR, DOWN, p) )
-
-	basis.append( BASIS_STATE(DOWN, mL, UP, mR, ZERO, p) )
-	basis.append( BASIS_STATE(DOWN, mL, ZERO, mR, UP, p) )
-
-	basis.append( BASIS_STATE(ZERO, mL, UP, mR, DOWN, p) )
-	basis.append( BASIS_STATE(ZERO, mL, DOWN, mR, UP, p) )
-
-	basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, ZERO, p) )
-	basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, ZERO, p) )
-	basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UPDN, p) )
-	
-	# 4 qp
-	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p) )
-	basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UPDN, p) )
-	basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, UPDN, p) )
-
-	basis.append( BASIS_STATE(UPDN, mL, UP, mR, DOWN, p) )
-	basis.append( BASIS_STATE(UPDN, mL, DOWN, mR, UP, p) )
-
-	basis.append( BASIS_STATE(UP, mL, UPDN, mR, DOWN, p) )
-	basis.append( BASIS_STATE(DOWN, mL, UPDN, mR, UP, p) )
-
-	basis.append( BASIS_STATE(UP, mL, DOWN, mR, UPDN, p) )
-	basis.append( BASIS_STATE(DOWN, mL, UP, mR, UPDN, p) )
-
-	# 6 qp
-	basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, UPDN, p) )
-
-	return basis
-
-def computation_basis(Sz, mL, mR):
+def computation_basis(Sz : float, mL : int, mR : int) -> list[COMP_B_STATE]:
 	"""
 	Generates op.BASIS_STATES with a given Sz on three sites (imp, L, R) 
 	and mL and mR as additional quantum numbers. 
@@ -464,7 +451,7 @@ def computation_basis(Sz, mL, mR):
 	basis = np.array(basis, dtype=object)	
 	return basis
 
-def generate_computation_basis(n, Sz, p):
+def generate_computation_basis(n : int, Sz : float, p : params) -> list[COMP_B_STATE]:
 	"""
 	Generates a list of all basis states with a given n.
 	"""
@@ -487,7 +474,7 @@ def generate_computation_basis(n, Sz, p):
 	basis = np.array( sorted(basis), dtype=op.BASIS_STATE)
 	return basis
 
-def dM_basis_to_calc_basis(dM_basis_state):
+def dM_basis_to_calc_basis(dM_basis_state : BASIS_STATE) -> COMP_B_STATE:
 	"""
 	Writes a basis state in the dM basis into BASIS_STATE type from my_second_quantization, 
 	where mL and mR are quantum numbers and the QP_STATE is a bitstring.
@@ -495,9 +482,9 @@ def dM_basis_to_calc_basis(dM_basis_state):
 	bitstring = dM_basis_state.QP_state.bitstring()
 	return COMP_B_STATE( bitstring = bitstring, mL = dM_basis_state.L.M, mR = dM_basis_state.R.M)
 
-def write_vector_in_computation_basis(eigenstate, dM_basis, computation_basis):
+def write_vector_in_computation_basis(eigenstate : list[float], dM_basis : list[BASIS_STATE], computation_basis : list[COMP_B_STATE]) -> COMP_STATE:
 	"""
-	Rewrites a vector from the spin basis to the computation basis. 
+	Rewrites a vector from the basis with well defined total spin (the one used to generate the hamiltonian) to the computation basis of bitstrings where only Sz is well defined. 
 	
 	Iterates over all STATEs in the vector and for each BASIS_STATE adds up the amplitude to the corresponding point in the computation basis vector.
 	"""
@@ -518,7 +505,7 @@ def write_vector_in_computation_basis(eigenstate, dM_basis, computation_basis):
 ###################################################################################################
 #FUNCTIONS FOR FOURIER TRANSFORM
 
-def fourier_transform_basis(basis, p):
+def fourier_transform_basis(basis : list[STATE], p : params) -> tuple[np.array, list[PHI_STATE]]:
 	"""
 	Fourier transform the deltaM quantum number into phi, by
 	|phi, QP> = sum_dM e^{i dM.phi} |dM, QP>
@@ -567,7 +554,7 @@ def fourier_transform_basis(basis, p):
 
 	return basis_transformation_matrix, phi_basis
 
-def fourier_transform_matrix(matrix, basis, p):
+def fourier_transform_matrix(matrix : np.array, basis : list[BASIS_STATE], p : params) -> tuple[np.array, np.array, list[PHI_STATE]]:
 	"""
 	Fourier transforms the Hamiltonian into blocks with well defined |phi>.
 	"""
@@ -580,7 +567,7 @@ def fourier_transform_matrix(matrix, basis, p):
 
 ###################################################################################################
 
-def check_state(state, n, p):
+def check_state(state : STATE, n : int, p : params) -> bool:
 	"""
 	For each basis state check if:
 		its charge is equal to n

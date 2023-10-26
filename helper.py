@@ -163,7 +163,7 @@ class params:
 		else:
 			return int((self.N - 1)//2)
 
-	def unspecified_default(self, paramName):
+	def unspecified_default(self, paramName : str) -> bool:
 		"""
 		Check whether the parameter is an unspecified default value.
 		"""
@@ -200,7 +200,7 @@ class params:
 ###################################################################################################
 # PARSING THE PARAMETERS FROM FILE
 
-def parse_input_to_dict(inputFile):
+def parse_input_to_dict(inputFile : str) -> dict:
 	"""
 	Parses all parameters in the inputFile into a dictionary. All values are still strings!
 	"""
@@ -218,7 +218,7 @@ def parse_input_to_dict(inputFile):
 						d[name] = val
 	return d			
 
-def parse_params(inputFile):
+def parse_params(inputFile : str) -> params:
 	"""
 	Generates the params object p with all parameters.
 	"""
@@ -269,31 +269,7 @@ class QP(Enum):
 
 QP.export_to(globals()) #this exports the class enums into global namespace, so they can be called by eg. ZERO instead of QP.ZERO
 
-class QP_STATE:
-	"""
-	A state of QPs at the impurity and both channels.
-	"""
 
-	def __init__(self, qp_imp, qp_L, qp_R):
-		self.qp_imp = qp_imp
-		self.qp_L = qp_L
-		self.qp_R = qp_R
-	
-		self.nqp = qp_imp.n + qp_L.n + qp_R.n
-		self.nqpSC = qp_L.n + qp_R.n
-		self.Sz = qp_imp.Sz + qp_L.Sz + qp_R.Sz
-
-	def bitstring(self):
-		return self.qp_R.bit_integer + ( 4 * self.qp_L.bit_integer ) + ( 16 * self.qp_imp.bit_integer ) 
-
-
-	def __repr__(self):
-		return f"({str(self.qp_imp)}, {str(self.qp_L)}, {str(self.qp_R)})"
-
-	def __eq__(self, other):
-		return self.qp_imp == other.qp_imp and self.qp_L == other.qp_L and self.qp_R == other.qp_R
-
-###################################################################################################
 # STATES DEFINING CLASSES
 
 @dataclass
@@ -370,11 +346,40 @@ class SC_BATH:
 		condition = self.M == other.M and self.qp== other.qp
 		return condition		
 
+###################################################################################################
+# STATES
+
+class QP_STATE:
+	"""
+	A state of QPs at the impurity and both channels.
+	"""
+
+	def __init__(self, qp_imp : IMP, qp_L : SC_BATH, qp_R : SC_BATH) -> None:
+		self.qp_imp = qp_imp
+		self.qp_L = qp_L
+		self.qp_R = qp_R
+	
+		self.nqp = qp_imp.n + qp_L.n + qp_R.n
+		self.nqpSC = qp_L.n + qp_R.n
+		self.Sz = qp_imp.Sz + qp_L.Sz + qp_R.Sz
+
+	def bitstring(self):
+		return self.qp_R.bit_integer + ( 4 * self.qp_L.bit_integer ) + ( 16 * self.qp_imp.bit_integer ) 
+
+
+	def __repr__(self):
+		return f"({str(self.qp_imp)}, {str(self.qp_L)}, {str(self.qp_R)})"
+
+	def __eq__(self, other):
+		return self.qp_imp == other.qp_imp and self.qp_L == other.qp_L and self.qp_R == other.qp_R
+
+
+
 class BASIS_STATE:
 	"""
 	A basis state is a product state of the impurity level and the two SCs.
 	"""
-	def __init__(self, qp_imp, Ml, qp_L, Mr, qp_R, p):
+	def __init__(self, qp_imp : IMP, Ml : int, qp_L : SC_BATH, Mr : int, qp_R : SC_BATH, p : params) -> None:
 		self.imp = IMP(qp_imp, p.U, p.epsimp, p.Ez_imp)
 		self.L = SC_BATH(Ml, qp_L, p.LL, p.alpha_L, p.Ec_L, p.n0_L, p.Ez_L, p.turn_off_SC_finite_size_effects)
 		self.R = SC_BATH(Mr, qp_R, p.LL, p.alpha_R, p.Ec_R, p.n0_R, p.Ez_R, p.turn_off_SC_finite_size_effects)
@@ -415,7 +420,7 @@ class STATE:
 	A state is a superposition of basis states with given amplitudes.
 	"""
 
-	def __init__(self, type_index, *amplitudes_and_basis_states):
+	def __init__(self, type_index : int, *amplitudes_and_basis_states : list[ tuple[float, BASIS_STATE] ] ):
 		"""
 		The input should be any number of tuples (amplitude, BASIS_STATE).
 		type_index indentifies QP configuration this state has. It corresponds to the order in
@@ -506,7 +511,7 @@ class PHI_STATE:
 	A FT of STATE. Quantum numbers are phi and QP_state. QP_state_list is the same as the one from class STATE.
 	"""
 
-	def __init__(self, phi, QP_state_list):
+	def __init__(self, phi : float, QP_state_list : list[ tuple[float, QP_STATE] ]):
 		self.phi = phi
 		self.QP_state_list = QP_state_list #this is a list of [ (amp, QP_STATE), ... ]
 

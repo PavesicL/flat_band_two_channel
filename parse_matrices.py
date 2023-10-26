@@ -7,7 +7,7 @@ from sympy.parsing.sympy_parser import parse_expr
 from sympy.functions.special.tensor_functions import KroneckerDelta
 ###################################################################################################
 	
-def parse_hopping_matrix(which):
+def parse_hopping_matrix(which : str) -> tuple[list[list[sympy.FunctionClass]], list[list[str]]]:
 	"""
 	Parse the hopping matrix elements from files doublet_mat and singlet_mat. They are for general mL, mR and nL, nR. 
 	Rewrite each element first into a sympy symbolic expression and then into a lambda function.
@@ -44,7 +44,7 @@ def parse_hopping_matrix(which):
 				strMat[i].append(elem)
 	return mat, strMat
 
-def parse_phi_matrix(which):
+def parse_phi_matrix(which : str) -> list[list[sympy.FunctionClass]]:
 	"""
 	Parses the matrix of the phi operator. These elements are all of type +/- 1/4 delta(mL, nL) delta(mR, nR).
 	Only Kronecker delta has to be renamed then.

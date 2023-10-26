@@ -3,7 +3,7 @@
 
 from helper import *
 from observables_calculation import *
-from matrix import generate_total_matrix, reorder_matrix_dM, reorder_matrix_phi, fourier_transform_matrix
+from matrix import generate_total_matrix, reorder_matrix_dM, fourier_transform_matrix
 import sys
 from math import pi
 import time
@@ -44,7 +44,6 @@ def diagonalize_subspace(n, p):
 
 	if p.phase_fourier_transform:
 		mat, basis_transformation_matrix, phi_basis = fourier_transform_matrix(mat, bas, p)
-		#mat, basis_transformation_matrix = reorder_matrix_phi(mat, basis_transformation_matrix, phi_list) #THIS HAS A BUG! ALSO, IS NOT THAT IMPORTANT. REMOVE IT?
 		print("Fourier transformed.")
 	else:
 		basis_transformation_matrix = np.identity(len(bas))	
