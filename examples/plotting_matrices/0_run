@@ -1,0 +1,2 @@
+../calc.py inputFile > output
+../../plot_matrix.py matrix_n21

@@ -1,0 +1,5 @@
+# Dec 2023
+To run the example in each folder, do
+./0_run
+This runs ./calc.py inputFile > output
+which produces the human readable text file output and the hdf5 file solution.h5 with saved results.

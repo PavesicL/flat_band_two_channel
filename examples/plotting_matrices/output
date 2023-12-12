@@ -1,0 +1,142 @@
+N = 21
+U = 0
+epsimp = 6
+Ez_imp = 0.0
+alpha = 1
+Ec = 0
+n0 = 10.0
+Ez_sc = 0.0
+alpha_L = 1
+Ec_L = 0
+n0_L = 10.0
+Ez_L = 0.0
+alpha_R = 1
+Ec_R = 0
+n0_R = 10.0
+Ez_R = 0.0
+v = 1
+v_L = 1
+v_R = 1
+phiext = 0.0
+tsc = 0.0
+tpair = 0.0
+tspin = 0.0
+tspin_L = 0.0
+tspin_R = 0.0
+nrange = 0
+nref = 21
+refisn0 = False
+verbose = True
+doublet_both_Sz = False
+print_states_dM = False
+print_states_phi = True
+print_energies = 10
+number_of_states_to_print = 2
+print_states_precision = 0.01
+print_precision = 5
+calc_occupancies = True
+calc_tot_Sz = False
+calc_dMs = False
+calc_QP_phase = False
+calc_abs_phase = False
+calc_sin_cos_phi = False
+save_dM_amplitudes = False
+save_phi_amplitudes = False
+calc_wigner_distribution = False
+calc_nqp = True
+calc_imp_spin_correlations = False
+calc_parity = False
+calc_dEs = True
+save_all_states = False
+num_states_to_save = 10
+parallel = False
+save_matrix = True
+reorder_matrix_dM = True
+phase_fourier_transform = True
+turn_off_all_finite_size_effects = True
+turn_off_SC_finite_size_effects = True
+turn_off_hopping_finite_size_effects = True
+use_all_states = True
+restrict_basis_to_make_periodic = True
+add_periodic_hopping_blocks = True
+
+Computing in subspaces: [21]
+In the subspace with 21 particles.
+
+this matrix:  doublet_no_finite_size_effects.dat
+
+Generated matrix, size: 126
+
+Sorting matrix by dM.
+Reordered into dM blocks.
+FT determinant (has to be 1) =  0.9999999999999936
+Is it unitary?  True
+Fourier transformed.
+Saved matrix.
+Is H hermitian? True
+Is the transform unitary? True
+Diagonalizing ...
+
+Sector 21 finished, t = 0.55 s
+
+###################################################################################################
+RESULTS FOR n = 21, Sz = 0.5:
+Energies: 
+0.52818, 0.52818, 0.54496, 0.54496, 0.57717, 0.57717, 0.62205, 0.62205, 0.67544, 0.67544
+
+Eigenvectors, phi basis:
+i = 0
+0.4958206292858914	exp(0.0/pi)	phi/pi = 1.111; 1.0 * (ZERO, ZERO, UP)
+0.4958206292858893	exp(0.055/pi)	phi/pi = 1.111; 1.0 * (ZERO, UP, ZERO)
+0.4648659470350478	exp(-0.732/pi)	phi/pi = 0.889; 1.0 * (ZERO, UP, ZERO)
+0.464865947035046	exp(-0.676/pi)	phi/pi = 0.889; 1.0 * (ZERO, ZERO, UP)
+0.1312108486891081	exp(0.028/pi)	phi/pi = 1.111; 1.0 * (UP, ZERO, ZERO)
+0.12301919652876012	exp(-0.704/pi)	phi/pi = 0.889; 1.0 * (UP, ZERO, ZERO)
+0.11099093196301216	exp(0.98/pi)	phi/pi = 1.111; 0.7071 * (DOWN, UP, UP) -0.7071 * (UP, DOWN, UP)
+0.10406163368716521	exp(0.344/pi)	phi/pi = 0.889; 0.7071 * (DOWN, UP, UP) -0.7071 * (UP, DOWN, UP)
+0.06423723696216124	exp(0.948/pi)	phi/pi = 1.111; 0.4082 * (DOWN, UP, UP) + 0.4082 * (UP, DOWN, UP) -0.8165 * (UP, UP, DOWN)
+0.06022682847694043	exp(0.375/pi)	phi/pi = 0.889; 0.4082 * (DOWN, UP, UP) + 0.4082 * (UP, DOWN, UP) -0.8165 * (UP, UP, DOWN)
+0.043491740752676165	exp(-0.122/pi)	phi/pi = 1.111; 1.0 * (UP, ZERO, UPDN)
+0.043491740752675846	exp(-0.934/pi)	phi/pi = 1.111; 1.0 * (UP, UPDN, ZERO)
+0.04077649871550241	exp(0.258/pi)	phi/pi = 0.889; 1.0 * (UP, UPDN, ZERO)
+0.04077649871550183	exp(-0.555/pi)	phi/pi = 0.889; 1.0 * (UP, ZERO, UPDN)
+0.03489512095873269	exp(-0.048/pi)	phi/pi = 1.111; 1.0 * (ZERO, UPDN, UP)
+0.03489512095873196	exp(-1.008/pi)	phi/pi = 1.111; 1.0 * (ZERO, UP, UPDN)
+0.03271657630451382	exp(0.332/pi)	phi/pi = 0.889; 1.0 * (ZERO, UP, UPDN)
+0.032716576304513315	exp(-0.629/pi)	phi/pi = 0.889; 1.0 * (ZERO, UPDN, UP)
+0.013867552222164372	exp(-0.036/pi)	phi/pi = 1.111; 1.0 * (UPDN, ZERO, UP)
+0.013867552222164336	exp(0.98/pi)	phi/pi = 1.111; 1.0 * (UPDN, UP, ZERO)
+0.01300178414540581	exp(-0.64/pi)	phi/pi = 0.889; 1.0 * (UPDN, ZERO, UP)
+0.013001784145405784	exp(0.343/pi)	phi/pi = 0.889; 1.0 * (UPDN, UP, ZERO)
+0.01010415565144826	exp(-0.029/pi)	phi/pi = 1.111; 1.0 * (UPDN, UP, UPDN)
+0.010104155651448194	exp(0.084/pi)	phi/pi = 1.111; 1.0 * (UPDN, UPDN, UP)
+
+i = 1
+0.49582062928589066	exp(0.0/pi)	phi/pi = 0.889; 1.0 * (ZERO, ZERO, UP)
+0.49582062928589044	exp(-0.055/pi)	phi/pi = 0.889; 1.0 * (ZERO, UP, ZERO)
+0.46486594703504874	exp(1.676/pi)	phi/pi = 1.111; 1.0 * (ZERO, ZERO, UP)
+0.46486594703504547	exp(1.732/pi)	phi/pi = 1.111; 1.0 * (ZERO, UP, ZERO)
+0.13121084868910804	exp(-0.028/pi)	phi/pi = 0.889; 1.0 * (UP, ZERO, ZERO)
+0.12301919652876003	exp(1.704/pi)	phi/pi = 1.111; 1.0 * (UP, ZERO, ZERO)
+0.11099093196301195	exp(1.02/pi)	phi/pi = 0.889; 0.7071 * (DOWN, UP, UP) -0.7071 * (UP, DOWN, UP)
+0.10406163368716512	exp(0.656/pi)	phi/pi = 1.111; 0.7071 * (DOWN, UP, UP) -0.7071 * (UP, DOWN, UP)
+0.06423723696216158	exp(1.052/pi)	phi/pi = 0.889; 0.4082 * (DOWN, UP, UP) + 0.4082 * (UP, DOWN, UP) -0.8165 * (UP, UP, DOWN)
+0.0602268284769402	exp(0.625/pi)	phi/pi = 1.111; 0.4082 * (DOWN, UP, UP) + 0.4082 * (UP, DOWN, UP) -0.8165 * (UP, UP, DOWN)
+0.04349174075267627	exp(0.122/pi)	phi/pi = 0.889; 1.0 * (UP, ZERO, UPDN)
+0.043491740752676	exp(0.934/pi)	phi/pi = 0.889; 1.0 * (UP, UPDN, ZERO)
+0.040776498715502145	exp(1.555/pi)	phi/pi = 1.111; 1.0 * (UP, ZERO, UPDN)
+0.04077649871550196	exp(0.742/pi)	phi/pi = 1.111; 1.0 * (UP, UPDN, ZERO)
+0.03489512095873235	exp(0.048/pi)	phi/pi = 0.889; 1.0 * (ZERO, UPDN, UP)
+0.03489512095873229	exp(1.008/pi)	phi/pi = 0.889; 1.0 * (ZERO, UP, UPDN)
+0.032716576304513446	exp(1.629/pi)	phi/pi = 1.111; 1.0 * (ZERO, UPDN, UP)
+0.032716576304513245	exp(0.668/pi)	phi/pi = 1.111; 1.0 * (ZERO, UP, UPDN)
+0.01386755222216441	exp(1.02/pi)	phi/pi = 0.889; 1.0 * (UPDN, UP, ZERO)
+0.013867552222164375	exp(0.036/pi)	phi/pi = 0.889; 1.0 * (UPDN, ZERO, UP)
+0.013001784145405886	exp(0.657/pi)	phi/pi = 1.111; 1.0 * (UPDN, UP, ZERO)
+0.013001784145405844	exp(1.64/pi)	phi/pi = 1.111; 1.0 * (UPDN, ZERO, UP)
+0.0101041556514483	exp(-0.084/pi)	phi/pi = 0.889; 1.0 * (UPDN, UPDN, UP)
+0.010104155651448033	exp(0.029/pi)	phi/pi = 0.889; 1.0 * (UPDN, UP, UPDN)
+
+occupation: (0.07265, 13.09912, 7.82822) (0.07265, 7.74161, 13.18574) (0.07034, 11.29941, 9.63025) (0.07034, 9.54286, 11.3868) (0.06582, 10.50508, 10.4291) (0.06582, 10.34083, 10.59335) (0.05934, 10.46058, 10.48008) (0.05934, 10.39201, 10.54865) (0.05132, 10.6087, 10.33998) (0.05132, 10.25456, 10.69413) 
+nqp: 1.01582 1.01582 1.01877 1.01877 1.02394 1.02394 1.02995 1.02995 0.98646 1.08367 
+dEs: 0.0 0.01678 0.0 0.03221 0.0 0.04488 0.0 0.05339 0.0 
