@@ -2,7 +2,8 @@
 Code for the flat band SC - QD - SC problem.
 
 # Requirements
-Python3 with standard libraries contained in Anaconda, and my_second_quantization, found at [PavesicL/my_second_quantization](https://github.com/PavesicL/my_second_quantization).
+Python3 with standard libraries contained in Anaconda, and my_second_quantization.
+Make sure to clone recursively: git clone --recursive [repo]
 
 # Usage
 Run calc.py inputFile 
