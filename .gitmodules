@@ -1,0 +1,3 @@
+[submodule "my_second_quantization"]
+	path = my_second_quantization
+	url = git@github.com:PavesicL/my_second_quantization.git
