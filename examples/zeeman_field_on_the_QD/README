@@ -1,0 +1,6 @@
+Here U >> alpha and epsimp = -U/2 to ensure a single electron in the QD.
+Ez_imp is the Zeeman splitting on the QD, which splits the spin up and spin down states.
+To see this, turn on doublet_both_Sz=true! This extends the doublet basis to take into both 
+Sz=+1/2 and Sz=-1/2 states (only Sz=+1/2 otherwise).
+At finite Ec (to remove near-degeneracy of states with different phi) the ground and first excited doublet
+states are split by Ez.

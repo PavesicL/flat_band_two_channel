@@ -7,16 +7,17 @@ nrange = 1
 
 alpha = 1
 
-U = 0
-epsimp = 6
+U = 10
+epsimp = -5
+Ez_imp = 0.1
 
-v = 1
+doublet_both_Sz = true
 
-Ec = 0
+v = 0.1
+
+Ec = 0.3
 
 phase_fourier_transform = true
-print_states_phi = true
-number_of_states_to_print = 2
 
 turn_off_all_finite_size_effects = true
 

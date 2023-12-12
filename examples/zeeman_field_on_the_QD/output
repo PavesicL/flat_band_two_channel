@@ -1,0 +1,135 @@
+N = 21
+U = 10
+epsimp = -5
+Ez_imp = 0.1
+alpha = 1
+Ec = 0.3
+n0 = 10.0
+Ez_sc = 0.0
+alpha_L = 1
+Ec_L = 0.3
+n0_L = 10.0
+Ez_L = 0.0
+alpha_R = 1
+Ec_R = 0.3
+n0_R = 10.0
+Ez_R = 0.0
+v = 0.1
+v_L = 0.1
+v_R = 0.1
+phiext = 0.0
+tsc = 0.0
+tpair = 0.0
+tspin = 0.0
+tspin_L = 0.0
+tspin_R = 0.0
+nrange = 1
+nref = 21
+refisn0 = False
+verbose = True
+doublet_both_Sz = True
+print_states_dM = False
+print_states_phi = False
+print_energies = 10
+number_of_states_to_print = 0
+print_states_precision = 0.01
+print_precision = 5
+calc_occupancies = True
+calc_tot_Sz = False
+calc_dMs = False
+calc_QP_phase = False
+calc_abs_phase = False
+calc_sin_cos_phi = False
+save_dM_amplitudes = False
+save_phi_amplitudes = False
+calc_wigner_distribution = False
+calc_nqp = True
+calc_imp_spin_correlations = False
+calc_parity = False
+calc_dEs = True
+save_all_states = False
+num_states_to_save = 10
+parallel = False
+save_matrix = False
+reorder_matrix_dM = True
+phase_fourier_transform = True
+turn_off_all_finite_size_effects = True
+turn_off_SC_finite_size_effects = True
+turn_off_hopping_finite_size_effects = True
+use_all_states = True
+restrict_basis_to_make_periodic = True
+add_periodic_hopping_blocks = True
+
+Computing in subspaces: [20, 21, 22]
+In the subspace with 20 particles.
+
+this matrix:  singlet_no_finite_size_effects.dat
+
+Generated matrix, size: 112
+
+Sorting matrix by dM.
+Reordered into dM blocks.
+FT determinant (has to be 1) =  0.9999999999999858
+Is it unitary?  True
+Fourier transformed.
+Is H hermitian? True
+Is the transform unitary? True
+Diagonalizing ...
+
+Sector 20 finished, t = 0.47 s
+In the subspace with 21 particles.
+
+this matrix:  doublet_both_Sz_no_finite_size_effects.dat
+
+Generated matrix, size: 252
+
+Sorting matrix by dM.
+Reordered into dM blocks.
+FT determinant (has to be 1) =  0.9999999999999832
+Is it unitary?  True
+Fourier transformed.
+Is H hermitian? True
+Is the transform unitary? True
+Diagonalizing ...
+
+Sector 21 finished, t = 1.34 s
+In the subspace with 22 particles.
+
+this matrix:  singlet_no_finite_size_effects.dat
+
+Generated matrix, size: 126
+
+Sorting matrix by dM.
+Reordered into dM blocks.
+FT determinant (has to be 1) =  0.9999999999999936
+Is it unitary?  True
+Fourier transformed.
+Is H hermitian? True
+Is the transform unitary? True
+Diagonalizing ...
+
+Sector 22 finished, t = 0.33 s
+
+###################################################################################################
+RESULTS FOR n = 20, Sz = 0:
+Energies: 
+6.28699, 6.29396, 7.49042, 7.49042, 8.28686, 8.29267, 9.48955, 9.48955, 9.88932, 9.88932
+occupation: (0.999, 9.5005, 9.5005) (1.00019, 9.4999, 9.4999) (1.0003, 9.49985, 9.49985) (1.0003, 9.49985, 9.49985) (0.99955, 9.50022, 9.50022) (0.99963, 9.50018, 9.50018) (1.00005, 9.49997, 9.49997) (1.00005, 9.49997, 9.49997) (0.99846, 9.50059, 9.50095) (0.99846, 9.50095, 9.50059) 
+nqp: 0.99903 1.00023 0.99969 0.99969 2.99885 2.99877 2.99858 2.99858 0.99919 0.99919 
+dEs: 0.00696 1.19647 0.0 0.79644 0.00581 1.19688 0.0 0.39977 0.0 
+
+###################################################################################################
+RESULTS FOR n = 21, Sz = all:
+Energies: 
+4.94685, 5.0468, 6.94609, 6.94613, 7.04601, 7.04605, 7.34671, 7.34671, 7.44664, 7.44664
+occupation: (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) (1.0, 10.0, 10.0) 
+nqp: 0.0005 0.00051 1.99974 1.99972 1.9997 1.9997 0.00083 0.00083 0.00112 0.00112 
+dEs: 0.09995 1.8993 3e-05 0.09988 4e-05 0.30066 0.0 0.09993 0.0 
+
+###################################################################################################
+RESULTS FOR n = 22, Sz = 0:
+Energies: 
+6.28699, 6.29396, 7.49042, 7.49042, 8.28686, 8.29267, 9.48955, 9.48955, 9.88932, 9.88932
+occupation: (1.001, 10.4995, 10.4995) (0.99981, 10.5001, 10.5001) (0.9997, 10.50015, 10.50015) (0.9997, 10.50015, 10.50015) (1.00045, 10.49978, 10.49978) (1.00037, 10.49982, 10.49982) (0.99995, 10.50003, 10.50003) (0.99995, 10.50003, 10.50003) (1.00154, 10.53922, 10.45924) (1.00154, 10.45924, 10.53922) 
+nqp: 0.99903 1.00023 0.99969 0.99969 2.99885 2.99877 2.99858 2.99858 0.99919 0.99919 
+dEs: 0.00696 1.19647 0.0 0.79644 0.00581 1.19688 0.0 0.39977 0.0 
