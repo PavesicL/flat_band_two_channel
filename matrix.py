@@ -6,17 +6,10 @@ import numpy as np
 import cmath
 import os
 
-import sys
-
-path_to_my_second_quantization = os.getenv("MY_SECOND_QUANTIZATION_PATH")
-if not path_to_my_second_quantization:
-	raise Exception("System variable 'MY_SECOND_QUANTIZATION_PATH' not defined! Set the path, probably with:\nexport MY_SECOND_QUANTIZATION_PATH=/Volumes/f1login.ijs.si/git_repos/my_second_quantization\nOR\nexport MY_SECOND_QUANTIZATION_PATH=/home/pavesic/git_repos/my_second_quantization")
-
-sys.path.insert(1, path_to_my_second_quantization)
-import operators as op
-from operators import BASIS_STATE as COMP_B_STATE
-from operators import STATE as COMP_STATE
-from bitwise_ops import generate_Sz_basis
+import my_second_quantization.operators as op
+from my_second_quantization.operators import BASIS_STATE as COMP_B_STATE
+from my_second_quantization.operators import STATE as COMP_STATE
+from my_second_quantization.bitwise_ops import generate_Sz_basis
 ###################################################################################################
 #GENERAL BASIS GENERATION
 
@@ -39,8 +32,8 @@ def doublet_basis_states(mL : int, mR : int, p : params) -> list[ STATE ]:
 	psi_021 = STATE(6, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UP, p)) )
 	psi_012 = STATE(7, (1.0, BASIS_STATE(ZERO, mL, UP, mR, UPDN, p)) )
 	psi_102 = STATE(8, (1.0, BASIS_STATE(UP, mL, ZERO, mR, UPDN, p)) )
-	
-	psi_S12 = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)), 
+
+	psi_S12 = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)),
 						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, UP, p)) )
 	psi_3qp = STATE(10,	(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
 						(1/np.sqrt(6),  BASIS_STATE(UP, mL, DOWN, mR, UP, p) ),
@@ -74,8 +67,8 @@ def doublet_basis_states_both_Sz(mL : int, mR : int, p : params) -> list[STATE]:
 	psi_021 = STATE(6, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, UP, p)) )
 	psi_012 = STATE(7, (1.0, BASIS_STATE(ZERO, mL, UP, mR, UPDN, p)) )
 	psi_102 = STATE(8, (1.0, BASIS_STATE(UP, mL, ZERO, mR, UPDN, p)) )
-	
-	psi_S12 = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)), 
+
+	psi_S12 = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, UP, p)),
 						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, UP, p)) )
 	psi_3qp = STATE(10,	(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
 						(1/np.sqrt(6),  BASIS_STATE(UP, mL, DOWN, mR, UP, p) ),
@@ -99,8 +92,8 @@ def doublet_basis_states_both_Sz(mL : int, mR : int, p : params) -> list[STATE]:
 	psi_021m = STATE(6, (1.0, BASIS_STATE(ZERO, mL, UPDN, mR, DOWN, p)) )
 	psi_012m = STATE(7, (1.0, BASIS_STATE(ZERO, mL, DOWN, mR, UPDN, p)) )
 	psi_102m = STATE(8, (1.0, BASIS_STATE(DOWN, mL, ZERO, mR, UPDN, p)) )
-	
-	psi_S12m = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, DOWN, p)), 
+
+	psi_S12m = STATE(9, 	(1/np.sqrt(2),  BASIS_STATE(DOWN, mL, UP, mR, DOWN, p)),
 						(-1/np.sqrt(2), BASIS_STATE(UP, mL, DOWN, mR, DOWN, p)) )
 	psi_3qpm = STATE(10,	(1/np.sqrt(6),  BASIS_STATE(UP, mL, DOWN, mR, DOWN, p) ),
 						(1/np.sqrt(6),  BASIS_STATE(DOWN, mL, UP, mR, UP, p) ),
@@ -166,11 +159,11 @@ bias = "left"
 
 def get_excluded_dMs(bias: str, n: int) -> list[int]:
 	"""
-	Generate a list of dM values to be excluded. 
+	Generate a list of dM values to be excluded.
 	An odd number of values has to be excluded. For odd n, it has to be 3, for even 5.
 	For a span of -m, -m+1, ..., m, either exclude the first one and two last or the opposite.
-	bias can be "left" or "right". "left" means exclude one value on the left and two on the right, 
-	while "right" means the opposite. 
+	bias can be "left" or "right". "left" means exclude one value on the left and two on the right,
+	while "right" means the opposite.
 	"""
 	if n%2 == 1:
 		val = (n-1)/2
@@ -199,7 +192,7 @@ def get_max_min_dMs(bias: str, n: int) -> list[int]:
 		elif bias == "right":
 			smallest_dM, largest_dM = -val + 3, val - 2
 
-	return smallest_dM, largest_dM				
+	return smallest_dM, largest_dM
 
 def generate_full_basis(subspace : str, n : int, p : params) -> tuple[ list[STATE], list[int] ]:
 	"""
@@ -215,11 +208,11 @@ def generate_full_basis(subspace : str, n : int, p : params) -> tuple[ list[STAT
 		general_basis = doublet_basis_states
 	if subspace == "doublet_both_Sz":
 		general_basis = doublet_basis_states_both_Sz
-			
+
 	for mL in range(p.LL+1):
 		for mR in range(p.LL+1):
 			if p.restrict_basis_to_make_periodic:
-				# Throw away all states that would form uncomplete dM blocks. To make the matrix perfectly periodic with additional periodic hopping blocks, 
+				# Throw away all states that would form uncomplete dM blocks. To make the matrix perfectly periodic with additional periodic hopping blocks,
 				# we have to throw away three blocks! (There is always an odd number of available dM blocks, eq: -3, -2, -1, 0, 1, 2, 3.)
 				# Here calculate the largest possible dMmax and throw away states with dM = -dMmax, dM = +dMmax and dM = +dMmax - 1.
 				restrict_dMs = get_excluded_dMs(bias, n)
@@ -234,15 +227,15 @@ def generate_full_basis(subspace : str, n : int, p : params) -> tuple[ list[STAT
 
 def generate_hopping_matrix(subspace : str, full_basis : list[STATE], index_list : list[int], n : int, p : params) -> np.array:
 	"""
-	Generates the full hopping matrix. 
+	Generates the full hopping matrix.
 	For each (mL, mR) takes a general basis, and finds the matrix elements for all states for all (nL, nR).
 	"""
 	if p.turn_off_hopping_finite_size_effects:
 		matName = subspace + "_no_finite_size_effects.dat"
 	else:
-		matName = subspace + "_mat.dat"	
+		matName = subspace + "_mat.dat"
 
-	file_path =  os.path.abspath(os.path.dirname(__file__))	#this is the absolute path of the script! (eg. /home/pavesic/git_repos/flat_band_two_channel on spinon) 
+	file_path =  os.path.abspath(os.path.dirname(__file__))	#this is the absolute path of the script! (eg. /home/pavesic/git_repos/flat_band_two_channel on spinon)
 
 	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
 
@@ -261,17 +254,17 @@ def generate_hopping_matrix(subspace : str, full_basis : list[STATE], index_list
 			H[i, j] += val
 
 			if p.add_periodic_hopping_blocks:
-				# This has to be used with p.restrict_basis_to_make_periodic. 
-				# If dMmax = n//2, the states will have dM = -dMmax+1, +2, +3, ..., +dMmax-2. 
+				# This has to be used with p.restrict_basis_to_make_periodic.
+				# If dMmax = n//2, the states will have dM = -dMmax+1, +2, +3, ..., +dMmax-2.
 				# You have to add hopping between the extreme ones, ie. -dMmax+1 and +dMmax-2
 				smallest_dM, largest_dM = get_max_min_dMs(bias, n)
-				val = 0	
+				val = 0
 				if si.dM == smallest_dM and sj.dM == largest_dM:
-					# make the values like they are for dM -> dM+1 artificially! 
+					# make the values like they are for dM -> dM+1 artificially!
 					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL-1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR+1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 				elif si.dM == largest_dM and sj.dM == smallest_dM:
-					# make the values like they are for dM -> dM-1 artificially! 
+					# make the values like they are for dM -> dM-1 artificially!
 					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL+1, nR=si.mR, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 					val += general_hopping_matrix[i_ind][j_ind](mL=si.mL, mR=si.mR, nL=si.mL, nR=si.mR-1, vL=p.v_L, vR=p.v_R, tsc=p.tsc, tspinL=p.tspin_L, tspinR=p.tspin_R, l=p.LL)
 				H[i, j] += val
@@ -288,9 +281,9 @@ def pair_hopping_element(tpair: float, phiext: float, si: STATE, sj: STATE) -> f
 def add_sc_pair_hopping(H : np.array, basis : list[STATE], n : int, p : params) -> np.array:
 	"""
 	This is pair hopping between the two SCs and is just pair exhange between the two reservoirs.
-	It should not affect quasiparticles or the QD configuration. 
-	Its matrix element between states |qp, mL, mR> and |qp, nL, nR> is proportional to: 
-		delta(mL, nL+1) delta(mR, nR-1) + delta(mL, nL-1) delta(mR, nR+1) 
+	It should not affect quasiparticles or the QD configuration.
+	Its matrix element between states |qp, mL, mR> and |qp, nL, nR> is proportional to:
+		delta(mL, nL+1) delta(mR, nR-1) + delta(mL, nL-1) delta(mR, nR+1)
 	"""
 	for i, si in enumerate(basis):
 		for j, sj in enumerate(basis):
@@ -298,13 +291,13 @@ def add_sc_pair_hopping(H : np.array, basis : list[STATE], n : int, p : params) 
 			if p.add_periodic_hopping_blocks:
 				#HERE DO LIKE ABOVE FOR REAL HOPPING!!
 				smallest_dM, largest_dM = get_max_min_dMs(bias, n)
-				val = 0	
+				val = 0
 				if si.dM == smallest_dM and sj.dM == largest_dM:
-					# make the values like they are for dM -> dM+1 artificially! 
+					# make the values like they are for dM -> dM+1 artificially!
 					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 				elif si.dM == largest_dM and sj.dM == smallest_dM:
-					# make the values like they are for dM -> dM-1 artificially! 
+					# make the values like they are for dM -> dM-1 artificially!
 					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 					val += pair_hopping_element(p.tpair, p.phiext, si, sj)
 	return H
@@ -312,7 +305,7 @@ def add_sc_pair_hopping(H : np.array, basis : list[STATE], n : int, p : params) 
 def add_diagonal_elements(H : np.array, basis : list[STATE]) -> np.array:
 	for i, state in enumerate(basis):
 		H[i, i] += state.energy()
-	return H	
+	return H
 
 def generate_total_matrix(subspace : str, n : int, p : params) -> tuple[np.array, list[STATE]]:
 	"""
@@ -346,19 +339,19 @@ def reorder_matrix_dM(mat : np.array, bas : list[STATE] ) -> tuple[np.array, lis
 def reorder_matrix(mat : np.array, rule : list[int]) -> np.array:
 	"""
 	Orders the matrix and basis by the given rule.
-	rule is a list of integers, rule[i] is where to move the i-th element to. 
+	rule is a list of integers, rule[i] is where to move the i-th element to.
 	"""
 	mat = mat[rule, :] [:, rule]	#numpy magic - reorders both columns and rows by the rule
 	return mat
 
-def unzip(zipped_object):	
+def unzip(zipped_object):
 	unzipped = list(zip(*zipped_object))
 	return unzipped[0], unzipped[1]
 
 ###################################################################################################
 #COMPUTATION BASIS - basis with unique basis states with (n, Sz). Used for calculations of properties.
-# So, the basis used to define the hamiltonian is used because it has well defined total spin. However, 
-# its states are superpositions of states with (n, Sz), so it is hard to do calculations in it. 
+# So, the basis used to define the hamiltonian is used because it has well defined total spin. However,
+# its states are superpositions of states with (n, Sz), so it is hard to do calculations in it.
 # Functions here are used to generate a computational basis (ie. a list of bitstrings (actually integers) defining the occupation of the three orbitals).
 
 # THE _OLD FUNCTIONS WERE USED BEFORE I IMPLEMENTED AND INCLUDED my_second_quantization
@@ -375,7 +368,7 @@ if 0:
 		basis.append( BASIS_STATE(UP, mL, ZERO, mR, ZERO, p) )
 		basis.append( BASIS_STATE(ZERO, mL, UP, mR, ZERO, p) )
 		basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UP, p) )
-		
+
 		#3 qp
 		basis.append( BASIS_STATE(UP, mL, UP, mR, DOWN, p) )
 		basis.append( BASIS_STATE(UP, mL, DOWN, mR, UP, p) )
@@ -400,10 +393,10 @@ if 0:
 		A list of all unique BASIS_STATE with Sz=0.
 		"""
 		basis = []
-		
+
 		# 0 qp
 		basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, ZERO, p) )
-		
+
 		# 2 qp
 		basis.append( BASIS_STATE(UP, mL, DOWN, mR, ZERO, p) )
 		basis.append( BASIS_STATE(UP, mL, ZERO, mR, DOWN, p) )
@@ -417,7 +410,7 @@ if 0:
 		basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, ZERO, p) )
 		basis.append( BASIS_STATE(ZERO, mL, UPDN, mR, ZERO, p) )
 		basis.append( BASIS_STATE(ZERO, mL, ZERO, mR, UPDN, p) )
-		
+
 		# 4 qp
 		basis.append( BASIS_STATE(UPDN, mL, UPDN, mR, ZERO, p) )
 		basis.append( BASIS_STATE(UPDN, mL, ZERO, mR, UPDN, p) )
@@ -437,25 +430,25 @@ if 0:
 
 		return basis
 	'''
-	
+
 def computation_basis(Sz : float, mL : int, mR : int) -> list[COMP_B_STATE]:
 	"""
-	Generates op.BASIS_STATES with a given Sz on three sites (imp, L, R) 
-	and mL and mR as additional quantum numbers. 
+	Generates op.BASIS_STATES with a given Sz on three sites (imp, L, R)
+	and mL and mR as additional quantum numbers.
 	"""
 	basis_states = generate_Sz_basis(Sz=Sz, N=3)
 	basis = []
 	for m in basis_states:
 		basis.append( COMP_B_STATE( bitstring = m, mL = mL, mR = mR ) )
 	basis = sorted(basis)
-	basis = np.array(basis, dtype=object)	
+	basis = np.array(basis, dtype=object)
 	return basis
 
 def generate_computation_basis(n : int, Sz : float, p : params) -> list[COMP_B_STATE]:
 	"""
 	Generates a list of all basis states with a given n.
 	"""
-	#First generate a list of all Szs. 
+	#First generate a list of all Szs.
 	#This should be generalised if the code is extended to do more Szs in the future.
 	if Sz == "all":
 		Szlist = [-1/2, 1/2]
@@ -476,7 +469,7 @@ def generate_computation_basis(n : int, Sz : float, p : params) -> list[COMP_B_S
 
 def dM_basis_to_calc_basis(dM_basis_state : BASIS_STATE) -> COMP_B_STATE:
 	"""
-	Writes a basis state in the dM basis into BASIS_STATE type from my_second_quantization, 
+	Writes a basis state in the dM basis into BASIS_STATE type from my_second_quantization,
 	where mL and mR are quantum numbers and the QP_STATE is a bitstring.
 	"""
 	bitstring = dM_basis_state.QP_state.bitstring()
@@ -484,8 +477,8 @@ def dM_basis_to_calc_basis(dM_basis_state : BASIS_STATE) -> COMP_B_STATE:
 
 def write_vector_in_computation_basis(eigenstate : list[float], dM_basis : list[BASIS_STATE], computation_basis : list[COMP_B_STATE]) -> COMP_STATE:
 	"""
-	Rewrites a vector from the basis with well defined total spin (the one used to generate the hamiltonian) to the computation basis of bitstrings where only Sz is well defined. 
-	
+	Rewrites a vector from the basis with well defined total spin (the one used to generate the hamiltonian) to the computation basis of bitstrings where only Sz is well defined.
+
 	Iterates over all STATEs in the vector and for each BASIS_STATE adds up the amplitude to the corresponding point in the computation basis vector.
 	"""
 	comp_vector = np.zeros(len(computation_basis), dtype=complex)
@@ -497,7 +490,7 @@ def write_vector_in_computation_basis(eigenstate : list[float], dM_basis : list[
 			ndx = my_find_ndx(corresponding_calc_basis_state, computation_basis) #finds the index of the basis state in the computation basis list
 			if ndx == None:
 				raise Exception(f"THIS BASIS STATE WAS NOT FOUND IN THE COMPUTATION BASIS! {dM_basis_state}")
-			
+
 			comp_vector[ndx] += amp * state_amp
 	comp_state = COMP_STATE(vector = comp_vector, basis = computation_basis, N = 3)
 	return comp_state
@@ -519,7 +512,7 @@ def fourier_transform_basis(basis : list[STATE], p : params) -> tuple[np.array, 
 	QPstates = [ state.QP_state for state in basis]
 	QPstates = my_unique(QPstates)
 
-	phi_basis = [] # contains phi for each consecutive state. Used to reorder the matrix into blocks with equal phi. 
+	phi_basis = [] # contains phi for each consecutive state. Used to reorder the matrix into blocks with equal phi.
 	total_count = 0
 	for QP in QPstates:
 		#find all dMs for this QP configuration!
@@ -529,7 +522,7 @@ def fourier_transform_basis(basis : list[STATE], p : params) -> tuple[np.array, 
 		numdMs = len(deltaMs)
 		m_MAX = max(deltaMs)
 		m_MIN = min(deltaMs)
-		
+
 		#phis = [ 2 * np.pi * i / (m_MAX +1) for i in range(len(deltaMs))]
 		phis = [ 2 * np.pi * i / numdMs for i in range(len(deltaMs))]
 		# now for each phi construct the vector |phi, QP>, by adding contributions e^(i phi dM) to the position of the eigenvector in the basis
@@ -539,7 +532,7 @@ def fourier_transform_basis(basis : list[STATE], p : params) -> tuple[np.array, 
 					#print((1/np.sqrt(m_MAX + 1)) * cmath.exp( 1j * phi * 0.5 * (state.dM + m_MAX) ), m_MAX, state.dM)
 					#print("A", state.dM - m_MIN)
 					basis_transformation_matrix[i, total_count] += (1/np.sqrt(numdMs)) * cmath.exp( 1j * phi * 0.5 * (state.dM - m_MIN) )
-				
+
 			phi_basis.append( PHI_STATE(phi, QP) )
 
 			total_count += 1 #This counts which transformed vector |phi, QP> we are creating.
@@ -548,8 +541,8 @@ def fourier_transform_basis(basis : list[STATE], p : params) -> tuple[np.array, 
 		invP = np.transpose(np.conjugate(basis_transformation_matrix))
 		prod = np.matmul(P, invP)
 		det = abs(np.linalg.det(P))
-	
-		print("FT determinant (has to be 1) = ", det)	
+
+		print("FT determinant (has to be 1) = ", det)
 		print("Is it unitary? ", np.allclose(np.identity(len(basis_transformation_matrix)), prod ))
 
 	return basis_transformation_matrix, phi_basis
@@ -562,7 +555,7 @@ def fourier_transform_matrix(matrix : np.array, basis : list[BASIS_STATE], p : p
 	#invP = np.linalg.inv(P)
 	invP = np.transpose(np.conjugate(P))
 	mat = np.matmul(np.matmul(invP, matrix), P)
-	
+
 	return mat, P, phi_basis
 
 ###################################################################################################
@@ -605,7 +598,7 @@ def my_unique(ll):
 
 def my_find_ndx(element, compareList):
 	"""
-	Intended to work like np.where but also for the BASIS_STATE class. 
+	Intended to work like np.where but also for the BASIS_STATE class.
 	Finds the index of the element in the compareList.
 	"""
 	for i, el in enumerate(compareList):
