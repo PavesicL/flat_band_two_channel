@@ -48,7 +48,7 @@ class params:
 	phiext: float = 0. #this is the external flux, which is after a transformation only present on hopping terms.
 
 	tsc: float = 0. #hopping between the two SCs directly, not through the QD.
-	tpair: float = 0. #pair hopping between the two SCs, without including any quasiparticles. 
+	tpair: float = 0. #pair hopping between the two SCs, without including any quasiparticles.
 	tspin: float = 0. #spin flipping hopping.
 	tspin_L: float = UNSPECIFIED_DEFAULT
 	tspin_R: float = UNSPECIFIED_DEFAULT
@@ -81,7 +81,11 @@ class params:
 	calc_imp_spin_correlations: bool = False
 	calc_parity: bool = False
 	calc_dEs: bool = False
-	
+
+	#matrix_elements
+	number_of_overlaps : int = 4
+	calc_nQD_matrix_elements: bool = False
+
 	save_all_states: bool = False
 	num_states_to_save: int = 10
 	parallel: bool = False
@@ -109,7 +113,7 @@ class params:
 				if isinstance(value, str):		#if the given value is a string
 					object.__setattr__(self, field.name, eval(value, {"false" : False, "true" : True}))
 
-		
+
 		# set the default values here!
 		self.set_default("epsimp", -self.U/2)
 		self.set_default("n0", (self.N-1)/2)
@@ -125,7 +129,7 @@ class params:
 		self.set_default("n0_R", self.n0)
 		self.set_default("Ez_L", self.Ez_sc)
 		self.set_default("Ez_R", self.Ez_sc)
-		
+
 		object.__setattr__(self, "phiext", self.phiext * np.pi ) #multiply phiext by pi! The input is thus in units of pi.
 
 		default_nref = 0
@@ -133,19 +137,19 @@ class params:
 			default_nref += (0.5 - (self.epsimp/self.U))
 		else:
 			default_nref += 1
-			
+
 		if self.Ec_L != 0:
 			default_nref += self.n0_L
 		else:
-			default_nref += self.LL	
+			default_nref += self.LL
 
 		if self.Ec_R != 0:
 			default_nref += self.n0_R
 		else:
-			default_nref += self.LL	
-	
+			default_nref += self.LL
+
 		self.set_default("nref", int(default_nref))
-		
+
 		# turn_off_all_finite_size_effects enables everything.
 		self.set_default("turn_off_SC_finite_size_effects", self.turn_off_all_finite_size_effects)
 		self.set_default("turn_off_hopping_finite_size_effects", self.turn_off_all_finite_size_effects)
@@ -186,8 +190,8 @@ class params:
 		"""
 		subspace_list = [self.nref,]
 		for n in range(1, self.nrange+1):
-			subspace_list.append(self.nref-n)			
-			subspace_list.append(self.nref+n)			
+			subspace_list.append(self.nref-n)
+			subspace_list.append(self.nref+n)
 		return sorted(subspace_list)
 
 	def __str__(self):
@@ -195,8 +199,8 @@ class params:
 		for field in fields(self):
 			value = getattr(self, field.name)
 			representation += f"{field.name} = {value}\n"
-		return representation	
-		
+		return representation
+
 ###################################################################################################
 # PARSING THE PARAMETERS FROM FILE
 
@@ -209,14 +213,14 @@ def parse_input_to_dict(inputFile : str) -> dict:
 		for line in file:
 			line = line.strip()
 
-			if len(line) > 0:	
+			if len(line) > 0:
 				if not line[0] == "#": #comment
 					a = re.search(r"(.*?)=(.*)", line)
 					if a:
 						name = a.group(1).strip()
 						val = a.group(2).strip()
 						d[name] = val
-	return d			
+	return d
 
 def parse_params(inputFile : str) -> params:
 	"""
@@ -230,7 +234,7 @@ def parse_params(inputFile : str) -> params:
 # ENUM NAMES THE QP STATES - THESE ARE EXPORTED INTO THE GLOBAL NAMESPACE!
 
 class QP(Enum):
-	"""	
+	"""
 	Allowed types of quasiparticle states.
 	"""
 	ZERO = (0, 0)
@@ -241,13 +245,13 @@ class QP(Enum):
 	def __init__(self, Sz, n):
 		self.Sz = Sz
 		self.n = n
-	
+
 	def __str__(self):
 		"""
 		This makes it so printing the enum gives ZERO instead of QP.ZERO
 		"""
-		return self.name 
-	
+		return self.name
+
 	@property
 	def bit_integer(self):
 		"""
@@ -265,7 +269,7 @@ class QP(Enum):
 
 	@classmethod
 	def export_to(cls, namespace):
-	    namespace.update(cls.__members__) 
+	    namespace.update(cls.__members__)
 
 QP.export_to(globals()) #this exports the class enums into global namespace, so they can be called by eg. ZERO instead of QP.ZERO
 
@@ -319,7 +323,7 @@ class SC_BATH:
 
 	@property
 	def n(self):
-		return self.qp.n + ( 2 * self.M ) 
+		return self.qp.n + ( 2 * self.M )
 
 	@property
 	def unblocked(self):
@@ -344,7 +348,7 @@ class SC_BATH:
 
 	def __eq__(self, other):
 		condition = self.M == other.M and self.qp== other.qp
-		return condition		
+		return condition
 
 ###################################################################################################
 # STATES
@@ -358,13 +362,13 @@ class QP_STATE:
 		self.qp_imp = qp_imp
 		self.qp_L = qp_L
 		self.qp_R = qp_R
-	
+
 		self.nqp = qp_imp.n + qp_L.n + qp_R.n
 		self.nqpSC = qp_L.n + qp_R.n
 		self.Sz = qp_imp.Sz + qp_L.Sz + qp_R.Sz
 
 	def bitstring(self):
-		return self.qp_R.bit_integer + ( 4 * self.qp_L.bit_integer ) + ( 16 * self.qp_imp.bit_integer ) 
+		return self.qp_R.bit_integer + ( 4 * self.qp_L.bit_integer ) + ( 16 * self.qp_imp.bit_integer )
 
 
 	def __repr__(self):
@@ -400,7 +404,7 @@ class BASIS_STATE:
 	@property
 	def qp_bit_integer(self):
 		"""
-		Returns the bitstring corresponding to the qp state. 
+		Returns the bitstring corresponding to the qp state.
 		"""
 		tot = 0
 		tot += self.imp.state.bit_integer 	* 2**4
@@ -436,29 +440,29 @@ class STATE:
 		self.mL = self.basis_states[0].L.M #All components of the basis state have the same mL so this is OK.
 		self.mR = self.basis_states[0].R.M #All components of the basis state have the same mR so this is OK.
 		self.dM = self.mL - self.mR
-		self.nqp = self.n - 2 * (self.mL + self.mR)	
+		self.nqp = self.n - 2 * (self.mL + self.mR)
 
 	def check_if_normalized(self):
 		tot = sum(a**2 for a in self.amplitudes)
 		if abs(tot - 1) > 1e-10:
-			raise Exception(f"State not normalized! <psi|psi> = {tot}")	
+			raise Exception(f"State not normalized! <psi|psi> = {tot}")
 
 	@property
 	def nqp_no_imp(self):
 		tot = 0
 		for i in range(len(self.amplitudes)):
 			tot += abs(self.amplitudes[i])**2  * ( self.basis_states[i].L.qp.n + self.basis_states[i].R.qp.n)
-		return tot	
+		return tot
 
 	@property
 	def QP_state(self):
-		"""	
+		"""
 		Saves only the state of the QPs, without the number of pairs.
 		"""
 		qps = []
 		for amp, bstate in self.amplitudes_and_basis_states:
 			qps.append( (amp, (bstate.QP_state)) )
-		return qps	
+		return qps
 
 	def energy(self):
 		E = 0
@@ -467,7 +471,7 @@ class STATE:
 			E += abs(self.amplitudes[i])**2  * self.basis_states[i].energy()
 		return E/totAmps
 
-	@property	
+	@property
 	def nimp(self):
 		n = 0
 		for i, bs in enumerate(self.basis_states):
@@ -490,7 +494,7 @@ class STATE:
 			n += self.amplitudes[i]**2 * bs.R.n
 		return n
 
-	@property	
+	@property
 	def Sz(self):
 		Sz = 0
 		for i, bs in enumerate(self.basis_states):
@@ -504,7 +508,7 @@ class STATE:
 			if self.amplitudes[i+1] > 0:
 				s += "+"
 		s += f"{self.amplitudes[-1]} * {self.basis_states[-1]}"
-		return s	
+		return s
 
 class PHI_STATE:
 	"""
@@ -521,7 +525,7 @@ class PHI_STATE:
 		for amp, QP_state in self.QP_state_list:
 			nL, nR = QP_state.qp_L.n, QP_state.qp_R.n
 			tot += abs(amp)**2 * (nL + nR)
-		return tot	
+		return tot
 
 	@property
 	def nqp(self):
@@ -529,7 +533,7 @@ class PHI_STATE:
 		for amp, QP_state in self.QP_state_list:
 			nimp, nL, nR = QP_state.qp_imp.n, QP_state.qp_L.n, QP_state.qp_R.n
 			tot += abs(amp)**2 * (nimp + nL + nR)
-		return tot	
+		return tot
 
 	def __repr__(self):
 		s=f"phi/pi = {round(self.phi/np.pi, 3)}; "
@@ -544,7 +548,7 @@ class PHI_STATE:
 
 		lastAmp, lastQPs = self.QP_state_list[-1]
 		s += f"{round(lastAmp, 4)} * ({str(lastQPs.qp_imp)}, {str(lastQPs.qp_L)}, {str(lastQPs.qp_R)})"
-	
+
 		return s
 
 ###################################################################################################
