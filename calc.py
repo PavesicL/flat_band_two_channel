@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-
-from helper import *
+from helper import * #fix this at some point pls (Luka, Jan 2023)
 from observables_calculation import *
 from matrix import generate_total_matrix, reorder_matrix_dM, fourier_transform_matrix
 import sys
@@ -13,13 +12,38 @@ from joblib import Parallel, delayed
 
 ###################################################################################################
 
+def main():
+	if len(sys.argv) != 2:
+		print(f"Usage: {sys.argv[0]} inputFile")
+		exit()
+	inputFile = sys.argv[1]
+	h5file = h5py.File("solution.h5", "w")
+
+	p = parse_params(inputFile)
+	print(p)
+
+	print(f"Computing in subspaces: {p.subspace_list}")
+
+	#compute for each subspace
+	num_processes = len(p.subspace_list) if p.parallel else 1
+	results = Parallel(n_jobs = num_processes)(delayed(diagonalize_subspace)(n, p) for n in p.subspace_list)
+
+	#now merge all dictionaries into a big one
+	results_dict = {}
+	for r in results:
+		results_dict = {**results_dict, **r}
+
+	process_save_and_print_results(results_dict, h5file, p)
+
+###################################################################################################
+
 def diagonalize_subspace(n, p):
 	"""
 	Solves the problem in one subspace.
 	Returns a dictionary with energies, eigenvalues and the basis.
 	"""
 	start = time.time()
-	
+
 	print(f"In the subspace with {n} particles.\n")
 	results_dict = {}
 
@@ -39,14 +63,14 @@ def diagonalize_subspace(n, p):
 	print(f"\nGenerated matrix, size: {len(bas)}\n")
 
 	if p.reorder_matrix_dM:
-		mat, bas = reorder_matrix_dM(mat, bas)	
+		mat, bas = reorder_matrix_dM(mat, bas)
 		print("Reordered into dM blocks.")
 
 	if p.phase_fourier_transform:
 		mat, basis_transformation_matrix, phi_basis = fourier_transform_matrix(mat, bas, p)
 		print("Fourier transformed.")
 	else:
-		basis_transformation_matrix = np.identity(len(bas))	
+		basis_transformation_matrix = np.identity(len(bas))
 
 	if p.save_matrix:
 		np.savetxt( f"matrix_n{n}", mat)
@@ -55,13 +79,13 @@ def diagonalize_subspace(n, p):
 	if p.verbose:
 		HH = np.transpose(np.conjugate(mat))
 		print(f"Is H hermitian? {np.allclose(mat, HH)}")
-		
+
 		invP = np.transpose(np.conjugate(basis_transformation_matrix))
 		prod = np.matmul(invP, basis_transformation_matrix)
 		print(f"Is the transform unitary? {np.allclose(prod, np.identity(len(basis_transformation_matrix)))}")
-	
+
 	###############################################################################################
-	
+
 	print("Diagonalizing ...\n")
 	val, vec = eigh(mat)
 	vec = vec.T #eigh() returns eigenvectors as columns of a matrix, but we want vec[i] to be i-th eigenvector.
@@ -72,7 +96,7 @@ def diagonalize_subspace(n, p):
 		val = val[:p.num_states_to_save]
 
 	###############################################################################################
-	#save the results into a dictionary of dictionaries	
+	#save the results into a dictionary of dictionaries
 	results_dict[sector] = { "energies" : val + p.U/2, "dM_basis" : bas }
 
 	if p.phase_fourier_transform:
@@ -98,24 +122,5 @@ def diagonalize_subspace(n, p):
 
 ###################################################################################################
 
-if len(sys.argv) != 2:
-	print(f"Usage: {sys.argv[0]} inputFile")
-	exit()
-inputFile = sys.argv[1]
-h5file = h5py.File("solution.h5", "w")
-
-p = parse_params(inputFile)
-print(p)
-
-print(f"Computing in subspaces: {p.subspace_list}")
-
-#compute for each subspace
-num_processes = len(p.subspace_list) if p.parallel else 1
-results = Parallel(n_jobs = num_processes)(delayed(diagonalize_subspace)(n, p) for n in p.subspace_list)
-
-#now merge all dictionaries into a big one
-results_dict = {}
-for r in results:
-	results_dict = {**results_dict, **r}
-
-process_save_and_print_results(results_dict, h5file, p)
+if __name__ == "__main__":
+	main()

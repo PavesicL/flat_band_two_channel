@@ -239,7 +239,7 @@ def generate_hopping_matrix(subspace : str, full_basis : list[STATE], index_list
 
 	general_hopping_matrix, _ = parse_hopping_matrix(file_path + "/matrices/" + matName)
 
-	print("this matrix: ", matName)
+	#print("this matrix: ", matName)
 
 	H = np.zeros((len(full_basis), len(full_basis)), dtype=np.cdouble)
 	for i, si in enumerate(full_basis):
