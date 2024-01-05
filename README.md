@@ -100,6 +100,21 @@ These parameters can be separately specified for each lead by adding _L or _R. T
 * calc_parity = False - calculates the expected value of the spatial inversion parity operator by evaluating the overlap of the state with itself after the transforming all strings of operators by: cdag_L cdag_R -> cdag_R cdag_L. Saved in n/Sz/i/parity.
 * calc_dEs = False - prints (does not save!) the energy difference of each state to the previous one. 
 
+### Calculation of matrix elements
+These are quantities of the type $\langle a \vert \hat{O} \vert b \rangle$ for various operators $\hat{O}$.
+
+* number_of_overlaps = 4 - determines the number of states in each sector for which the overlaps/matrix elements are calculated.
+* calc_nQD_matrix_elements = False - calculate matrix elements $\langle a \vert n_\mathrm{QD} \vert b \rangle$.
+
+# Other scripts
+
+### Computing the current as a derivative of $\phi_\mathrm{ext}$
+
+The script calc_current_vs_phiext.py calculates the current as $\langle a \vert \frac{dH}{d\phi_\mathrm{ext}} \vert b \rangle = (E_a - E_b) \frac{d \langle a \vert}{d\phi_\mathrm{ext}} \vert b \rangle$. The derivative is evaluated numerically. 
+
+The input for the script are the inputFile and $d\phi_\mathrm{ext}$. The latter determines the accuracy of the numerical differentiation.
+The input parameter number_of_overlaps determines the number of states in each sector for which the matrix elements are computed. 
+
 # Program organisation
 
 The model contains two superconducting islands (SIs) and a quantum dot (QD) embedded between them. In the flat-band approximation, the SIs are described by one active orbital f, and a number of Cooper pairs they contain, m. For conserved total charge n, it is enough to track the difference in the number of pairs, $\Delta m$. 
