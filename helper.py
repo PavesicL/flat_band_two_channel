@@ -72,7 +72,7 @@ class params:
 	calc_tot_Sz: bool = False
 	calc_dMs: bool = False
 	calc_QP_phase: bool = False
-	calc_abs_phase: bool = True
+	calc_abs_phase: bool = False
 	calc_sin_cos_phi: bool = False
 	save_dM_amplitudes: bool = False
 	save_phi_amplitudes: bool = False
