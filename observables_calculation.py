@@ -118,6 +118,27 @@ def print_and_save_all_nQD_matrix_elements(sector, h5file, states, basis, p):
 	h5dump(h5file, f"{n}/{Sz}/matrix_elements/nQD/", nQDs)
 
 ###################################################################################################
+# identity OVERLAPS/MATRIX ELEMENTS
+
+def calculate_ID_matrix_element(psi1, psi2, dM_basis):
+	"""
+	Calculate the overlap <psi1|psi2>.
+	"""
+	# compute the overlap
+	res = np.dot( np.conjugate(psi1), psi2 )
+	return res
+
+def print_and_save_all_ID_matrix_elements(sector, h5file, states, basis, p):
+	n, Sz = sector
+
+	IDs = np.zeros( shape = (p.number_of_overlaps, p.number_of_overlaps), dtype="complex128")
+	for i in range(p.number_of_overlaps):
+		for j in range(p.number_of_overlaps):
+			IDs[i,j] += calculate_ID_matrix_element(states[i], states[j], basis)
+
+	h5dump(h5file, f"{n}/{Sz}/matrix_elements/ID/", IDs)
+	
+###################################################################################################
 # total Sz CALCULATION
 
 def calculate_Sz(dM_eigenvector, dM_basis):
@@ -660,3 +681,5 @@ def process_save_and_print_results(d : dict, h5file : str, p):
 			print_dEs(sector, energies, p)
 		if p.calc_nQD_matrix_elements:
 			print_and_save_all_nQD_matrix_elements(sector, h5file, dM_eigenstates, dM_basis, p)
+		if p.calc_ID_matrix_elements:
+			print_and_save_all_ID_matrix_elements(sector, h5file, dM_eigenstates, dM_basis, p)

@@ -85,6 +85,7 @@ class params:
 	#matrix_elements
 	number_of_overlaps : int = 4
 	calc_nQD_matrix_elements: bool = False
+	calc_ID_matrix_elements: bool = False
 
 	save_all_states: bool = False
 	num_states_to_save: int = 10
