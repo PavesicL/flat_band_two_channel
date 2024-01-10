@@ -118,6 +118,52 @@ def print_and_save_all_nQD_matrix_elements(sector, h5file, states, basis, p):
 	h5dump(h5file, f"{n}/{Sz}/matrix_elements/nQD/", nQDs)
 
 ###################################################################################################
+# nL OVERLAPS/MATRIX ELEMENTS
+
+def calculate_nL_matrix_element(psi1, psi2, dM_basis):
+	"""
+	Calculate the overlap <psi1|nL|psi2>.
+	"""
+	# apply nL to psi2
+	nL_psi2 = [ psi2[i] * dM_basis[i].nL for i in range(len(dM_basis)) ]
+	# compute the overlap
+	res = np.dot( np.conjugate(psi1), nL_psi2 )
+	return res
+
+def print_and_save_all_nL_matrix_elements(sector, h5file, states, basis, p):
+	n, Sz = sector
+
+	nLs = np.zeros( shape = (p.number_of_overlaps, p.number_of_overlaps), dtype="complex128")
+	for i in range(p.number_of_overlaps):
+		for j in range(p.number_of_overlaps):
+			nLs[i,j] += calculate_nL_matrix_element(states[i], states[j], basis)
+
+	h5dump(h5file, f"{n}/{Sz}/matrix_elements/nL/", nLs)
+
+###################################################################################################
+# nR OVERLAPS/MATRIX ELEMENTS
+
+def calculate_nR_matrix_element(psi1, psi2, dM_basis):
+	"""
+	Calculate the overlap <psi1|nR|psi2>.
+	"""
+	# apply nR to psi2
+	nR_psi2 = [ psi2[i] * dM_basis[i].nR for i in range(len(dM_basis)) ]
+	# compute the overlap
+	res = np.dot( np.conjugate(psi1), nR_psi2 )
+	return res
+
+def print_and_save_all_nR_matrix_elements(sector, h5file, states, basis, p):
+	n, Sz = sector
+
+	nRs = np.zeros( shape = (p.number_of_overlaps, p.number_of_overlaps), dtype="complex128")
+	for i in range(p.number_of_overlaps):
+		for j in range(p.number_of_overlaps):
+			nRs[i,j] += calculate_nR_matrix_element(states[i], states[j], basis)
+
+	h5dump(h5file, f"{n}/{Sz}/matrix_elements/nR/", nRs)
+	
+###################################################################################################
 # identity OVERLAPS/MATRIX ELEMENTS
 
 def calculate_ID_matrix_element(psi1, psi2, dM_basis):
@@ -681,5 +727,9 @@ def process_save_and_print_results(d : dict, h5file : str, p):
 			print_dEs(sector, energies, p)
 		if p.calc_nQD_matrix_elements:
 			print_and_save_all_nQD_matrix_elements(sector, h5file, dM_eigenstates, dM_basis, p)
+		if p.calc_nL_matrix_elements:
+			print_and_save_all_nL_matrix_elements(sector, h5file, dM_eigenstates, dM_basis, p)
+		if p.calc_nR_matrix_elements:
+			print_and_save_all_nR_matrix_elements(sector, h5file, dM_eigenstates, dM_basis, p)
 		if p.calc_ID_matrix_elements:
 			print_and_save_all_ID_matrix_elements(sector, h5file, dM_eigenstates, dM_basis, p)
