@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    626322,      18913]
-NotebookOptionsPosition[    616205,      18738]
-NotebookOutlinePosition[    616598,      18754]
-CellTagsIndexPosition[    616555,      18751]
+NotebookDataLength[    662473,      19926]
+NotebookOptionsPosition[    650849,      19730]
+NotebookOutlinePosition[    651283,      19747]
+CellTagsIndexPosition[    651240,      19744]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -61,6 +61,22 @@ Cell[BoxData[
 
 Cell[CellGroupData[{
 
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  "\"\</Users/luka/flat_band_two_channel/matrices\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.914473992964061*^9, 3.914473994248752*^9}, {
+  3.914474040908484*^9, 3.9144740559411287`*^9}},
+ CellLabel->"In[93]:=",ExpressionUUID->"d5105169-67f5-49cf-87a6-5db6d05e2d54"],
+
+Cell[BoxData["\<\"/Users/luka/flat_band_two_channel/matrices\"\>"], "Output",
+ CellChangeTimes->{
+  3.914473994689612*^9, {3.91447405854484*^9, 3.914474083206808*^9}, 
+   3.914474766390256*^9, 3.914499035269071*^9},
+ CellLabel->"Out[93]=",ExpressionUUID->"1b47fae9-4eb2-4bde-b0c3-545c81457eb6"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
 Cell["INIT", "Chapter",
  CellChangeTimes->{{3.880779217461484*^9, 
   3.880779217773243*^9}},ExpressionUUID->"d1821e41-783e-44f4-bb21-\
@@ -95,10 +111,13 @@ Cell[BoxData["\<\"sneg 2.0.3 Copyright (C) 2002-2022 Rok Zitko\"\>"], "Print",
    3.883210171542478*^9, 3.883210968621645*^9, 3.8832113848098307`*^9, 
    3.8832119262861013`*^9, 3.884238545651173*^9, 3.884242047582793*^9, 
    3.884242533057763*^9, 3.8842429627906513`*^9, 3.884517070439351*^9, 
-   3.884517151727872*^9, 3.88676087231314*^9, 3.8867612214983387`*^9},
+   3.884517151727872*^9, 3.88676087231314*^9, 3.8867612214983387`*^9, 
+   3.914472754896707*^9, {3.914473570840494*^9, 3.9144735959214287`*^9}, 
+   3.914474093621655*^9, 3.914474770850415*^9, 3.914494490864262*^9, 
+   3.914497549116105*^9, 3.91449793417476*^9, 3.91449884903681*^9},
  CellLabel->
   "During evaluation of \
-In[1]:=",ExpressionUUID->"1f301f09-85eb-4fb3-a2b6-c73c1d99ff2c"]
+In[1]:=",ExpressionUUID->"24de9a7c-3d89-466d-90f4-47e308892697"]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -112,7 +131,7 @@ Cell[BoxData[{
     "U", ",", " ", "\[Alpha]L", ",", " ", "\[Alpha]R", ",", " ", 
     "\[Epsilon]imp", ",", " ", "vL", ",", " ", "vR", ",", " ", "EcL", ",", 
     " ", "n0L", ",", " ", "EcR", ",", " ", "n0R", ",", "tsc", ",", "tspinL", 
-    ",", "tspinR"}], "]"}], ";"}]}], "Input",
+    ",", "tspinR", ",", "Ex", ",", "Ey"}], "]"}], ";"}]}], "Input",
  CellChangeTimes->{{3.859353027006753*^9, 3.859353040628613*^9}, {
    3.859353239080016*^9, 3.8593532423854113`*^9}, {3.8593539824200478`*^9, 
    3.859353984837557*^9}, {3.859354215937827*^9, 3.859354217193865*^9}, {
@@ -126,7 +145,7 @@ Cell[BoxData[{
    3.8610777608748827`*^9}, {3.8832098982879467`*^9, 3.883209899534355*^9}, {
    3.8832101294661417`*^9, 3.88321013007194*^9}, 3.88451707393742*^9, {
    3.88676114772707*^9, 3.886761152717745*^9}, {3.88676119676036*^9, 
-   3.886761198359187*^9}},
+   3.886761198359187*^9}, {3.91447358310651*^9, 3.914473584584991*^9}},
  CellLabel->"In[2]:=",ExpressionUUID->"287260b7-4d91-412c-87e6-39b9d33ca5f4"],
 
 Cell[CellGroupData[{
@@ -151,7 +170,8 @@ Cell[BoxData[
       RowBox[{
        RowBox[{"\[Sigma]", "==", "UP"}], ",", "nUP", ",", "nDO"}], "]"}]}], 
     ";"}]}]}]], "Input",
- CellChangeTimes->{{3.859348909104875*^9, 3.8593489347994213`*^9}},
+ CellChangeTimes->{{3.859348909104875*^9, 3.8593489347994213`*^9}, {
+  3.9144944886734533`*^9, 3.914494491306632*^9}},
  CellLabel->"In[4]:=",ExpressionUUID->"61db2bf6-d8a0-4cfe-869a-a2ced98dedfa"],
 
 Cell[BoxData[
@@ -180,8 +200,11 @@ Cell[BoxData[
    3.88321138597335*^9, 3.883211927594531*^9, 3.884238547174274*^9, 
    3.884242048249896*^9, 3.8842425337266293`*^9, 3.8842429634695263`*^9, 
    3.884517081482381*^9, 3.8845171523730297`*^9, 3.886760873944906*^9, 
-   3.886761222756819*^9},
- CellLabel->"Out[4]=",ExpressionUUID->"9a254a6b-250a-4949-9c37-a8e2ed89c6ac"]
+   3.886761222756819*^9, 3.914472755601728*^9, {3.914473571513424*^9, 
+   3.9144735965977793`*^9}, 3.91447409430877*^9, 3.914474771547999*^9, {
+   3.914494491556917*^9, 3.914494491871311*^9}, 3.9144975498337917`*^9, 
+   3.914497934842072*^9, 3.914498849726634*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"dee48817-eada-4f93-88c2-68329aa4a70d"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -198,13 +221,19 @@ Cell[BoxData[{
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{{3.8867610509314327`*^9, 3.886761066112164*^9}, 
-   3.886761223208152*^9},
- CellLabel->"Out[6]=",ExpressionUUID->"22bd8e7f-70de-4f31-82c6-ebfc2563b922"],
+   3.886761223208152*^9, 3.914472755613193*^9, {3.914473571542399*^9, 
+   3.91447359662062*^9}, 3.914474094320314*^9, 3.914474771558934*^9, 
+   3.914494492407045*^9, 3.914497549901184*^9, 3.9144979348543873`*^9, 
+   3.9144988497528267`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"f6dacb77-359b-4573-aca0-9a1a85ec5293"],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{{3.8867610509314327`*^9, 3.886761066112164*^9}, 
-   3.886761223210981*^9},
- CellLabel->"Out[7]=",ExpressionUUID->"52dace37-0c89-45f1-801c-24c34c62282d"]
+   3.886761223208152*^9, 3.914472755613193*^9, {3.914473571542399*^9, 
+   3.91447359662062*^9}, 3.914474094320314*^9, 3.914474771558934*^9, 
+   3.914494492407045*^9, 3.914497549901184*^9, 3.9144979348543873`*^9, 
+   3.914498849760688*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"0d85e8ba-ea58-42ad-a93f-6f4984bb162b"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -231,7 +260,8 @@ Cell[BoxData[{
      RowBox[{"f", "[", "R", "]"}]}], "]"}]}]}], "\[IndentingNewLine]", 
  RowBox[{"Hspinhop", "=", 
   RowBox[{
-   RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+   RowBox[{
+    RowBox[{"-", "\[ImaginaryI]"}], " ", "tspinL", " ", 
     RowBox[{"Sum", "[", 
      RowBox[{
       RowBox[{"(", 
@@ -282,11 +312,22 @@ Cell[BoxData[{
       RowBox[{"{", 
        RowBox[{"\[Sigma]", ",", 
         RowBox[{"{", 
-         RowBox[{"UP", ",", "DO"}], "}"}]}], "}"}]}], "]"}]}]}]}]}], "Input",
+         RowBox[{"UP", ",", "DO"}], "}"}]}], "}"}]}], 
+     "]"}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"HoffdiagB", "=", 
+  RowBox[{
+   RowBox[{"Ex", " ", 
+    RowBox[{"spinx", "[", 
+     RowBox[{"d", "[", "]"}], "]"}]}], "+", 
+   RowBox[{"Ey", " ", 
+    RowBox[{"spiny", "[", 
+     RowBox[{"d", "[", "]"}], "]"}]}]}]}]}], "Input",
  CellChangeTimes->{{3.886760879574192*^9, 3.8867609986571627`*^9}, {
   3.886761033786529*^9, 3.886761034762089*^9}, {3.886761073379331*^9, 
-  3.88676111176457*^9}, {3.8867612322430353`*^9, 3.8867612378018*^9}},
- CellLabel->"In[14]:=",ExpressionUUID->"9bb0db97-4a17-4a42-84e5-ffd38bb0181b"],
+  3.88676111176457*^9}, {3.8867612322430353`*^9, 3.8867612378018*^9}, {
+  3.9144727368507233`*^9, 3.914472750652554*^9}, {3.91449882301392*^9, 
+  3.914498836684917*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"9bb0db97-4a17-4a42-84e5-ffd38bb0181b"],
 
 Cell[BoxData[
  RowBox[{
@@ -506,8 +547,12 @@ Cell[BoxData[
         ScriptBaselineShifts->{1, 1}],
        DisplayForm]}]}], ")"}]}]}]], "Output",
  CellChangeTimes->{
-  3.886761112854602*^9, {3.8867612348439503`*^9, 3.88676123816998*^9}},
- CellLabel->"Out[14]=",ExpressionUUID->"ebbee664-40bd-4b3b-8b64-7e86d7ad8f1f"],
+  3.886761112854602*^9, {3.8867612348439503`*^9, 3.88676123816998*^9}, 
+   3.914472755629724*^9, {3.914473571576071*^9, 3.914473596644326*^9}, 
+   3.914474094345389*^9, 3.914474771586392*^9, 3.914494499586197*^9, 
+   3.914497555537278*^9, 3.914497934900194*^9, {3.9144988373912086`*^9, 
+   3.9144988497880507`*^9}},
+ CellLabel->"Out[8]=",ExpressionUUID->"8b9c4b4c-76d5-4492-8045-6c6d662ba752"],
 
 Cell[BoxData[
  RowBox[{"tsc", " ", 
@@ -618,12 +663,17 @@ Cell[BoxData[
        ScriptBaselineShifts->{1, 1}],
       DisplayForm]}]}], ")"}]}]], "Output",
  CellChangeTimes->{
-  3.886761112854602*^9, {3.8867612348439503`*^9, 3.886761238175461*^9}},
- CellLabel->"Out[15]=",ExpressionUUID->"091f553b-b1b6-4434-b296-4e8c168a3fd7"],
+  3.886761112854602*^9, {3.8867612348439503`*^9, 3.88676123816998*^9}, 
+   3.914472755629724*^9, {3.914473571576071*^9, 3.914473596644326*^9}, 
+   3.914474094345389*^9, 3.914474771586392*^9, 3.914494499586197*^9, 
+   3.914497555537278*^9, 3.914497934900194*^9, {3.9144988373912086`*^9, 
+   3.914498849798929*^9}},
+ CellLabel->"Out[9]=",ExpressionUUID->"13fa3ecc-a212-4faa-9d46-e094f4e747bd"],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+  RowBox[{
+   RowBox[{"-", "\[ImaginaryI]"}], " ", "tspinL", " ", 
    RowBox[{"(", 
     RowBox[{
      RowBox[{"-", 
@@ -844,8 +894,138 @@ Cell[BoxData[
         ScriptBaselineShifts->{1, 1}],
        DisplayForm]}]}], ")"}]}]}]], "Output",
  CellChangeTimes->{
-  3.886761112854602*^9, {3.8867612348439503`*^9, 3.886761238180094*^9}},
- CellLabel->"Out[16]=",ExpressionUUID->"1be941a1-ca1f-4c66-ae15-927647246df8"]
+  3.886761112854602*^9, {3.8867612348439503`*^9, 3.88676123816998*^9}, 
+   3.914472755629724*^9, {3.914473571576071*^9, 3.914473596644326*^9}, 
+   3.914474094345389*^9, 3.914474771586392*^9, 3.914494499586197*^9, 
+   3.914497555537278*^9, 3.914497934900194*^9, {3.9144988373912086`*^9, 
+   3.9144988498064003`*^9}},
+ CellLabel->"Out[10]=",ExpressionUUID->"d97de365-a19f-479b-96b3-1de10473289b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   FractionBox["1", "2"], " ", "Ey", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       TagBox[
+        StyleBox[
+         TemplateBox[{"d", 
+           RowBox[{
+             TagBox[
+              StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+              StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], 
+           "\"\[Dagger]\""},
+          "Subsuperscript"],
+         ScriptSizeMultipliers->1,
+         ScriptBaselineShifts->{1, 1}],
+        DisplayForm], 
+       StyleBox["\[CenterDot]",
+        FontColor->RGBColor[0, 1, 0]], 
+       TagBox[
+        StyleBox[
+         TemplateBox[{"d", 
+           RowBox[{
+             TagBox[
+              StyleBox[
+              "\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]], 
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], "\"\""},
+          "Subsuperscript"],
+         ScriptSizeMultipliers->1,
+         ScriptBaselineShifts->{1, 1}],
+        DisplayForm]}]}], "-", 
+     RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       TagBox[
+        StyleBox[
+         TemplateBox[{"d", 
+           RowBox[{
+             TagBox[
+              StyleBox[
+              "\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]], 
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], 
+           "\"\[Dagger]\""},
+          "Subsuperscript"],
+         ScriptSizeMultipliers->1,
+         ScriptBaselineShifts->{1, 1}],
+        DisplayForm], 
+       StyleBox["\[CenterDot]",
+        FontColor->RGBColor[0, 1, 0]], 
+       TagBox[
+        StyleBox[
+         TemplateBox[{"d", 
+           RowBox[{
+             TagBox[
+              StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+              StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], "\"\""},
+          "Subsuperscript"],
+         ScriptSizeMultipliers->1,
+         ScriptBaselineShifts->{1, 1}],
+        DisplayForm]}]}]}], ")"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "2"], " ", "Ex", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}], "+", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}]}], ")"}]}]}]], "Output",
+ CellChangeTimes->{
+  3.886761112854602*^9, {3.8867612348439503`*^9, 3.88676123816998*^9}, 
+   3.914472755629724*^9, {3.914473571576071*^9, 3.914473596644326*^9}, 
+   3.914474094345389*^9, 3.914474771586392*^9, 3.914494499586197*^9, 
+   3.914497555537278*^9, 3.914497934900194*^9, {3.9144988373912086`*^9, 
+   3.9144988498145247`*^9}},
+ CellLabel->"Out[11]=",ExpressionUUID->"60f8aeac-d4e8-494a-beb1-52a46446e02a"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -853,23 +1033,26 @@ Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{"H", "=", 
-   RowBox[{"Hhop", "+", "Hschop", "+", "Hspinhop"}]}], 
+   RowBox[{"Hhop", "+", "Hschop", "+", "Hspinhop", "+", "HoffdiagB"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"Simplify", "[", 
   RowBox[{"H", "\[Equal]", 
    RowBox[{"conj", "[", "H", "]"}]}], "]"}]}], "Input",
  CellChangeTimes->{{3.883210147848023*^9, 3.8832101614369392`*^9}, {
   3.884517095906995*^9, 3.8845171382453423`*^9}, {3.886761244241191*^9, 
-  3.8867612652253428`*^9}},
- CellLabel->"In[17]:=",ExpressionUUID->"29a92871-a113-4f84-979f-6eb0b286db2e"],
+  3.8867612652253428`*^9}, {3.914473578315941*^9, 3.914473578776511*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"29a92871-a113-4f84-979f-6eb0b286db2e"],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{{3.883210161933292*^9, 3.883210182009864*^9}, 
    3.883210970972025*^9, 3.88321138625576*^9, 3.88321192879818*^9, 
    3.884238552083308*^9, 3.8842420483097773`*^9, 3.884242533806283*^9, 
    3.884242963534441*^9, {3.8845171101681433`*^9, 3.884517152390831*^9}, 
-   3.886761265879467*^9},
- CellLabel->"Out[18]=",ExpressionUUID->"56125c4e-daef-470f-9715-a774e8666a21"]
+   3.886761265879467*^9, 3.914472755676814*^9, {3.914473571647759*^9, 
+   3.914473596726098*^9}, 3.914474094428306*^9, 3.914474771671282*^9, 
+   3.91449450141756*^9, 3.914497607609634*^9, 3.914497934989505*^9, 
+   3.91449884989752*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"0b498cd9-dc6d-40cf-85d2-4fd3dc12ba83"]
 }, Open  ]],
 
 Cell[BoxData[
@@ -1022,7 +1205,7 @@ Cell[BoxData[
    3.8597325916039877`*^9, 3.8597325974120197`*^9}, {3.8597326715090237`*^9, 
    3.8597326811422453`*^9}, {3.863143577593163*^9, 3.8631436227536983`*^9}, {
    3.883210881666768*^9, 3.883210979775955*^9}, 3.883211253243875*^9},
- CellLabel->"In[19]:=",ExpressionUUID->"44cbe9a0-eee7-4607-a9cc-2dd9d40c6c47"],
+ CellLabel->"In[14]:=",ExpressionUUID->"44cbe9a0-eee7-4607-a9cc-2dd9d40c6c47"],
 
 Cell[BoxData[
  RowBox[{
@@ -1064,7 +1247,7 @@ Cell[BoxData[
           RowBox[{"R", ",", "nR_", ",", "n2"}], "]"}], ",", "e___"}], "]"}], 
        "\[Rule]", "0"}], "}"}]}], ";"}]}]}]], "Input",
  CellChangeTimes->{{3.8832112590117397`*^9, 3.8832113585749273`*^9}},
- CellLabel->"In[26]:=",ExpressionUUID->"62c578ab-04ab-4d6b-887b-f33b2f705b89"],
+ CellLabel->"In[21]:=",ExpressionUUID->"62c578ab-04ab-4d6b-887b-f33b2f705b89"],
 
 Cell[BoxData[
  RowBox[{
@@ -1155,7 +1338,7 @@ Cell[BoxData[
   3.8595246097319603`*^9, 3.859524669568632*^9}, {3.8595288678639297`*^9, 
   3.85952888374514*^9}, {3.859528925767208*^9, 3.859528943654729*^9}, {
   3.8597329595555553`*^9, 3.85973299391329*^9}},
- CellLabel->"In[28]:=",ExpressionUUID->"8ca4b2ca-821d-47e3-8ddf-364c7b1ee9db"],
+ CellLabel->"In[23]:=",ExpressionUUID->"8ca4b2ca-821d-47e3-8ddf-364c7b1ee9db"],
 
 Cell[BoxData[
  RowBox[{
@@ -1245,7 +1428,7 @@ Cell[BoxData[
   3.859527841616687*^9}, {3.859527885773067*^9, 3.8595279007356052`*^9}, {
   3.859528971498632*^9, 3.859529112221796*^9}, {3.85953234427882*^9, 
   3.8595323467754374`*^9}, {3.859612060103704*^9, 3.859612115854732*^9}},
- CellLabel->"In[33]:=",ExpressionUUID->"4f39493b-e0d6-4a37-935a-998921255188"],
+ CellLabel->"In[28]:=",ExpressionUUID->"4f39493b-e0d6-4a37-935a-998921255188"],
 
 Cell[BoxData[
  RowBox[{
@@ -1415,7 +1598,7 @@ Cell[BoxData[
    3.8596123931250772`*^9}, 3.859612478718601*^9, {3.859612532474292*^9, 
    3.859612535956175*^9}, {3.859612596549924*^9, 3.8596125966527443`*^9}, {
    3.8596129990598583`*^9, 3.859613121500437*^9}},
- CellLabel->"In[35]:=",ExpressionUUID->"025863fe-6ad5-40e8-9c77-0ae584a93e9d"],
+ CellLabel->"In[30]:=",ExpressionUUID->"025863fe-6ad5-40e8-9c77-0ae584a93e9d"],
 
 Cell[BoxData[{
  RowBox[{
@@ -1458,7 +1641,7 @@ Cell[BoxData[{
        RowBox[{"mlsimpl", "[", "mat", "]"}]}], ";", "\[IndentingNewLine]", 
       "mat"}]}], "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
  CellChangeTimes->{{3.883211372165999*^9, 3.883211376777584*^9}},
- CellLabel->"In[41]:=",ExpressionUUID->"a47c1b12-b038-4afc-b767-de1ec5882e88"],
+ CellLabel->"In[36]:=",ExpressionUUID->"a47c1b12-b038-4afc-b767-de1ec5882e88"],
 
 Cell[BoxData[
  RowBox[{
@@ -1723,7 +1906,7 @@ Cell[BoxData[
           RowBox[{"#", "[", 
            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "&"}]}], "]"}], "//", 
      "MatrixForm"}]}]}]}]], "Input",
- CellLabel->"In[43]:=",ExpressionUUID->"74970dcb-c5ab-4531-b5f8-61efe9ad908c"],
+ CellLabel->"In[38]:=",ExpressionUUID->"74970dcb-c5ab-4531-b5f8-61efe9ad908c"],
 
 Cell[BoxData[
  RowBox[{
@@ -1812,7 +1995,7 @@ Cell[BoxData[
    3.884241930601568*^9, 3.88424193709109*^9}, {3.884242124922824*^9, 
    3.8842421255471907`*^9}, {3.884242259360084*^9, 3.88424227381985*^9}, {
    3.88424236946004*^9, 3.884242440615919*^9}},
- CellLabel->"In[50]:=",ExpressionUUID->"6542eca3-149a-4bfa-8a35-bf7d0a98b2d9"],
+ CellLabel->"In[45]:=",ExpressionUUID->"6542eca3-149a-4bfa-8a35-bf7d0a98b2d9"],
 
 Cell[CellGroupData[{
 
@@ -1858,7 +2041,7 @@ Cell[BoxData[
      " ", "\[IndentingNewLine]", "}"}]}]}]}]], "Input",
  CellChangeTimes->{{3.883212253152804*^9, 3.883212263028721*^9}, {
   3.8842424520154753`*^9, 3.884242475220038*^9}},
- CellLabel->"In[56]:=",ExpressionUUID->"a61c02e3-d85a-489b-8032-3b59007bad79"],
+ CellLabel->"In[51]:=",ExpressionUUID->"a61c02e3-d85a-489b-8032-3b59007bad79"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -1876,8 +2059,11 @@ Cell[BoxData[
  CellChangeTimes->{{3.883211918536672*^9, 3.883211943305588*^9}, 
    3.883212263607357*^9, 3.8842385673013077`*^9, 3.8842420485670357`*^9, 
    3.884242476137237*^9, 3.884242533910287*^9, 3.884242963638022*^9, 
-   3.88451715246271*^9, 3.886761287333631*^9},
- CellLabel->"Out[56]=",ExpressionUUID->"63bec802-fdae-43f3-b682-9489cdf404e6"],
+   3.88451715246271*^9, 3.886761287333631*^9, 3.914472755739357*^9, {
+   3.914473571754141*^9, 3.9144735968216248`*^9}, 3.9144740945309668`*^9, 
+   3.914474771771098*^9, 3.9144945120355663`*^9, 3.914497617109709*^9, 
+   3.914497935071142*^9, 3.914498850003881*^9},
+ CellLabel->"Out[51]=",ExpressionUUID->"8a31854e-d208-4c4f-95be-b939941364e8"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -1933,8 +2119,11 @@ Cell[BoxData[
  CellChangeTimes->{{3.883211918536672*^9, 3.883211943305588*^9}, 
    3.883212263607357*^9, 3.8842385673013077`*^9, 3.8842420485670357`*^9, 
    3.884242476137237*^9, 3.884242533910287*^9, 3.884242963638022*^9, 
-   3.88451715246271*^9, 3.88676128733538*^9},
- CellLabel->"Out[57]=",ExpressionUUID->"2ad09c76-db7b-47b7-a1ba-d51140c79827"]
+   3.88451715246271*^9, 3.886761287333631*^9, 3.914472755739357*^9, {
+   3.914473571754141*^9, 3.9144735968216248`*^9}, 3.9144740945309668`*^9, 
+   3.914474771771098*^9, 3.9144945120355663`*^9, 3.914497617109709*^9, 
+   3.914497935071142*^9, 3.914498850015667*^9},
+ CellLabel->"Out[52]=",ExpressionUUID->"0bee0d55-ac32-4e08-8781-69a0ebc008d8"]
 }, Open  ]]
 }, Open  ]],
 
@@ -2169,7 +2358,7 @@ Cell[BoxData[
   3.859694568612172*^9}, {3.8597334778369226`*^9, 3.8597334829191723`*^9}, {
   3.859733565198413*^9, 3.859733613282263*^9}, {3.859737243269456*^9, 
   3.8597372456781397`*^9}, {3.859782422575994*^9, 3.8597824355084677`*^9}},
- CellLabel->"In[58]:=",ExpressionUUID->"88167000-a2b0-47ac-a733-d5935c3a3e36"],
+ CellLabel->"In[53]:=",ExpressionUUID->"88167000-a2b0-47ac-a733-d5935c3a3e36"],
 
 Cell[CellGroupData[{
 
@@ -2300,7 +2489,7 @@ Cell[BoxData[
   3.883211949212576*^9, 3.8832119598438873`*^9}, {3.884238725905917*^9, 
   3.884238744825582*^9}, {3.884238892461609*^9, 3.8842388939345627`*^9}, {
   3.884240124141904*^9, 3.884240128408098*^9}},
- CellLabel->"In[72]:=",ExpressionUUID->"8db21b31-be42-4d46-8a52-9fbd8a8b79dc"],
+ CellLabel->"In[68]:=",ExpressionUUID->"8db21b31-be42-4d46-8a52-9fbd8a8b79dc"],
 
 Cell[BoxData[
  TagBox[
@@ -4016,10 +4205,11 @@ Cell[BoxData[
   3.883212026959296*^9, 3.883212313679158*^9, 3.8842386133592043`*^9, 
   3.884238765493349*^9, 3.884238915396216*^9, 3.884240149089871*^9, 
   3.8842420944687843`*^9, 3.884242573602312*^9, 3.8842430048244247`*^9, 
-  3.8845171669927053`*^9, 3.886761367689391*^9},
+  3.8845171669927053`*^9, 3.886761367689391*^9, 3.914472810750114*^9, 
+  3.9144736470471783`*^9, 3.9144741406170053`*^9, 3.914474818089799*^9},
  CellLabel->
-  "Out[80]//MatrixForm=",ExpressionUUID->"2f9b1749-931f-4fc9-a0de-\
-89b1e4e7de5e"]
+  "Out[76]//MatrixForm=",ExpressionUUID->"abdb8392-60f2-43ca-b2bf-\
+6db01a6550ad"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -4036,7 +4226,7 @@ Cell[BoxData[{
    3.861098150368883*^9}, {3.861098388218569*^9, 3.8610984010414762`*^9}, 
    3.863084718320945*^9, {3.884239557338154*^9, 3.884239568423571*^9}, {
    3.884242493475482*^9, 3.884242501885086*^9}},
- CellLabel->"In[81]:=",ExpressionUUID->"64cc3f29-f062-4896-874a-fa9ddb11dbaf"],
+ CellLabel->"In[77]:=",ExpressionUUID->"64cc3f29-f062-4896-874a-fa9ddb11dbaf"],
 
 Cell[BoxData[
  TagBox[
@@ -5281,10 +5471,11 @@ Cell[BoxData[
   3.861102522345791*^9, 3.8630847212970123`*^9, 3.880779240266617*^9, 
   3.883211477452582*^9, 3.884239476026993*^9, 3.884239568889439*^9, 
   3.884242574034184*^9, 3.884243005211194*^9, 3.88451719378508*^9, 
-  3.886761406981586*^9},
+  3.886761406981586*^9, 3.91447281116156*^9, 3.914473647428484*^9, 
+  3.914474140963839*^9, 3.914474818435657*^9},
  CellLabel->
-  "Out[82]//MatrixForm=",ExpressionUUID->"2cdd3091-83ba-4478-aa98-\
-c173a174cfee"]
+  "Out[78]//MatrixForm=",ExpressionUUID->"837c653a-e989-49ed-9eac-\
+c5806a4d4d9b"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -5298,22 +5489,24 @@ Cell[BoxData[{
   "\"\<doublet_no_finite_size_effects.dat\>\"", ",", " ", "noFiniteSizeD"}], 
   "]"}]}], "Input",
  CellChangeTimes->{{3.861097397697547*^9, 3.861097435302371*^9}},
- CellLabel->"In[83]:=",ExpressionUUID->"901742b2-40ab-44a7-ac7d-384f5f66978d"],
+ CellLabel->"In[79]:=",ExpressionUUID->"901742b2-40ab-44a7-ac7d-384f5f66978d"],
 
 Cell[BoxData["\<\"doublet_mat.dat\"\>"], "Output",
  CellChangeTimes->{3.861097449072699*^9, 3.861102540307403*^9, 
   3.884242594433508*^9, 3.884243036153166*^9, 3.884517200820957*^9, 
-  3.8867614253933573`*^9},
- CellLabel->"Out[83]=",ExpressionUUID->"c60fb800-4d57-424e-a673-7f5c85ceddff"],
+  3.8867614253933573`*^9, 3.91447281120146*^9, 3.9144736620254583`*^9, 
+  3.91447414097578*^9, 3.9144748184582653`*^9},
+ CellLabel->"Out[79]=",ExpressionUUID->"5bb729c0-249a-438e-b961-57a4ed1e696a"],
 
 Cell[BoxData["\<\"doublet_no_finite_size_effects.dat\"\>"], "Output",
  CellChangeTimes->{3.861097449072699*^9, 3.861102540307403*^9, 
   3.884242594433508*^9, 3.884243036153166*^9, 3.884517200820957*^9, 
-  3.886761425394699*^9},
- CellLabel->"Out[84]=",ExpressionUUID->"0c9e2257-f42a-4e0d-ad67-8756dc20c967"]
+  3.8867614253933573`*^9, 3.91447281120146*^9, 3.9144736620254583`*^9, 
+  3.91447414097578*^9, 3.914474818460454*^9},
+ CellLabel->"Out[80]=",ExpressionUUID->"70cf3cda-eb1c-4438-b938-9294b3e61907"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -5597,7 +5790,7 @@ Cell[BoxData[
    3.8596979039301357`*^9, 3.85969812841378*^9}, {3.859698208209813*^9, 
    3.859698675403194*^9}, 3.859699158798985*^9, {3.85969979107892*^9, 
    3.8596997934765863`*^9}, {3.8596998565934353`*^9, 3.859699860455987*^9}},
- CellLabel->"In[85]:=",ExpressionUUID->"4284f777-35e0-425e-a1f7-384c84f006af"],
+ CellLabel->"In[81]:=",ExpressionUUID->"4284f777-35e0-425e-a1f7-384c84f006af"],
 
 Cell[CellGroupData[{
 
@@ -5721,7 +5914,7 @@ Cell[BoxData[
    RowBox[{"mat", "//", "MatrixForm"}]}]}]], "Input",
  CellChangeTimes->{{3.8610797687905073`*^9, 3.861079780588559*^9}, {
    3.8610981929214354`*^9, 3.861098230513039*^9}, 3.884242695172463*^9},
- CellLabel->"In[97]:=",ExpressionUUID->"9bf1697b-ef8a-4e46-8b15-ac8baa7edca0"],
+ CellLabel->"In[93]:=",ExpressionUUID->"9bf1697b-ef8a-4e46-8b15-ac8baa7edca0"],
 
 Cell[BoxData[
  TagBox[
@@ -7044,10 +7237,12 @@ Cell[BoxData[
    MatrixForm[BoxForm`e$]]]], "Output",
  CellChangeTimes->{3.861098247642729*^9, 3.861102566824141*^9, 
   3.880779279387952*^9, 3.884242647254959*^9, 3.884242725612183*^9, 
-  3.884243091252524*^9, 3.88451722172123*^9, 3.886761516107766*^9},
+  3.884243091252524*^9, 3.88451722172123*^9, 3.886761516107766*^9, 
+  3.9144728610163937`*^9, 3.914473715738267*^9, 3.914474191192301*^9, 
+  3.9144748689829807`*^9},
  CellLabel->
-  "Out[104]//MatrixForm=",ExpressionUUID->"39cb5e34-b2b8-44bf-a7a7-\
-2daf7bf9e137"]
+  "Out[100]//MatrixForm=",ExpressionUUID->"ebfe83de-b252-4220-83ce-\
+b7b1b450fa6e"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -7061,7 +7256,7 @@ Cell[BoxData[{
  RowBox[{"%", "//", "MatrixForm"}]}], "Input",
  CellChangeTimes->{{3.88424261091572*^9, 3.884242611047876*^9}},
  CellLabel->
-  "In[105]:=",ExpressionUUID->"a2b6299e-e727-4002-b075-e97b9d2a522c"],
+  "In[101]:=",ExpressionUUID->"a2b6299e-e727-4002-b075-e97b9d2a522c"],
 
 Cell[BoxData[
  TagBox[
@@ -7985,10 +8180,12 @@ Cell[BoxData[
   Function[BoxForm`e$, 
    MatrixForm[BoxForm`e$]]]], "Output",
  CellChangeTimes->{3.88424264744208*^9, 3.88424294376361*^9, 
-  3.884243091462428*^9, 3.8845172218142653`*^9, 3.886761516516213*^9},
+  3.884243091462428*^9, 3.8845172218142653`*^9, 3.886761516516213*^9, 
+  3.914472861202549*^9, 3.914473715934588*^9, 3.914474191364422*^9, 
+  3.914474869155472*^9},
  CellLabel->
-  "Out[106]//MatrixForm=",ExpressionUUID->"38e060b4-c7e7-41ee-9d2b-\
-ce0ee9cbee6f"]
+  "Out[102]//MatrixForm=",ExpressionUUID->"50951edb-697d-427b-8d85-\
+6daee01e7b30"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -8003,7 +8200,7 @@ Cell[BoxData[{
   "]"}]}], "Input",
  CellChangeTimes->{{3.861098420301714*^9, 3.86109843318509*^9}},
  CellLabel->
-  "In[107]:=",ExpressionUUID->"239c62a7-8767-423d-af95-0c70fa15d89f"],
+  "In[103]:=",ExpressionUUID->"239c62a7-8767-423d-af95-0c70fa15d89f"],
 
 Cell[BoxData["\<\"singlet_mat.dat\"\>"], "Output",
  CellChangeTimes->{
@@ -8011,9 +8208,11 @@ Cell[BoxData["\<\"singlet_mat.dat\"\>"], "Output",
    3.859780842181975*^9}, {3.859781136285972*^9, 3.859781152937461*^9}, 
    3.8597812392503366`*^9, 3.8597812748174963`*^9, 3.85978137682301*^9, 
    3.8597832312095203`*^9, 3.861098439516953*^9, 3.861102592712709*^9, 
-   3.884243127392376*^9, 3.884517221868507*^9, 3.886761535186865*^9},
+   3.884243127392376*^9, 3.884517221868507*^9, 3.886761535186865*^9, 
+   3.91447286122773*^9, 3.914473750117262*^9, 3.914474191376135*^9, 
+   3.9144748691668367`*^9},
  CellLabel->
-  "Out[107]=",ExpressionUUID->"b7cdeada-72de-40f7-a089-fedf095e8ba4"],
+  "Out[103]=",ExpressionUUID->"72ec8dee-0870-4ee6-8d38-e1d56f7c2e59"],
 
 Cell[BoxData["\<\"singlet_no_finite_size_effects.dat\"\>"], "Output",
  CellChangeTimes->{
@@ -8021,12 +8220,14 @@ Cell[BoxData["\<\"singlet_no_finite_size_effects.dat\"\>"], "Output",
    3.859780842181975*^9}, {3.859781136285972*^9, 3.859781152937461*^9}, 
    3.8597812392503366`*^9, 3.8597812748174963`*^9, 3.85978137682301*^9, 
    3.8597832312095203`*^9, 3.861098439516953*^9, 3.861102592712709*^9, 
-   3.884243127392376*^9, 3.884517221868507*^9, 3.88676153519249*^9},
+   3.884243127392376*^9, 3.884517221868507*^9, 3.886761535186865*^9, 
+   3.91447286122773*^9, 3.914473750117262*^9, 3.914474191376135*^9, 
+   3.91447486916894*^9},
  CellLabel->
-  "Out[108]=",ExpressionUUID->"0c47146b-d689-4268-af3c-a0a48926805a"]
+  "Out[104]=",ExpressionUUID->"549024a8-171b-4fff-a152-11cebf16b910"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -8049,7 +8250,7 @@ Cell[BoxData[
     RowBox[{"end", "."}]}]}], " ", "*)"}]], "Input",
  CellChangeTimes->{{3.8807807993430347`*^9, 3.880780838765818*^9}},
  CellLabel->
-  "In[109]:=",ExpressionUUID->"486f176a-adab-4875-9687-2829c924799c"],
+  "In[105]:=",ExpressionUUID->"486f176a-adab-4875-9687-2829c924799c"],
 
 Cell[BoxData[
  RowBox[{
@@ -8276,8 +8477,7 @@ Cell[BoxData[
   3.8597372456781397`*^9}, {3.859782422575994*^9, 3.8597824355084677`*^9}, {
   3.88078082026481*^9, 3.880780950213697*^9}, {3.880780981555438*^9, 
   3.8807809849559307`*^9}, {3.880781019692958*^9, 3.880781050549588*^9}},
- CellLabel->
-  "In[110]:=",ExpressionUUID->"e0c6849d-7498-4da9-98b7-4d28b62489e3"],
+ CellLabel->"In[67]:=",ExpressionUUID->"e0c6849d-7498-4da9-98b7-4d28b62489e3"],
 
 Cell[CellGroupData[{
 
@@ -8285,6 +8485,369 @@ Cell["HOPPING MATRICES", "Section",
  CellChangeTimes->{{3.8610974788739223`*^9, 
   3.861097481990589*^9}},ExpressionUUID->"262f269e-5561-421e-b1f8-\
 6c03d1315ab1"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{"Hspinhop", "\[IndentingNewLine]", 
+ RowBox[{"x0", "=", 
+  RowBox[{"bb1", "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"x1", "=", 
+  RowBox[{"bb2", "[", 
+   RowBox[{"[", 
+    RowBox[{"-", "12"}], "]"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"x2", "=", 
+  RowBox[{"bb2", "[", 
+   RowBox[{"[", 
+    RowBox[{"-", "13"}], "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.914498101251615*^9, 3.9144981053728743`*^9}, {
+  3.914498144486455*^9, 3.914498182305438*^9}},
+ CellLabel->"In[81]:=",ExpressionUUID->"2429ebe9-c60b-4d7b-8234-d188774d81ec"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", "\[ImaginaryI]"}], " ", "tspinL", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{
+        TagBox[
+         StyleBox[
+          TemplateBox[{"d", 
+            RowBox[{
+              TagBox[
+               StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+               StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], 
+            "\"\[Dagger]\""},
+           "Subsuperscript"],
+          ScriptSizeMultipliers->1,
+          ScriptBaselineShifts->{1, 1}],
+         DisplayForm], 
+        StyleBox["\[CenterDot]",
+         FontColor->RGBColor[0, 1, 0]], 
+        TagBox[
+         StyleBox[
+          TemplateBox[{"f", 
+            RowBox[{"L", 
+              TagBox[
+               StyleBox[
+               "\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]], 
+               StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], "\"\""},
+           "Subsuperscript"],
+          ScriptSizeMultipliers->1,
+          ScriptBaselineShifts->{1, 1}],
+         DisplayForm]}], ")"}]}], "-", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"f", 
+          RowBox[{"L", 
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}], "+", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"f", 
+          RowBox[{"L", 
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}], "+", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"f", 
+          RowBox[{"L", 
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}]}], ")"}]}], "+", 
+  RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{
+        TagBox[
+         StyleBox[
+          TemplateBox[{"d", 
+            RowBox[{
+              TagBox[
+               StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+               StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], 
+            "\"\[Dagger]\""},
+           "Subsuperscript"],
+          ScriptSizeMultipliers->1,
+          ScriptBaselineShifts->{1, 1}],
+         DisplayForm], 
+        StyleBox["\[CenterDot]",
+         FontColor->RGBColor[0, 1, 0]], 
+        TagBox[
+         StyleBox[
+          TemplateBox[{"f", 
+            RowBox[{"R", 
+              TagBox[
+               StyleBox[
+               "\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]], 
+               StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], "\"\""},
+           "Subsuperscript"],
+          ScriptSizeMultipliers->1,
+          ScriptBaselineShifts->{1, 1}],
+         DisplayForm]}], ")"}]}], "-", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"f", 
+          RowBox[{"R", 
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}], "+", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"f", 
+          RowBox[{"R", 
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}], "+", 
+     RowBox[{
+      TagBox[
+       StyleBox[
+        TemplateBox[{"f", 
+          RowBox[{"R", 
+            TagBox[
+             StyleBox["\"\[DoubleUpArrow]\"", FontColor -> RGBColor[1, 0, 0]],
+              StyleForm[#, FontColor -> RGBColor[1, 0, 0]]& ]}], 
+          "\"\[Dagger]\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm], 
+      StyleBox["\[CenterDot]",
+       FontColor->RGBColor[0, 1, 0]], 
+      TagBox[
+       StyleBox[
+        TemplateBox[{"d", 
+          RowBox[{
+            TagBox[
+             StyleBox["\"\[DownArrow]\"", FontColor -> RGBColor[0, 0, 1]], 
+             StyleForm[#, FontColor -> RGBColor[0, 0, 1]]& ]}], "\"\""},
+         "Subsuperscript"],
+        ScriptSizeMultipliers->1,
+        ScriptBaselineShifts->{1, 1}],
+       DisplayForm]}]}], ")"}]}]}]], "Output",
+ CellChangeTimes->{
+  3.914498105729103*^9, {3.9144981538350983`*^9, 3.914498182937769*^9}, 
+   3.914498860771594*^9},
+ CellLabel->"Out[81]=",ExpressionUUID->"d79234a5-8879-4a33-aa30-b48b2326a1e9"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Part", "partd", 
+   "\"Part specification \\!\\(\\*RowBox[{\\\"bb1\\\", \\\"\
+\[LeftDoubleBracket]\\\", \\\"1\\\", \\\"\[RightDoubleBracket]\\\"}]\\) is \
+longer than depth of object.\"", 2, 82, 1, 33748852175815008313, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9144988608149757`*^9},
+ CellLabel->
+  "During evaluation of \
+In[81]:=",ExpressionUUID->"e9c24550-b016-4f75-b962-9479f4d3955f"],
+
+Cell[BoxData[
+ RowBox[{"bb1", "\[LeftDoubleBracket]", "1", 
+  "\[RightDoubleBracket]"}]], "Output",
+ CellChangeTimes->{
+  3.914498105729103*^9, {3.9144981538350983`*^9, 3.914498182937769*^9}, 
+   3.914498860824095*^9},
+ CellLabel->"Out[82]=",ExpressionUUID->"1ecb9796-5aa2-4f14-b2a8-93c02696d853"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Part", "partd", 
+   "\"Part specification \\!\\(\\*RowBox[{\\\"bb2\\\", \\\"\
+\[LeftDoubleBracket]\\\", RowBox[{\\\"-\\\", \\\"12\\\"}], \\\"\
+\[RightDoubleBracket]\\\"}]\\) is longer than depth of object.\"", 2, 83, 2, 
+   33748852175815008313, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9144988608270407`*^9},
+ CellLabel->
+  "During evaluation of \
+In[81]:=",ExpressionUUID->"c865d0b2-2c4b-4822-a18a-82f18c8f0131"],
+
+Cell[BoxData[
+ RowBox[{"bb2", "\[LeftDoubleBracket]", 
+  RowBox[{"-", "12"}], "\[RightDoubleBracket]"}]], "Output",
+ CellChangeTimes->{
+  3.914498105729103*^9, {3.9144981538350983`*^9, 3.914498182937769*^9}, 
+   3.9144988608351917`*^9},
+ CellLabel->"Out[83]=",ExpressionUUID->"cc49afe7-3b7a-4e85-9e7e-b00cecab1587"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Part", "partd", 
+   "\"Part specification \\!\\(\\*RowBox[{\\\"bb2\\\", \\\"\
+\[LeftDoubleBracket]\\\", RowBox[{\\\"-\\\", \\\"13\\\"}], \\\"\
+\[RightDoubleBracket]\\\"}]\\) is longer than depth of object.\"", 2, 84, 3, 
+   33748852175815008313, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.914498860839139*^9},
+ CellLabel->
+  "During evaluation of \
+In[81]:=",ExpressionUUID->"8ba553ed-5da4-42d2-97ab-df52d9ef48ff"],
+
+Cell[BoxData[
+ RowBox[{"bb2", "\[LeftDoubleBracket]", 
+  RowBox[{"-", "13"}], "\[RightDoubleBracket]"}]], "Output",
+ CellChangeTimes->{
+  3.914498105729103*^9, {3.9144981538350983`*^9, 3.914498182937769*^9}, 
+   3.914498860845015*^9},
+ CellLabel->"Out[84]=",ExpressionUUID->"11287e4c-d7bb-4334-bc14-b588005262c7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"twoChSimpl", "[", 
+  RowBox[{"nc", "[", 
+   RowBox[{
+    RowBox[{"conj", "[", "x1", "]"}], ",", "Hspinhop", ",", "x0"}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"twoChSimpl", "[", 
+  RowBox[{"nc", "[", 
+   RowBox[{
+    RowBox[{"conj", "[", "x2", "]"}], ",", "Hspinhop", ",", "x0"}], "]"}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.914498121597135*^9, 3.914498142858014*^9}, {
+  3.9144981911456957`*^9, 3.9144982347919397`*^9}, {3.914498278215167*^9, 
+  3.91449828483537*^9}},
+ CellLabel->
+  "In[109]:=",ExpressionUUID->"d8a5f30b-01fb-4023-91cc-b44a5f656c4e"],
+
+Cell[BoxData[
+ RowBox[{"\[ImaginaryI]", " ", 
+  SqrtBox[
+   RowBox[{"1", "-", 
+    FractionBox["mR", "l"]}]], " ", "tspinR", " ", 
+  TemplateBox[{
+    RowBox[{"mL", ",", "nL"}]},
+   "KroneckerDeltaSeq"], " ", 
+  TemplateBox[{
+    RowBox[{"mR", ",", "nR"}]},
+   "KroneckerDeltaSeq"]}]], "Output",
+ CellChangeTimes->{
+  3.914498131667378*^9, {3.914498200044606*^9, 3.9144982354241047`*^9}, 
+   3.914498285204649*^9},
+ CellLabel->
+  "Out[109]=",ExpressionUUID->"102de3af-0af3-46d1-81aa-8d79fd7e6ab1"],
+
+Cell[BoxData[
+ RowBox[{"\[ImaginaryI]", " ", 
+  SqrtBox[
+   RowBox[{"1", "-", 
+    FractionBox["mL", "l"]}]], " ", "tspinL", " ", 
+  TemplateBox[{
+    RowBox[{"mL", ",", "nL"}]},
+   "KroneckerDeltaSeq"], " ", 
+  TemplateBox[{
+    RowBox[{"mR", ",", "nR"}]},
+   "KroneckerDeltaSeq"]}]], "Output",
+ CellChangeTimes->{
+  3.914498131667378*^9, {3.914498200044606*^9, 3.9144982354241047`*^9}, 
+   3.914498285209179*^9},
+ CellLabel->
+  "Out[110]=",ExpressionUUID->"173687b3-35e8-478e-8f4b-7205ce81e95b"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -8432,8 +8995,7 @@ Cell[BoxData[
   3.880781088487157*^9, 3.8807811116955137`*^9}, {3.880781147698017*^9, 
   3.880781163937566*^9}, {3.880781282574339*^9, 3.880781294052649*^9}, {
   3.88424329940036*^9, 3.8842433042257977`*^9}},
- CellLabel->
-  "In[124]:=",ExpressionUUID->"06c045fd-2b35-4251-b8ba-e195c1b530d7"],
+ CellLabel->"In[85]:=",ExpressionUUID->"06c045fd-2b35-4251-b8ba-e195c1b530d7"],
 
 Cell[BoxData[
  TagBox[
@@ -8559,9 +9121,19 @@ Cell[BoxData[
          RowBox[{
           SuperscriptBox["l", "3"], " ", 
           RowBox[{"(", 
-           RowBox[{"l", "-", "nR"}], ")"}]}]]]}], "0", "0", "0", "0", 
+           RowBox[{"l", "-", "nR"}], ")"}]}]]]}], "0", "0", "0", 
       RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "-", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["mL", "l"]}]], " ", "tspinL", " ", 
@@ -8582,7 +9154,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -8717,7 +9290,8 @@ Cell[BoxData[
          RowBox[{"mR", ",", 
            RowBox[{"1", "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["nL", "l"]}]], " ", "tspinL", " ", 
@@ -8727,8 +9301,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -8888,8 +9461,7 @@ Cell[BoxData[
          RowBox[{"mR", ",", 
            RowBox[{"1", "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -9013,8 +9585,7 @@ Cell[BoxData[
            RowBox[{"mR", ",", 
              RowBox[{"1", "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], "l"]}], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["nL", "l"]], " ", "tspinL", " ", 
        TemplateBox[{
@@ -9025,8 +9596,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -9187,8 +9757,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -9315,19 +9884,21 @@ Cell[BoxData[
          RowBox[{"mR", ",", 
            RowBox[{"1", "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox[
-        RowBox[{"l", " ", "nL"}]]], "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox[
+         RowBox[{"l", " ", "nL"}]]]}], "0", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -9338,7 +9909,18 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", 
+        "KroneckerDeltaSeq"]}], "0", 
+      RowBox[{
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "-", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], 
       RowBox[{
        RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
@@ -9472,8 +10054,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -9616,7 +10197,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", "0", "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["nL", "l"]}]], " ", "tspinL", " ", 
@@ -9656,8 +10238,7 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["6"]]}], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -9807,8 +10388,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["mL", "l"]}]], " ", "tspinL", " ", 
@@ -9817,8 +10397,20 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "-", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], "0", "0", "0", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -10073,7 +10665,20 @@ Cell[BoxData[
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", "0", 
+       SqrtBox["2"]], "0", "0", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"Ex", "-", 
+          RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"]}]], "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", 
@@ -10263,8 +10868,7 @@ Cell[BoxData[
                RowBox[{"-", "1"}], "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["6"]]}], 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -10290,8 +10894,7 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["6"]]}], 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -10303,8 +10906,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -10332,8 +10934,35 @@ Cell[BoxData[
          TemplateBox[{
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
-        SqrtBox["6"]]}], "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+        SqrtBox["6"]]}], "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"Ex", "-", 
+           RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]]}], 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["1", "3"]}], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "-", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -10473,7 +11102,8 @@ Cell[BoxData[
            RowBox[{
              RowBox[{"-", "1"}], "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -10615,8 +11245,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["nL", "l"]], " ", "tspinL", " ", 
        TemplateBox[{
@@ -10655,8 +11284,7 @@ Cell[BoxData[
         SqrtBox["6"], " ", 
         SqrtBox[
          RowBox[{"l", " ", "nR"}]]}]], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -10798,18 +11426,19 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        SqrtBox[
         RowBox[{"l", " ", "nR"}]]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox[
-        RowBox[{"l", " ", "nL"}]]], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox[
+         RowBox[{"l", " ", "nL"}]]]}], "0", "0", "0", 
       RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
@@ -10822,7 +11451,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -10833,10 +11463,31 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0"},
-     {"0", 
+        "KroneckerDeltaSeq"]}], 
       RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "-", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}]},
+     {
+      RowBox[{
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "+", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["mL", "l"]}]], " ", "tspinL", " ", 
@@ -10857,7 +11508,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -10995,7 +11647,8 @@ Cell[BoxData[
              RowBox[{"1", "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], "l"]}], "0", "0", "0"},
      {
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["nL", "l"]}]], " ", "tspinL", " ", 
@@ -11005,8 +11658,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -11178,7 +11830,8 @@ Cell[BoxData[
          RowBox[{"mR", ",", 
            RowBox[{"1", "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -11290,8 +11943,7 @@ Cell[BoxData[
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0"},
      {
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["nL", "l"]], " ", "tspinL", " ", 
        TemplateBox[{
@@ -11302,8 +11954,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -11475,7 +12126,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -11585,19 +12237,21 @@ Cell[BoxData[
              RowBox[{"1", "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], "l"]}], "0"},
      {"0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox[
-        RowBox[{"l", " ", "nL"}]]], "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox[
+         RowBox[{"l", " ", "nL"}]]]}], "0", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -11608,7 +12262,18 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", 
+        "KroneckerDeltaSeq"]}], "0", 
+      RowBox[{
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "+", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], 
       RowBox[{
        RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
@@ -11755,7 +12420,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -11882,7 +12548,8 @@ Cell[BoxData[
            RowBox[{"1", "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}]},
      {"0", "0", "0", "0", "0", "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["nL", "l"]}]], " ", "tspinL", " ", 
@@ -11921,8 +12588,7 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["6"]], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -12073,8 +12739,7 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         RowBox[{"1", "-", 
          FractionBox["mL", "l"]}]], " ", "tspinL", " ", 
@@ -12083,8 +12748,20 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "+", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], "0", "0", "0", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{"1", "+", "nL"}], "l"]], " ", "tspinL", " ", 
@@ -12249,7 +12926,21 @@ Cell[BoxData[
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", "0", 
+       SqrtBox["2"]], "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"Ex", "+", 
+           RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]]}], "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", 
@@ -12483,7 +13174,8 @@ Cell[BoxData[
               RowBox[{"-", "1"}], "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["6"]], 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -12508,7 +13200,8 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["6"]], 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -12520,7 +13213,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -12547,9 +13241,33 @@ Cell[BoxData[
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
-       SqrtBox["6"]], "0", "0", "0", 
+       SqrtBox["6"]], "0", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"Ex", "+", 
+          RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       RowBox[{"2", " ", 
+        SqrtBox["3"]}]], 
       RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+       RowBox[{"-", 
+        FractionBox["1", "3"]}], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "+", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -12745,8 +13463,7 @@ Cell[BoxData[
            RowBox[{
              RowBox[{"-", "1"}], "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["2", "3"]], " ", 
        SqrtBox[
@@ -12874,8 +13591,7 @@ Cell[BoxData[
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}]},
      {"0", "0", "0", "0", "0", "0", "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox["nL", "l"]], " ", "tspinL", " ", 
        TemplateBox[{
@@ -12915,8 +13631,7 @@ Cell[BoxData[
          SqrtBox["6"], " ", 
          SqrtBox[
           RowBox[{"l", " ", "nR"}]]}]]}], "0", "0", 
-      RowBox[{
-       RowBox[{"-", "\[ImaginaryI]"}], " ", 
+      RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -13057,18 +13772,19 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        SqrtBox[
         RowBox[{"l", " ", "nR"}]]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox[
-        RowBox[{"l", " ", "nL"}]]], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "nL", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox[
+         RowBox[{"l", " ", "nL"}]]]}], "0", "0", "0", 
       RowBox[{"\[ImaginaryI]", " ", 
        SqrtBox[
         FractionBox[
@@ -13081,7 +13797,8 @@ Cell[BoxData[
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], 
-      RowBox[{"\[ImaginaryI]", " ", 
+      RowBox[{
+       RowBox[{"-", "\[ImaginaryI]"}], " ", 
        SqrtBox[
         FractionBox[
          RowBox[{
@@ -13092,7 +13809,18 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", "0", "0", "0", "0", "0", 
+        "KroneckerDeltaSeq"]}], 
+      RowBox[{
+       FractionBox["1", "2"], " ", 
+       RowBox[{"(", 
+        RowBox[{"Ex", "+", 
+         RowBox[{"\[ImaginaryI]", " ", "Ey"}]}], ")"}], " ", 
+       TemplateBox[{
+         RowBox[{"mL", ",", "nL"}]},
+        "KroneckerDeltaSeq"], " ", 
+       TemplateBox[{
+         RowBox[{"mR", ",", "nR"}]},
+        "KroneckerDeltaSeq"]}], "0", "0", "0", "0", "0", "0", 
       FractionBox[
        RowBox[{"nR", " ", "vR", " ", 
         TemplateBox[{
@@ -13226,10 +13954,12 @@ Cell[BoxData[
   3.8611023990273743`*^9, 3.8630847211948843`*^9, 3.880779087804945*^9, 
   3.8807811433498363`*^9, 3.880781209299528*^9, 3.880781339464772*^9, 
   3.88424323668046*^9, 3.884243382857399*^9, 3.884517245871649*^9, 
-  3.886761765549733*^9},
+  3.886761765549733*^9, 3.914472977378438*^9, 3.914473895785295*^9, 
+  3.91447431212626*^9, 3.91447499078441*^9, 3.914497922036374*^9, 
+  3.914498083708205*^9, 3.914499006345503*^9},
  CellLabel->
-  "Out[131]//MatrixForm=",ExpressionUUID->"d0b5779b-f19e-4910-ad3d-\
-2a3b8c6361c3"]
+  "Out[92]//MatrixForm=",ExpressionUUID->"408c192b-92b4-49fb-9337-\
+5d8b4520c5f9"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -13242,8 +13972,7 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"%", "//", "MatrixForm"}]}], "Input",
  CellChangeTimes->{3.884243160194675*^9, 3.8842434039841757`*^9},
- CellLabel->
-  "In[132]:=",ExpressionUUID->"15113c47-e364-47e1-8704-f7ab0ced5c5c"],
+ CellLabel->"In[94]:=",ExpressionUUID->"15113c47-e364-47e1-8704-f7ab0ced5c5c"],
 
 Cell[BoxData[
  TagBox[
@@ -13335,17 +14064,33 @@ Cell[BoxData[
         TemplateBox[{
           RowBox[{"mR", ",", 
             RowBox[{"1", "+", "nR"}]}]},
-         "KroneckerDeltaSeq"]}]}], "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], 
+         "KroneckerDeltaSeq"]}]}], "0", "0", "0", 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], "-", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -13356,16 +14101,17 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{"1", "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{"1", "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -13458,26 +14204,26 @@ Cell[BoxData[
          RowBox[{"mR", ",", 
            RowBox[{"1", "+", "nR"}]}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
          TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{"1", "+", "nL"}]}]},
+           RowBox[{"mL", ",", "nL"}]},
           "KroneckerDeltaSeq"], " ", 
          TemplateBox[{
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", 
+        SqrtBox["2"]]}], "0", "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{"1", "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -13590,17 +14336,16 @@ Cell[BoxData[
              RowBox[{"1", "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{"1", "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], "0", "0", "0"},
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{"1", "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], "0", "0", "0"},
      {
       FractionBox[
        RowBox[{"vL", " ", 
@@ -13681,28 +14426,26 @@ Cell[BoxData[
           RowBox[{"mR", ",", 
             RowBox[{"1", "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}]}], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{
-               RowBox[{"-", "1"}], "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{
+              RowBox[{"-", "1"}], "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -13814,16 +14557,15 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], "0", "0", "0"},
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], "0", "0", "0"},
      {"0", 
       FractionBox[
        RowBox[{"vL", " ", 
@@ -13912,26 +14654,45 @@ Cell[BoxData[
             RowBox[{"1", "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
         TemplateBox[{
           RowBox[{"mL", ",", "nL"}]},
          "KroneckerDeltaSeq"], " ", 
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", 
+         "KroneckerDeltaSeq"]}], "-", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14031,16 +14792,15 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14134,15 +14894,16 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", "0", "0", "0", "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14163,17 +14924,16 @@ Cell[BoxData[
           "KroneckerDeltaSeq"]}], 
         RowBox[{"2", " ", 
          SqrtBox["3"]}]]}], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{"1", "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}]},
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{"1", "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]]},
      {"0", "0", 
       FractionBox[
        RowBox[{"vR", " ", 
@@ -14284,26 +15044,43 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", "0", 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
         TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{"1", "+", "nL"}]}]},
+          RowBox[{"mL", ",", "nL"}]},
          "KroneckerDeltaSeq"], " ", 
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0"},
+       SqrtBox["2"]], 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], "-", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{"1", "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0"},
      {
       RowBox[{
        FractionBox[
@@ -14470,7 +15247,28 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
+        "KroneckerDeltaSeq"]}], "0", "0", 
+      RowBox[{
+       FractionBox[
+        RowBox[{"Ex", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]], "-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "Ey", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]]}], "0", 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14609,18 +15407,17 @@ Cell[BoxData[
           "KroneckerDeltaSeq"]}], 
         RowBox[{"2", " ", 
          SqrtBox["3"]}]]}], 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{
-               RowBox[{"-", "1"}], "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{
+              RowBox[{"-", "1"}], "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14632,26 +15429,24 @@ Cell[BoxData[
           "KroneckerDeltaSeq"]}], 
         RowBox[{"2", " ", 
          SqrtBox["3"]}]]}], 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14662,17 +15457,58 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         RowBox[{"2", " ", 
-         SqrtBox["3"]}]]}], "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         SqrtBox["3"]}]]}], "0", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"Ex", " ", 
+          TemplateBox[{
+            RowBox[{"mL", ",", "nL"}]},
+           "KroneckerDeltaSeq"], " ", 
+          TemplateBox[{
+            RowBox[{"mR", ",", "nR"}]},
+           "KroneckerDeltaSeq"]}], 
+         RowBox[{"2", " ", 
+          SqrtBox["3"]}]]}], "+", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "Ey", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]]}], 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", 
+         FractionBox["1", "3"]}], " ", "Ex", " ", 
         TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{"1", "+", "nL"}]}]},
+          RowBox[{"mL", ",", "nL"}]},
          "KroneckerDeltaSeq"], " ", 
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], 
+         "KroneckerDeltaSeq"]}], "+", 
+       RowBox[{
+        FractionBox["1", "3"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{"1", "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -14769,17 +15605,18 @@ Cell[BoxData[
                RowBox[{"-", "1"}], "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], "0", "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -14874,18 +15711,17 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", "0", "0", "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{
-               RowBox[{"-", "1"}], "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{
+              RowBox[{"-", "1"}], "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], 
       RowBox[{
        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
        TemplateBox[{
@@ -14908,16 +15744,15 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        RowBox[{"2", " ", 
         SqrtBox["3"]}]], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}]},
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]]},
      {"0", "0", "0", "0", "0", "0", 
       FractionBox[
        RowBox[{"vR", " ", 
@@ -15021,17 +15856,18 @@ Cell[BoxData[
               RowBox[{"-", "1"}], "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", "0", "0", 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -15041,16 +15877,6 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0"},
-     {"0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
@@ -15061,6 +15887,50 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], "-", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}]},
+     {
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], "+", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -15071,16 +15941,17 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{"1", "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{"1", "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -15178,26 +16049,26 @@ Cell[BoxData[
             RowBox[{"1", "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}]}], "0", "0", "0"},
      {
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
          TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{"1", "+", "nL"}]}]},
+           RowBox[{"mL", ",", "nL"}]},
           "KroneckerDeltaSeq"], " ", 
          TemplateBox[{
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", 
+        SqrtBox["2"]]}], "0", "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{"1", "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -15320,16 +16191,17 @@ Cell[BoxData[
              RowBox[{"1", "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{"1", "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{"1", "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], "0", "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"vR", " ", 
@@ -15400,28 +16272,26 @@ Cell[BoxData[
          RowBox[{"mR", ",", "nR"}]},
         "KroneckerDeltaSeq"]}], "0", "0", "0", "0"},
      {
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{
-               RowBox[{"-", "1"}], "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{
+              RowBox[{"-", "1"}], "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -15542,15 +16412,16 @@ Cell[BoxData[
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], "0", "0", "0", 
       FractionBox[
        RowBox[{"vR", " ", 
         TemplateBox[{
@@ -15620,26 +16491,45 @@ Cell[BoxData[
             RowBox[{"1", "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}]}], "0"},
      {"0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
         TemplateBox[{
           RowBox[{"mL", ",", "nL"}]},
          "KroneckerDeltaSeq"], " ", 
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", 
+         "KroneckerDeltaSeq"]}], "+", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -15756,15 +16646,16 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -15846,15 +16737,16 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]]},
      {"0", "0", "0", "0", "0", "0", "0", "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -15874,17 +16766,16 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        RowBox[{"2", " ", 
         SqrtBox["3"]}]], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{"1", "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{"1", "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", 
       RowBox[{
        RowBox[{
         RowBox[{"-", 
@@ -15986,26 +16877,43 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", "0", 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
         TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{"1", "+", "nL"}]}]},
+          RowBox[{"mL", ",", "nL"}]},
          "KroneckerDeltaSeq"], " ", 
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", 
+       SqrtBox["2"]], 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], "+", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{"1", "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", "0", "0", 
       FractionBox[
        RowBox[{"vR", " ", 
         TemplateBox[{
@@ -16122,7 +17030,29 @@ Cell[BoxData[
         "KroneckerDeltaSeq"], " ", 
        TemplateBox[{
          RowBox[{"mR", ",", "nR"}]},
-        "KroneckerDeltaSeq"]}], "0", "0", "0", "0", 
+        "KroneckerDeltaSeq"]}], "0", "0", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"Ex", " ", 
+          TemplateBox[{
+            RowBox[{"mL", ",", "nL"}]},
+           "KroneckerDeltaSeq"], " ", 
+          TemplateBox[{
+            RowBox[{"mR", ",", "nR"}]},
+           "KroneckerDeltaSeq"]}], 
+         RowBox[{"2", " ", 
+          SqrtBox["3"]}]]}], "-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "Ey", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]]}], "0", 
       RowBox[{
        RowBox[{"-", 
         FractionBox["1", "2"]}], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
@@ -16286,17 +17216,18 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        RowBox[{"2", " ", 
         SqrtBox["3"]}]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -16307,24 +17238,26 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        RowBox[{"2", " ", 
         SqrtBox["3"]}]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], "0", 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", "nL"}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["3"]], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["3"]]}], 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -16334,18 +17267,56 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        RowBox[{"2", " ", 
-        SqrtBox["3"]}]], "0", "0", "0", 
-      RowBox[{"-", 
+        SqrtBox["3"]}]], "0", 
+      RowBox[{
        FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        RowBox[{"Ex", " ", 
          TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{"1", "+", "nL"}]}]},
+           RowBox[{"mL", ",", "nL"}]},
           "KroneckerDeltaSeq"], " ", 
          TemplateBox[{
            RowBox[{"mR", ",", "nR"}]},
           "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]], "+", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "Ey", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        RowBox[{"2", " ", 
+         SqrtBox["3"]}]]}], 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", 
+         FractionBox["1", "3"]}], " ", "Ex", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], "-", 
+       RowBox[{
+        FractionBox["1", "3"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{"1", "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -16481,18 +17452,17 @@ Cell[BoxData[
                RowBox[{"-", "1"}], "+", "nR"}]}]},
           "KroneckerDeltaSeq"]}], 
         SqrtBox["2"]]}], "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{
-               RowBox[{"-", "1"}], "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["3"]]}], "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{
+              RowBox[{"-", "1"}], "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["3"]], "0", "0", 
       RowBox[{"-", 
        FractionBox[
         RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
@@ -16576,18 +17546,17 @@ Cell[BoxData[
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]]},
      {"0", "0", "0", "0", "0", "0", "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", 
-             RowBox[{
-               RowBox[{"-", "1"}], "+", "nL"}]}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", 
+            RowBox[{
+              RowBox[{"-", "1"}], "+", "nL"}]}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], 
       RowBox[{
        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "tspinR", " ", 
        TemplateBox[{
@@ -16611,16 +17580,15 @@ Cell[BoxData[
           "KroneckerDeltaSeq"]}], 
         RowBox[{"2", " ", 
          SqrtBox["3"]}]]}], "0", "0", 
-      RowBox[{"-", 
-       FractionBox[
-        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-         TemplateBox[{
-           RowBox[{"mL", ",", "nL"}]},
-          "KroneckerDeltaSeq"], " ", 
-         TemplateBox[{
-           RowBox[{"mR", ",", "nR"}]},
-          "KroneckerDeltaSeq"]}], 
-        SqrtBox["2"]]}], "0", "0", "0", "0", 
+      FractionBox[
+       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}], 
+       SqrtBox["2"]], "0", "0", "0", "0", 
       RowBox[{
        RowBox[{
         RowBox[{"-", 
@@ -16717,17 +17685,18 @@ Cell[BoxData[
               RowBox[{"-", "1"}], "+", "nR"}]}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
-        TemplateBox[{
-          RowBox[{"mL", ",", 
-            RowBox[{
-              RowBox[{"-", "1"}], "+", "nL"}]}]},
-         "KroneckerDeltaSeq"], " ", 
-        TemplateBox[{
-          RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", 
+             RowBox[{
+               RowBox[{"-", "1"}], "+", "nL"}]}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], "0", "0", "0", 
       FractionBox[
        RowBox[{"\[ImaginaryI]", " ", "tspinR", " ", 
         TemplateBox[{
@@ -16737,15 +17706,33 @@ Cell[BoxData[
           RowBox[{"mR", ",", "nR"}]},
          "KroneckerDeltaSeq"]}], 
        SqrtBox["2"]], 
-      FractionBox[
-       RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[ImaginaryI]", " ", "tspinL", " ", 
+         TemplateBox[{
+           RowBox[{"mL", ",", "nL"}]},
+          "KroneckerDeltaSeq"], " ", 
+         TemplateBox[{
+           RowBox[{"mR", ",", "nR"}]},
+          "KroneckerDeltaSeq"]}], 
+        SqrtBox["2"]]}], 
+      RowBox[{
+       RowBox[{
+        FractionBox["1", "2"], " ", "Ex", " ", 
         TemplateBox[{
           RowBox[{"mL", ",", "nL"}]},
          "KroneckerDeltaSeq"], " ", 
         TemplateBox[{
           RowBox[{"mR", ",", "nR"}]},
-         "KroneckerDeltaSeq"]}], 
-       SqrtBox["2"]], "0", "0", "0", "0", "0", "0", "0", 
+         "KroneckerDeltaSeq"]}], "+", 
+       RowBox[{
+        FractionBox["1", "2"], " ", "\[ImaginaryI]", " ", "Ey", " ", 
+        TemplateBox[{
+          RowBox[{"mL", ",", "nL"}]},
+         "KroneckerDeltaSeq"], " ", 
+        TemplateBox[{
+          RowBox[{"mR", ",", "nR"}]},
+         "KroneckerDeltaSeq"]}]}], "0", "0", "0", "0", "0", "0", 
       FractionBox[
        RowBox[{"vR", " ", 
         TemplateBox[{
@@ -16851,40 +17838,45 @@ Cell[BoxData[
    MatrixForm[BoxForm`e$]]]], "Output",
  CellChangeTimes->{{3.884243273119858*^9, 3.884243282072953*^9}, {
    3.884243383256235*^9, 3.884243406116096*^9}, 3.8845172460413313`*^9, 
-   3.8867617980174713`*^9},
+   3.8867617980174713`*^9, 3.91447297833183*^9, 3.914473940355595*^9, 
+   3.9144743126397543`*^9, 3.914474991297838*^9, 3.9144990391242456`*^9},
  CellLabel->
-  "Out[133]//MatrixForm=",ExpressionUUID->"0c5bd2ca-8ab6-4b09-ac6a-\
-90d8db783640"]
+  "Out[95]//MatrixForm=",ExpressionUUID->"3540b704-4d13-45d1-b3cc-\
+ae4261caa9f4"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[{
  RowBox[{"Export", "[", 
-  RowBox[{"\"\<doublet_mat_bothSz.dat\>\"", ",", " ", "matBothSz"}], 
+  RowBox[{"\"\<doublet_both_Sz_mat.dat\>\"", ",", " ", "matBothSz"}], 
   "]"}], "\[IndentingNewLine]", 
  RowBox[{"Export", "[", 
   RowBox[{
-  "\"\<doublet_no_finite_size_effects_bothSz.dat\>\"", ",", " ", 
+  "\"\<doublet_both_Sz_no_finite_size_effects.dat\>\"", ",", " ", 
    "noFiniteSizeDbothSz"}], "]"}]}], "Input",
  CellChangeTimes->{{3.861097397697547*^9, 3.861097435302371*^9}, {
-  3.880781259203965*^9, 3.8807812740540743`*^9}},
- CellLabel->
-  "In[139]:=",ExpressionUUID->"5b5ae10f-73c3-4ce4-a00e-f76ea374a893"],
+  3.880781259203965*^9, 3.8807812740540743`*^9}, {3.9144747274696302`*^9, 
+  3.9144747404816647`*^9}, {3.914475031060948*^9, 3.914475039987092*^9}},
+ CellLabel->"In[96]:=",ExpressionUUID->"5b5ae10f-73c3-4ce4-a00e-f76ea374a893"],
 
-Cell[BoxData["\<\"doublet_mat_bothSz.dat\"\>"], "Output",
- CellChangeTimes->{3.861097449072699*^9, 3.861102540307403*^9, 
-  3.8807819011429443`*^9, 3.884243448933514*^9, 3.88451724610548*^9, 
-  3.886761965006958*^9},
- CellLabel->
-  "Out[139]=",ExpressionUUID->"500238d8-ce29-409d-860c-71759f0d537b"],
+Cell[BoxData["\<\"doublet_both_Sz_mat.dat\"\>"], "Output",
+ CellChangeTimes->{
+  3.861097449072699*^9, 3.861102540307403*^9, 3.8807819011429443`*^9, 
+   3.884243448933514*^9, 3.88451724610548*^9, 3.886761965006958*^9, 
+   3.9144729784142027`*^9, {3.914473955538558*^9, 3.914473973326707*^9}, 
+   3.914474060594055*^9, 3.91447431266317*^9, 3.914474991320137*^9, {
+   3.9144750370154343`*^9, 3.9144750410010757`*^9}, 3.914499040705661*^9},
+ CellLabel->"Out[96]=",ExpressionUUID->"3ab3a490-2dcb-4638-8e4c-8b404793b68e"],
 
-Cell[BoxData["\<\"doublet_no_finite_size_effects_bothSz.dat\"\>"], "Output",
- CellChangeTimes->{3.861097449072699*^9, 3.861102540307403*^9, 
-  3.8807819011429443`*^9, 3.884243448933514*^9, 3.88451724610548*^9, 
-  3.886761965008381*^9},
- CellLabel->
-  "Out[140]=",ExpressionUUID->"6743af8d-5368-4cc0-b5ee-e9458b9d18bb"]
+Cell[BoxData["\<\"doublet_both_Sz_no_finite_size_effects.dat\"\>"], "Output",
+ CellChangeTimes->{
+  3.861097449072699*^9, 3.861102540307403*^9, 3.8807819011429443`*^9, 
+   3.884243448933514*^9, 3.88451724610548*^9, 3.886761965006958*^9, 
+   3.9144729784142027`*^9, {3.914473955538558*^9, 3.914473973326707*^9}, 
+   3.914474060594055*^9, 3.91447431266317*^9, 3.914474991320137*^9, {
+   3.9144750370154343`*^9, 3.9144750410010757`*^9}, 3.9144990407092667`*^9},
+ CellLabel->"Out[97]=",ExpressionUUID->"45cb2f51-dfde-4c5c-a2fa-b179cb6cc7b8"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
@@ -17512,7 +18504,7 @@ Cell[BoxData["\<\"doublet_Bx_mat_no_finite_size.dat\"\>"], "Output",
  CellLabel->
   "Out[203]=",ExpressionUUID->"fc11c6c1-6282-499b-b889-0b6e24d50180"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -17720,7 +18712,7 @@ Cell[BoxData[
 59b7ae9cbab5"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -18734,10 +19726,11 @@ Cell[BoxData["\<\"doublet_phi_mat_no_finite_size.dat\"\>"], "Output",
   "Out[101]=",ExpressionUUID->"bbff1e04-29a6-424b-966e-e0a7d2c16637"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]]
+}, Closed]]
 },
-WindowSize->{2560, 1306},
+WindowSize->{1920, 955},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
+TaggingRules-><|"TryRealOnly" -> False|>,
 FrontEndVersion->"13.1 for Mac OS X ARM (64-bit) (June 16, 2022)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"92b8d6b3-cc9e-4eaa-9723-a0ac67efb9c3"
@@ -18755,166 +19748,186 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 1966, 39, 283, "Input",ExpressionUUID->"1ca4b8bf-eb8d-4407-b4f8-72e2da5df82b"],
 Cell[CellGroupData[{
-Cell[2549, 63, 149, 3, 69, "Chapter",ExpressionUUID->"d1821e41-783e-44f4-bb21-27aca3ee3267"],
-Cell[CellGroupData[{
-Cell[2723, 70, 145, 3, 30, "Input",ExpressionUUID->"1f917380-0c15-434f-a29f-b0e65b42c6e1"],
-Cell[2871, 75, 1722, 25, 24, "Print",ExpressionUUID->"1f301f09-85eb-4fb3-a2b6-c73c1d99ff2c"]
-}, Open  ]],
-Cell[4608, 103, 1601, 26, 52, "Input",ExpressionUUID->"287260b7-4d91-412c-87e6-39b9d33ca5f4"],
-Cell[CellGroupData[{
-Cell[6234, 133, 751, 21, 73, "Input",ExpressionUUID->"61db2bf6-d8a0-4cfe-869a-a2ced98dedfa"],
-Cell[6988, 156, 1802, 27, 34, "Output",ExpressionUUID->"9a254a6b-250a-4949-9c37-a8e2ed89c6ac"]
+Cell[2549, 63, 313, 5, 30, "Input",ExpressionUUID->"d5105169-67f5-49cf-87a6-5db6d05e2d54"],
+Cell[2865, 70, 294, 4, 34, "Output",ExpressionUUID->"1b47fae9-4eb2-4bde-b0c3-545c81457eb6"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8827, 188, 371, 8, 52, "Input",ExpressionUUID->"37995b5c-11af-4662-b7b7-34ed73f17bf8"],
-Cell[9201, 198, 203, 3, 34, "Output",ExpressionUUID->"22bd8e7f-70de-4f31-82c6-ebfc2563b922"],
-Cell[9407, 203, 203, 3, 34, "Output",ExpressionUUID->"52dace37-0c89-45f1-801c-24c34c62282d"]
+Cell[3196, 79, 149, 3, 69, "Chapter",ExpressionUUID->"d1821e41-783e-44f4-bb21-27aca3ee3267"],
+Cell[CellGroupData[{
+Cell[3370, 86, 145, 3, 30, "Input",ExpressionUUID->"1f917380-0c15-434f-a29f-b0e65b42c6e1"],
+Cell[3518, 91, 1934, 28, 24, "Print",ExpressionUUID->"24de9a7c-3d89-466d-90f4-47e308892697"]
+}, Open  ]],
+Cell[5467, 122, 1668, 26, 52, "Input",ExpressionUUID->"287260b7-4d91-412c-87e6-39b9d33ca5f4"],
+Cell[CellGroupData[{
+Cell[7160, 152, 802, 22, 73, "Input",ExpressionUUID->"61db2bf6-d8a0-4cfe-869a-a2ced98dedfa"],
+Cell[7965, 176, 2041, 30, 34, "Output",ExpressionUUID->"dee48817-eada-4f93-88c2-68329aa4a70d"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9647, 211, 2741, 77, 73, "Input",ExpressionUUID->"9bb0db97-4a17-4a42-84e5-ffd38bb0181b"],
-Cell[12391, 290, 7210, 219, 43, "Output",ExpressionUUID->"ebbee664-40bd-4b3b-8b64-7e86d7ad8f1f"],
-Cell[19604, 511, 3599, 110, 43, "Output",ExpressionUUID->"091f553b-b1b6-4434-b296-4e8c168a3fd7"],
-Cell[23206, 623, 7476, 224, 43, "Output",ExpressionUUID->"1be941a1-ca1f-4c66-ae15-927647246df8"]
+Cell[10043, 211, 371, 8, 52, "Input",ExpressionUUID->"37995b5c-11af-4662-b7b7-34ed73f17bf8"],
+Cell[10417, 221, 418, 6, 34, "Output",ExpressionUUID->"f6dacb77-359b-4573-aca0-9a1a85ec5293"],
+Cell[10838, 229, 416, 6, 34, "Output",ExpressionUUID->"0d85e8ba-ea58-42ad-a93f-6f4984bb162b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[30719, 852, 494, 11, 52, "Input",ExpressionUUID->"29a92871-a113-4f84-979f-6eb0b286db2e"],
-Cell[31216, 865, 416, 6, 34, "Output",ExpressionUUID->"56125c4e-daef-470f-9715-a774e8666a21"]
+Cell[11291, 240, 3116, 89, 94, "Input",ExpressionUUID->"9bb0db97-4a17-4a42-84e5-ffd38bb0181b"],
+Cell[14410, 331, 7453, 223, 43, "Output",ExpressionUUID->"8b9c4b4c-76d5-4492-8045-6c6d662ba752"],
+Cell[21866, 556, 3839, 114, 43, "Output",ExpressionUUID->"13fa3ecc-a212-4faa-9d46-e094f4e747bd"],
+Cell[25708, 672, 7738, 229, 43, "Output",ExpressionUUID->"d97de365-a19f-479b-96b3-1de10473289b"],
+Cell[33449, 903, 4205, 124, 49, "Output",ExpressionUUID->"60f8aeac-d4e8-494a-beb1-52a46446e02a"]
 }, Open  ]],
-Cell[31647, 874, 5812, 150, 304, "Input",ExpressionUUID->"44cbe9a0-eee7-4607-a9cc-2dd9d40c6c47"],
-Cell[37462, 1026, 1610, 40, 115, "Input",ExpressionUUID->"62c578ab-04ab-4d6b-887b-f33b2f705b89"],
-Cell[39075, 1068, 3705, 89, 199, "Input",ExpressionUUID->"8ca4b2ca-821d-47e3-8ddf-364c7b1ee9db"],
-Cell[42783, 1159, 3508, 88, 157, "Input",ExpressionUUID->"4f39493b-e0d6-4a37-935a-998921255188"],
-Cell[46294, 1249, 6766, 168, 325, "Input",ExpressionUUID->"025863fe-6ad5-40e8-9c77-0ae584a93e9d"],
-Cell[53063, 1419, 1728, 41, 304, "Input",ExpressionUUID->"a47c1b12-b038-4afc-b767-de1ec5882e88"],
-Cell[54794, 1462, 10252, 263, 577, "Input",ExpressionUUID->"74970dcb-c5ab-4531-b5f8-61efe9ad908c"],
-Cell[65049, 1727, 3608, 87, 263, "Input",ExpressionUUID->"6542eca3-149a-4bfa-8a35-bf7d0a98b2d9"],
 Cell[CellGroupData[{
-Cell[68682, 1818, 1637, 42, 178, "Input",ExpressionUUID->"a61c02e3-d85a-489b-8032-3b59007bad79"],
-Cell[70322, 1862, 689, 17, 37, "Output",ExpressionUUID->"63bec802-fdae-43f3-b682-9489cdf404e6"],
-Cell[71014, 1881, 1980, 55, 69, "Output",ExpressionUUID->"2ad09c76-db7b-47b7-a1ba-d51140c79827"]
+Cell[37691, 1032, 558, 11, 52, "Input",ExpressionUUID->"29a92871-a113-4f84-979f-6eb0b286db2e"],
+Cell[38252, 1045, 626, 9, 34, "Output",ExpressionUUID->"0b498cd9-dc6d-40cf-85d2-4fd3dc12ba83"]
+}, Open  ]],
+Cell[38893, 1057, 5812, 150, 304, "Input",ExpressionUUID->"44cbe9a0-eee7-4607-a9cc-2dd9d40c6c47"],
+Cell[44708, 1209, 1610, 40, 115, "Input",ExpressionUUID->"62c578ab-04ab-4d6b-887b-f33b2f705b89"],
+Cell[46321, 1251, 3705, 89, 199, "Input",ExpressionUUID->"8ca4b2ca-821d-47e3-8ddf-364c7b1ee9db"],
+Cell[50029, 1342, 3508, 88, 157, "Input",ExpressionUUID->"4f39493b-e0d6-4a37-935a-998921255188"],
+Cell[53540, 1432, 6766, 168, 325, "Input",ExpressionUUID->"025863fe-6ad5-40e8-9c77-0ae584a93e9d"],
+Cell[60309, 1602, 1728, 41, 304, "Input",ExpressionUUID->"a47c1b12-b038-4afc-b767-de1ec5882e88"],
+Cell[62040, 1645, 10252, 263, 577, "Input",ExpressionUUID->"74970dcb-c5ab-4531-b5f8-61efe9ad908c"],
+Cell[72295, 1910, 3608, 87, 263, "Input",ExpressionUUID->"6542eca3-149a-4bfa-8a35-bf7d0a98b2d9"],
+Cell[CellGroupData[{
+Cell[75928, 2001, 1637, 42, 178, "Input",ExpressionUUID->"a61c02e3-d85a-489b-8032-3b59007bad79"],
+Cell[77568, 2045, 907, 20, 37, "Output",ExpressionUUID->"8a31854e-d208-4c4f-95be-b939941364e8"],
+Cell[78478, 2067, 2199, 58, 69, "Output",ExpressionUUID->"0bee0d55-ac32-4e08-8781-69a0ebc008d8"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[73043, 1942, 250, 4, 69, "Chapter",ExpressionUUID->"3e40e847-d9bf-4546-9fc3-081d51cf8dac"],
-Cell[73296, 1948, 8561, 223, 388, "Input",ExpressionUUID->"88167000-a2b0-47ac-a733-d5935c3a3e36"],
+Cell[80726, 2131, 250, 4, 69, "Chapter",ExpressionUUID->"3e40e847-d9bf-4546-9fc3-081d51cf8dac"],
+Cell[80979, 2137, 8561, 223, 418, "Input",ExpressionUUID->"88167000-a2b0-47ac-a733-d5935c3a3e36"],
 Cell[CellGroupData[{
-Cell[81882, 2175, 163, 3, 67, "Section",ExpressionUUID->"4cafadfc-e39a-4a25-9c80-481fe032de66"],
+Cell[89565, 2364, 163, 3, 67, "Section",ExpressionUUID->"4cafadfc-e39a-4a25-9c80-481fe032de66"],
 Cell[CellGroupData[{
-Cell[82070, 2182, 4637, 120, 220, "Input",ExpressionUUID->"8db21b31-be42-4d46-8a52-9fbd8a8b79dc"],
-Cell[86710, 2304, 53566, 1717, 573, "Output",ExpressionUUID->"2f9b1749-931f-4fc9-a0de-89b1e4e7de5e"]
+Cell[89753, 2371, 4637, 120, 220, "Input",ExpressionUUID->"8db21b31-be42-4d46-8a52-9fbd8a8b79dc"],
+Cell[94393, 2493, 53661, 1718, 573, "Output",ExpressionUUID->"abdb8392-60f2-43ca-b2bf-6db01a6550ad"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[140313, 4026, 655, 12, 52, "Input",ExpressionUUID->"64cc3f29-f062-4896-874a-fa9ddb11dbaf"],
-Cell[140971, 4040, 38139, 1246, 473, "Output",ExpressionUUID->"2cdd3091-83ba-4478-aa98-c173a174cfee"]
+Cell[148091, 4216, 655, 12, 52, "Input",ExpressionUUID->"64cc3f29-f062-4896-874a-fa9ddb11dbaf"],
+Cell[148749, 4230, 38229, 1247, 70, "Output",ExpressionUUID->"837c653a-e989-49ed-9eac-c5806a4d4d9b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[179147, 5291, 408, 9, 52, "Input",ExpressionUUID->"901742b2-40ab-44a7-ac7d-384f5f66978d"],
-Cell[179558, 5302, 289, 4, 34, "Output",ExpressionUUID->"c60fb800-4d57-424e-a673-7f5c85ceddff"],
-Cell[179850, 5308, 306, 4, 34, "Output",ExpressionUUID->"0c9e2257-f42a-4e0d-ad67-8756dc20c967"]
+Cell[187015, 5482, 408, 9, 52, "Input",ExpressionUUID->"901742b2-40ab-44a7-ac7d-384f5f66978d"],
+Cell[187426, 5493, 382, 5, 70, "Output",ExpressionUUID->"5bb729c0-249a-438e-b961-57a4ed1e696a"],
+Cell[187811, 5500, 399, 5, 70, "Output",ExpressionUUID->"70cf3cda-eb1c-4438-b938-9294b3e61907"]
 }, Open  ]]
 }, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[188271, 5512, 207, 4, 58, "Chapter",ExpressionUUID->"82599434-4a4a-4d82-81d7-fa91663bcc7b"],
+Cell[188481, 5518, 10359, 274, 409, "Input",ExpressionUUID->"4284f777-35e0-425e-a1f7-384c84f006af"],
+Cell[CellGroupData[{
+Cell[198865, 5796, 161, 3, 67, "Section",ExpressionUUID->"b164cea1-cac0-4087-a7e0-383b8ff98839"],
+Cell[CellGroupData[{
+Cell[199051, 5803, 4352, 113, 199, "Input",ExpressionUUID->"9bf1697b-ef8a-4e46-8b15-ac8baa7edca0"],
+Cell[203406, 5918, 41334, 1326, 70, "Output",ExpressionUUID->"ebfe83de-b252-4220-83ce-b7b1b450fa6e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[180217, 5319, 207, 4, 69, "Chapter",ExpressionUUID->"82599434-4a4a-4d82-81d7-fa91663bcc7b"],
-Cell[180427, 5325, 10359, 274, 409, "Input",ExpressionUUID->"4284f777-35e0-425e-a1f7-384c84f006af"],
-Cell[CellGroupData[{
-Cell[190811, 5603, 161, 3, 67, "Section",ExpressionUUID->"b164cea1-cac0-4087-a7e0-383b8ff98839"],
-Cell[CellGroupData[{
-Cell[190997, 5610, 4352, 113, 199, "Input",ExpressionUUID->"9bf1697b-ef8a-4e46-8b15-ac8baa7edca0"],
-Cell[195352, 5725, 41236, 1324, 499, "Output",ExpressionUUID->"39cb5e34-b2b8-44bf-a7a7-2daf7bf9e137"]
+Cell[244777, 7249, 388, 9, 52, "Input",ExpressionUUID->"a2b6299e-e727-4002-b075-e97b9d2a522c"],
+Cell[245168, 7260, 28320, 927, 70, "Output",ExpressionUUID->"50951edb-697d-427b-8d85-6daee01e7b30"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[236625, 7054, 388, 9, 52, "Input",ExpressionUUID->"a2b6299e-e727-4002-b075-e97b9d2a522c"],
-Cell[237016, 7065, 28226, 925, 463, "Output",ExpressionUUID->"38e060b4-c7e7-41ee-9d2b-ce0ee9cbee6f"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[265279, 7995, 411, 10, 52, "Input",ExpressionUUID->"239c62a7-8767-423d-af95-0c70fa15d89f"],
-Cell[265693, 8007, 512, 8, 34, "Output",ExpressionUUID->"b7cdeada-72de-40f7-a089-fedf095e8ba4"],
-Cell[266208, 8017, 530, 8, 34, "Output",ExpressionUUID->"0c47146b-d689-4268-af3c-a0a48926805a"]
+Cell[273525, 8192, 411, 10, 52, "Input",ExpressionUUID->"239c62a7-8767-423d-af95-0c70fa15d89f"],
+Cell[273939, 8204, 609, 10, 70, "Output",ExpressionUUID->"72ec8dee-0870-4ee6-8d38-e1d56f7c2e59"],
+Cell[274551, 8216, 625, 10, 70, "Output",ExpressionUUID->"549024a8-171b-4fff-a152-11cebf16b910"]
 }, Open  ]]
 }, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[275237, 8233, 256, 4, 58, "Chapter",ExpressionUUID->"10f512eb-28ec-475a-bebb-0bff8c5867c0"],
+Cell[275496, 8239, 540, 13, 30, "Input",ExpressionUUID->"486f176a-adab-4875-9687-2829c924799c"],
+Cell[276039, 8254, 8715, 225, 388, "Input",ExpressionUUID->"e0c6849d-7498-4da9-98b7-4d28b62489e3"],
+Cell[CellGroupData[{
+Cell[284779, 8483, 163, 3, 67, "Section",ExpressionUUID->"262f269e-5561-421e-b1f8-6c03d1315ab1"],
+Cell[CellGroupData[{
+Cell[284967, 8490, 589, 14, 94, "Input",ExpressionUUID->"2429ebe9-c60b-4d7b-8234-d188774d81ec"],
+Cell[285559, 8506, 7521, 226, 43, "Output",ExpressionUUID->"d79234a5-8879-4a33-aa30-b48b2326a1e9"],
+Cell[293083, 8734, 451, 10, 28, "Message",ExpressionUUID->"e9c24550-b016-4f75-b962-9479f4d3955f"],
+Cell[293537, 8746, 297, 6, 34, "Output",ExpressionUUID->"1ecb9796-5aa2-4f14-b2a8-93c02696d853"],
+Cell[293837, 8754, 477, 11, 28, "Message",ExpressionUUID->"c865d0b2-2c4b-4822-a18a-82f18c8f0131"],
+Cell[294317, 8767, 315, 6, 34, "Output",ExpressionUUID->"cc49afe7-3b7a-4e85-9e7e-b00cecab1587"],
+Cell[294635, 8775, 475, 11, 28, "Message",ExpressionUUID->"8ba553ed-5da4-42d2-97ab-df52d9ef48ff"],
+Cell[295113, 8788, 313, 6, 34, "Output",ExpressionUUID->"11287e4c-d7bb-4334-bc14-b588005262c7"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[266799, 8032, 256, 4, 69, "Chapter",ExpressionUUID->"10f512eb-28ec-475a-bebb-0bff8c5867c0"],
-Cell[267058, 8038, 540, 13, 30, "Input",ExpressionUUID->"486f176a-adab-4875-9687-2829c924799c"],
-Cell[267601, 8053, 8719, 226, 388, "Input",ExpressionUUID->"e0c6849d-7498-4da9-98b7-4d28b62489e3"],
-Cell[CellGroupData[{
-Cell[276345, 8283, 163, 3, 67, "Section",ExpressionUUID->"262f269e-5561-421e-b1f8-6c03d1315ab1"],
-Cell[CellGroupData[{
-Cell[276533, 8290, 5903, 145, 241, "Input",ExpressionUUID->"06c045fd-2b35-4251-b8ba-e195c1b530d7"],
-Cell[282439, 8437, 150472, 4794, 1117, "Output",ExpressionUUID->"d0b5779b-f19e-4910-ad3d-2a3b8c6361c3"]
+Cell[295463, 8799, 595, 15, 52, "Input",ExpressionUUID->"d8a5f30b-01fb-4023-91cc-b44a5f656c4e"],
+Cell[296061, 8816, 497, 15, 54, "Output",ExpressionUUID->"102de3af-0af3-46d1-81aa-8d79fd7e6ab1"],
+Cell[296561, 8833, 497, 15, 54, "Output",ExpressionUUID->"173687b3-35e8-478e-8f4b-7205ce81e95b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[432948, 13236, 401, 9, 52, "Input",ExpressionUUID->"15113c47-e364-47e1-8704-f7ab0ced5c5c"],
-Cell[433352, 13247, 113107, 3609, 933, "Output",ExpressionUUID->"0c5bd2ca-8ab6-4b09-ac6a-90d8db783640"]
+Cell[297095, 8853, 5899, 144, 241, "Input",ExpressionUUID->"06c045fd-2b35-4251-b8ba-e195c1b530d7"],
+Cell[302997, 8999, 155759, 4962, 1117, "Output",ExpressionUUID->"408c192b-92b4-49fb-9337-5d8b4520c5f9"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[546496, 16861, 490, 11, 52, "Input",ExpressionUUID->"5b5ae10f-73c3-4ce4-a00e-f76ea374a893"],
-Cell[546989, 16874, 299, 5, 34, "Output",ExpressionUUID->"500238d8-ce29-409d-860c-71759f0d537b"],
-Cell[547291, 16881, 318, 5, 34, "Output",ExpressionUUID->"6743af8d-5368-4cc0-b5ee-e9458b9d18bb"]
-}, Open  ]]
-}, Open  ]]
+Cell[458793, 13966, 397, 8, 52, "Input",ExpressionUUID->"15113c47-e364-47e1-8704-f7ab0ced5c5c"],
+Cell[459193, 13976, 121377, 3868, 933, "Output",ExpressionUUID->"3540b704-4d13-45d1-b3cc-ae4261caa9f4"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[547670, 16893, 210, 4, 69, "Chapter",ExpressionUUID->"de058235-3160-4127-a6ce-29ba387f7591"],
-Cell[CellGroupData[{
-Cell[547905, 16901, 730, 19, 52, "Input",ExpressionUUID->"ace20c6f-b1c4-487a-90ec-b4bdf6b83d5e"],
-Cell[548638, 16922, 1929, 60, 50, "Output",ExpressionUUID->"2e5f6251-f84c-43d7-b0cf-d6e91a2f5ba3"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[550604, 16987, 151, 3, 67, "Section",ExpressionUUID->"8589e41f-3f17-4991-af39-0c167407f100"],
-Cell[CellGroupData[{
-Cell[550780, 16994, 2950, 82, 199, "Input",ExpressionUUID->"af94173b-23ab-4042-9868-043a50861472"],
-Cell[553733, 17078, 8685, 202, 622, "Output",ExpressionUUID->"9dbb172a-8092-4f1e-bc64-a3f572f773d8"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[562455, 17285, 346, 8, 52, "Input",ExpressionUUID->"3f41d890-8210-456f-95d1-b9066dc448fd"],
-Cell[562804, 17295, 8446, 198, 625, "Output",ExpressionUUID->"4d4fe8cf-d39a-42bd-aac1-595fb9492a26"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[571287, 17498, 346, 8, 30, "Input",ExpressionUUID->"6e9a717a-54cf-41a4-a557-fe1299f9e552"],
-Cell[571636, 17508, 265, 4, 34, "Output",ExpressionUUID->"fc11c6c1-6282-499b-b889-0b6e24d50180"]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[571950, 17518, 152, 3, 67, "Section",ExpressionUUID->"76423cd6-cc82-4eea-a9dd-3a2138f45725"],
-Cell[CellGroupData[{
-Cell[572127, 17525, 4133, 111, 199, "Input",ExpressionUUID->"447c42d9-da84-4916-be87-9b803c4fc184"],
-Cell[576263, 17638, 1784, 33, 267, "Output",ExpressionUUID->"995dff3e-9c78-4d35-9a56-316370cb213f"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[578084, 17676, 398, 9, 52, "Input",ExpressionUUID->"9bf828c6-12b9-4c00-8ac4-6710ac717e64"],
-Cell[578485, 17687, 1736, 32, 267, "Output",ExpressionUUID->"a9a850cc-a3df-4c6a-bea3-59b7ae9cbab5"]
+Cell[580607, 17849, 587, 11, 52, "Input",ExpressionUUID->"5b5ae10f-73c3-4ce4-a00e-f76ea374a893"],
+Cell[581197, 17862, 516, 7, 34, "Output",ExpressionUUID->"3ab3a490-2dcb-4638-8e4c-8b404793b68e"],
+Cell[581716, 17871, 537, 7, 82, "Output",ExpressionUUID->"45cb2f51-dfde-4c5c-a2fa-b179cb6cc7b8"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[580282, 17726, 164, 3, 69, "Chapter",ExpressionUUID->"0a3e8dcb-97c7-4d98-9092-bac08ffc7afd"],
-Cell[580449, 17731, 341, 8, 73, "Input",ExpressionUUID->"69e160d4-0497-4a18-8592-54b4a0924bc8"],
-Cell[580793, 17741, 694, 15, 30, "Input",ExpressionUUID->"3745dd48-30b5-48ee-97ad-6bd98cc6c339"],
+Cell[582314, 17885, 210, 4, 69, "Chapter",ExpressionUUID->"de058235-3160-4127-a6ce-29ba387f7591"],
 Cell[CellGroupData[{
-Cell[581512, 17760, 552, 13, 30, "Input",ExpressionUUID->"99709956-3c5e-4bf5-96e8-592517e2df37"],
-Cell[582067, 17775, 1923, 56, 43, "Output",ExpressionUUID->"45fe5de5-5284-4bd1-9a87-32151a0c2bc5"]
-}, Open  ]],
-Cell[584005, 17834, 5957, 139, 494, "Input",ExpressionUUID->"adb6adbe-df8f-44d8-a692-470ea7d264e7"],
-Cell[589965, 17975, 2043, 44, 220, "Input",ExpressionUUID->"1a1fdd34-3fa6-42d9-9be9-0414460ddb3f"],
-Cell[592011, 18021, 151, 3, 30, "Input",ExpressionUUID->"b1c0e15b-7e6c-4b07-bcc5-be93df519d26"],
-Cell[CellGroupData[{
-Cell[592187, 18028, 151, 3, 67, "Section",ExpressionUUID->"a0766f05-02b2-4e82-bf83-d600d05cd2d8"],
-Cell[CellGroupData[{
-Cell[592363, 18035, 4071, 111, 199, "Input",ExpressionUUID->"055f81e6-aa1f-43ee-aafb-81b8f091547c"],
-Cell[596437, 18148, 13045, 386, 347, "Output",ExpressionUUID->"4694a9a4-bb5d-4e61-b721-3a777d9b076c"]
+Cell[582549, 17893, 730, 19, 52, "Input",ExpressionUUID->"ace20c6f-b1c4-487a-90ec-b4bdf6b83d5e"],
+Cell[583282, 17914, 1929, 60, 49, "Output",ExpressionUUID->"2e5f6251-f84c-43d7-b0cf-d6e91a2f5ba3"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[609519, 18539, 288, 6, 30, "Input",ExpressionUUID->"1058aab3-4b54-43b0-ab39-19ed0dda6bd1"],
-Cell[609810, 18547, 5785, 169, 299, "Output",ExpressionUUID->"f8465369-b2bb-4661-a6f4-2d89bbf622f7"]
+Cell[585248, 17979, 151, 3, 67, "Section",ExpressionUUID->"8589e41f-3f17-4991-af39-0c167407f100"],
+Cell[CellGroupData[{
+Cell[585424, 17986, 2950, 82, 262, "Input",ExpressionUUID->"af94173b-23ab-4042-9868-043a50861472"],
+Cell[588377, 18070, 8685, 202, 625, "Output",ExpressionUUID->"9dbb172a-8092-4f1e-bc64-a3f572f773d8"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[615632, 18721, 286, 6, 30, "Input",ExpressionUUID->"5eca0dc6-ab29-4ff4-8aa3-717b3c2b00a7"],
-Cell[615921, 18729, 244, 4, 34, "Output",ExpressionUUID->"bbff1e04-29a6-424b-966e-e0a7d2c16637"]
+Cell[597099, 18277, 346, 8, 52, "Input",ExpressionUUID->"3f41d890-8210-456f-95d1-b9066dc448fd"],
+Cell[597448, 18287, 8446, 198, 625, "Output",ExpressionUUID->"4d4fe8cf-d39a-42bd-aac1-595fb9492a26"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[605931, 18490, 346, 8, 30, "Input",ExpressionUUID->"6e9a717a-54cf-41a4-a557-fe1299f9e552"],
+Cell[606280, 18500, 265, 4, 34, "Output",ExpressionUUID->"fc11c6c1-6282-499b-b889-0b6e24d50180"]
+}, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[606594, 18510, 152, 3, 53, "Section",ExpressionUUID->"76423cd6-cc82-4eea-a9dd-3a2138f45725"],
+Cell[CellGroupData[{
+Cell[606771, 18517, 4133, 111, 283, "Input",ExpressionUUID->"447c42d9-da84-4916-be87-9b803c4fc184"],
+Cell[610907, 18630, 1784, 33, 267, "Output",ExpressionUUID->"995dff3e-9c78-4d35-9a56-316370cb213f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[612728, 18668, 398, 9, 52, "Input",ExpressionUUID->"9bf828c6-12b9-4c00-8ac4-6710ac717e64"],
+Cell[613129, 18679, 1736, 32, 267, "Output",ExpressionUUID->"a9a850cc-a3df-4c6a-bea3-59b7ae9cbab5"]
 }, Open  ]]
 }, Open  ]]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[614926, 18718, 164, 3, 58, "Chapter",ExpressionUUID->"0a3e8dcb-97c7-4d98-9092-bac08ffc7afd"],
+Cell[615093, 18723, 341, 8, 73, "Input",ExpressionUUID->"69e160d4-0497-4a18-8592-54b4a0924bc8"],
+Cell[615437, 18733, 694, 15, 73, "Input",ExpressionUUID->"3745dd48-30b5-48ee-97ad-6bd98cc6c339"],
+Cell[CellGroupData[{
+Cell[616156, 18752, 552, 13, 30, "Input",ExpressionUUID->"99709956-3c5e-4bf5-96e8-592517e2df37"],
+Cell[616711, 18767, 1923, 56, 43, "Output",ExpressionUUID->"45fe5de5-5284-4bd1-9a87-32151a0c2bc5"]
+}, Open  ]],
+Cell[618649, 18826, 5957, 139, 515, "Input",ExpressionUUID->"adb6adbe-df8f-44d8-a692-470ea7d264e7"],
+Cell[624609, 18967, 2043, 44, 220, "Input",ExpressionUUID->"1a1fdd34-3fa6-42d9-9be9-0414460ddb3f"],
+Cell[626655, 19013, 151, 3, 30, "Input",ExpressionUUID->"b1c0e15b-7e6c-4b07-bcc5-be93df519d26"],
+Cell[CellGroupData[{
+Cell[626831, 19020, 151, 3, 67, "Section",ExpressionUUID->"a0766f05-02b2-4e82-bf83-d600d05cd2d8"],
+Cell[CellGroupData[{
+Cell[627007, 19027, 4071, 111, 304, "Input",ExpressionUUID->"055f81e6-aa1f-43ee-aafb-81b8f091547c"],
+Cell[631081, 19140, 13045, 386, 347, "Output",ExpressionUUID->"4694a9a4-bb5d-4e61-b721-3a777d9b076c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[644163, 19531, 288, 6, 30, "Input",ExpressionUUID->"1058aab3-4b54-43b0-ab39-19ed0dda6bd1"],
+Cell[644454, 19539, 5785, 169, 299, "Output",ExpressionUUID->"f8465369-b2bb-4661-a6f4-2d89bbf622f7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[650276, 19713, 286, 6, 30, "Input",ExpressionUUID->"5eca0dc6-ab29-4ff4-8aa3-717b3c2b00a7"],
+Cell[650565, 19721, 244, 4, 34, "Output",ExpressionUUID->"bbff1e04-29a6-424b-966e-e0a7d2c16637"]
 }, Open  ]]
+}, Open  ]]
+}, Closed]]
 }
 ]
 *)

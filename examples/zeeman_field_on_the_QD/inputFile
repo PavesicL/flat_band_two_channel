@@ -3,7 +3,7 @@
 
 N = 21
 nref = 21
-nrange = 1
+nrange = 0
 
 alpha = 1
 
