@@ -19,9 +19,6 @@ def parse_hopping_matrix(which : str) -> tuple[list[list[sympy.FunctionClass]], 
 	strMat = [] # here matrix elements are saved as strings. Not used anywhere as of now, but useful for debugging.
 	mL, mR, nL, nR, vL, vR, tsc, tspinL, tspinR, l, Ex, Ey = sympy.symbols("mL mR nL nR vL vR tsc tspinL tspinR l Ex Ey")
 
-	print("AA")
-	print("parsing ", which)
-
 	with open(which, "r") as f:
 		for i, line in enumerate(f):
 			mat.append([])
