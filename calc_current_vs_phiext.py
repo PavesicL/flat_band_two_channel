@@ -58,16 +58,15 @@ def get_derivatives(n, p, pplus, pminus, dphiext):
 	p - parameter dictionary
 	"""
 
+    val0, vec0 = get_valvec_for_one_case(n, p)
+    _, vecp = get_valvec_for_one_case(n, pplus)
+    _, vecm = get_valvec_for_one_case(n, pminus)
+
     res = np.zeros( shape = (p.number_of_overlaps, p.number_of_overlaps), dtype="complex128" )
     for i in range(p.number_of_overlaps):
         for j in range(p.number_of_overlaps):
-
-            val0, vec0 = get_valvec_for_one_case(n, p)
-            _, vecp = get_valvec_for_one_case(n, pplus)
-            _, vecm = get_valvec_for_one_case(n, pminus)
-
             energy_diff = val0[i] - val0[j]
-            vector_diff = ( vecp[i] - vecm[i] ) / (2 * dphiext)
+            vector_diff = ( vecp[i] - vec0[i] ) / (dphiext)
             overlap = np.dot( np.conjugate(vector_diff), vec0[j] )
 
             res[i,j] += energy_diff * overlap
