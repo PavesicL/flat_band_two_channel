@@ -10,6 +10,8 @@ alpha = 1
 U = 10
 epsimp = -5
 Ez_imp = 0.1
+Ex_imp = 0
+Ey_imp = 0
 
 doublet_both_Sz = true
 

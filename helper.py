@@ -21,6 +21,8 @@ class params:
 	U: float = 0.
 	epsimp: float = UNSPECIFIED_DEFAULT
 	Ez_imp: float = 0.
+	Ex_imp: float = 0.
+	Ey_imp: float = 0.
 
 	#symetric parmeters, default for both channels
 	alpha: float = 0.
