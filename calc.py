@@ -74,6 +74,9 @@ def diagonalize_subspace(n, p):
 
 	if p.save_matrix:
 		np.savetxt( f"matrix_n{n}", mat)
+#		mat.real.astype('float64').tofile( f"matrix_bin_re_n{n}" )
+#		mat.imag.astype('float64').tofile( f"matrix_bin_im_n{n}" )
+#		mat.astype('complex128').tofile( f"matrix_bin_n{n}" )
 		print("Saved matrix.")
 
 	if p.verbose:
